@@ -1,0 +1,37 @@
+@import '../../assets/styles/mixins.scss';
+
+.BaseModal {
+    position: relative;
+    box-sizing: border-box;
+
+    &-CloseButton {
+        position: absolute;
+        top: var(--space-2xl);
+        right: var(--space-2xl);
+        
+        & .Icon {
+            transition: transform 0.3s;
+        }
+
+        &:hover {
+            & .Icon {
+                transform: rotate(90deg);
+            }
+        }
+    }
+
+    &-Title {
+        @include flex-start();
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-2xl);
+
+        & > *:not(:last-child):not(.BaseModal-Title-Text) {
+            margin-right: var(--space-m);
+        }
+
+        &-Text {
+            margin-right: var(--space-l);
+        }
+    }
+}

@@ -1,0 +1,35 @@
+@import "../../../assets/styles/mixins.scss";
+
+.CarouselItem {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: var(--space-xl);
+    position: relative;
+    cursor:  pointer;
+    overflow: hidden;
+
+    &-Image {
+        width: 100%;
+        min-height: 100%;
+        object-fit: cover;
+        border-radius: var(--space-xl);
+    }
+
+    &-Overlay {
+        opacity: 0;
+        width: calc(100% - 2 * var(--space-xl));
+        height: calc(100% - 2 * var(--space-xl));
+        position: absolute;
+        top: var(--space-xl);
+        left: var(--space-xl);
+        background: var(--color-bg-tone);
+        @include flex-center();
+        transition: opacity var(--menu-animate-delay);
+        border-radius: var(--space-xl);
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}

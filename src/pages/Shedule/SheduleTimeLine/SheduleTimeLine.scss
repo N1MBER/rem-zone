@@ -1,0 +1,13 @@
+@import '../../../assets/styles/mixins.scss';
+
+.SheduleTimeLine {
+    max-width: var(--time-line-width);
+
+    & .Tabs {
+        width: 100%;
+    }
+
+    & .TabsTab {
+        text-transform: capitalize;
+    }
+}

@@ -1,0 +1,37 @@
+@import '../../../assets/styles/mixins.scss';
+
+.ChartColumn { 
+    position: relative;
+
+    &-Content {
+        @include flex-start();
+        margin-top: 14px;
+        flex-direction: column
+    }
+
+    &-Legend {
+        @include flex-start();
+        margin-bottom: var(--space-xs);
+
+        & > *:not(:last-child) {
+            margin-right: var(--space-s);
+        }
+
+        &-Item {
+            position: relative;
+            padding-left: calc(var(--space-3xs) + var(--space-s));
+            @include flex-start();
+            align-items: center;
+
+            &::after {
+                position: absolute;
+                left: 0;
+                content: '';
+                background: var(--legend-item-color);
+                width: var(--space-xs);
+                height: var(--space-xs);
+                border-radius: 50%;
+            }
+        }
+    }
+}

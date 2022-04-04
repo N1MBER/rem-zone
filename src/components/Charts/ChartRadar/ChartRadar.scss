@@ -1,0 +1,40 @@
+@import '../../../assets/styles/mixins.scss';
+
+.ChartRadar {
+    position: relative;
+
+    &-Content {
+        @include flex-start();
+        margin-top: 18px;
+        padding-left: var(--space-xl);
+    }
+
+    &-Legend {
+        position: absolute;
+        top: calc(0px - var(--space-xs));
+        right: 0;
+        @include flex-start();
+        flex-direction: column;
+
+        & > *:not(:last-child) {
+            margin-bottom: var(--space-s);
+        }
+
+        &-Item {
+            position: relative;
+            padding-left: calc(var(--space-3xs) + var(--space-s));
+            @include flex-start();
+            align-items: center;
+
+            &::after {
+                position: absolute;
+                left: 0;
+                content: '';
+                background: var(--legend-item-color);
+                width: var(--space-xs);
+                height: var(--space-xs);
+                border-radius: 50%;
+            }
+        }
+    }
+}

@@ -1,0 +1,16 @@
+{
+  "extends": "@consta/widgets-configs/tsconfig",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "*": ["types/modules/*"],
+      "@/*": ["src/*"],
+      "@amcharts/amcharts4-geodata/*": ["types/amcharts-stub"],
+      "@amcharts/amcharts4-geodata/lang/*": ["@amcharts/amcharts4-geodata/lang"]
+    },
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+  },
+  "include": ["src/**/*", "types/**/*"],
+  "exclude": ["build"]
+}

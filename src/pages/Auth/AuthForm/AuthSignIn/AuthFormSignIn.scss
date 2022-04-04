@@ -1,0 +1,19 @@
+@import '../../../../assets/styles/mixins';
+
+.AuthFormSignIn {
+    @include flex-center();
+    flex-direction: column;
+    width: 100%;
+
+    &-Label {
+        margin-bottom: var(--space-2xl);
+    }
+
+    & > &-Input:not(:last-child) {
+        margin-bottom: var(--space-m);
+    }
+
+    &-Button {
+        margin-top: var(--space-l);
+    }
+}

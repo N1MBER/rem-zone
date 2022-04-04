@@ -1,0 +1,35 @@
+@import '../../../assets/styles/mixins.scss';
+
+.SheduleHeader {
+    &-Title {
+        @include flex-space-center();
+        align-items: flex-start;
+        width: 100%;
+        margin-bottom: var(--space-xs);
+    }
+
+    &-Filters {
+        margin-top: var(--space-xs);
+        @include flex-space-center();
+
+        &_short {
+            justify-content: flex-start;
+        }
+    }
+
+    &-View {
+        & > *:not(:last-child) {
+            margin-right: var(--space-xs);
+        }
+    }
+
+    &-Controls {
+        & > *:not(:last-child) {
+            margin-right: var(--space-xl);
+        }
+    }
+    & .Select, &-SelectDropdown {
+        width: 160px;
+        max-width: 160px;
+    }
+}

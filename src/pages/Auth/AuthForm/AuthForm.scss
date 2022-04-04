@@ -1,0 +1,18 @@
+@import '../../../assets/styles/mixins';
+
+.AuthForm {
+    width: 100%;
+    flex: 1;
+    @include flex-center();
+    flex-direction: column;
+    height: 100%;
+    padding-left: var(--space-5xl);
+    padding-right: var(--space-5xl);
+    max-width: calc(300px + var(--space-5xl) + var(--space-5xl));
+    box-sizing: border-box;
+    background: var(--color-bg-default);
+
+    &-Form {
+        margin-top: 56px;
+    }
+}

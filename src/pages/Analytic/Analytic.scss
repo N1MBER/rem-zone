@@ -1,0 +1,15 @@
+@import '../../assets/styles/mixins.scss';
+
+.Analytic {
+    width: 100%;
+    height: 100%;
+    padding: var(--space-4xl);
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: calc(50% - var(--space-xl)) calc(50% - var(--space-xl));
+    grid-gap: var(--space-4xl);
+
+    & .Card {
+        background: var(--color-bg-default);
+    }
+}

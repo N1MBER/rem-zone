@@ -1,0 +1,59 @@
+@import '../../../assets/styles/mixins.scss';
+
+.MenuLinks {
+    width: 100%;
+    padding: 0;
+    position: relative;
+
+    & > *:not(:last-child) {
+        margin-bottom: var(--space-m);
+    }
+
+    &-Link {
+        width: 100%;
+        height: var(--space-xl);
+        @include flex-center();
+        justify-content: flex-start;
+        text-decoration: none;
+
+        &, & * {
+            color: var(--color-typo-system);
+            transition: color 0.3s;
+        }
+
+        & .Icon {
+            margin-right: var(--space-xs);
+        }
+
+        &_active {
+            &, & * {
+                color: #FFF;
+            } 
+        }
+    }
+
+    &  .Text {
+        overflow: hidden;
+        white-space: nowrap;
+        opacity: 1;
+        display: block;
+        transition: opacity var(--menu-animate-delay), margin var(--menu-animate-delay), width var(--menu-animate-delay);
+    }
+
+    & .Icon {
+        transition: padding var(--menu-animate-delay), margin var(--menu-animate-delay);
+    }
+
+    &-Line {
+        top: calc(var(--menu-line-top) - var(--space-2xs));
+        left: calc(0px - var(--space-xl));
+        width: var(--space-3xs);
+        height: var(--space-2xl);
+        background-color: #FFF;
+        transition: opacity var(--menu-animate-delay), margin var(--menu-animate-delay);
+        border-top-right-radius: var(--space-3xs);
+        border-bottom-right-radius: var(--space-3xs);
+        position: absolute;
+        transition: top 0.3s, left var(--menu-animate-delay);
+    }
+}

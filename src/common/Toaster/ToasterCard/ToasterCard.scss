@@ -1,0 +1,84 @@
+@import '../../../assets/styles/mixins.scss';
+
+.ToasterCard {
+    padding: var(--space-s) var(--space-m);
+    padding-right: calc(2 * var(--space-m));
+    padding-bottom: calc(var(--space-s) + var(--space-2xs));
+    border-radius: var(--control-radius);
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    max-width: 300px;
+    @include flex-start();
+    box-shadow: var(--shadow-group);
+
+    &-Close {
+        top: var(--space-s);
+        right: var(--space-m);
+        @include clear();
+        position: absolute;
+        cursor: pointer;
+
+        & .Icon {
+            transition: transform 0.3s;
+        }
+
+        &:hover {
+            & .Icon {
+                transform: rotate(90deg);
+            }
+        }
+    }
+
+    &-Content {
+        &_hasIcon {
+            padding-left: var(--space-s);
+        }
+    }
+
+    &-Title {
+        margin-bottom: var(--space-2xs);
+    }
+
+    & .Icon, & .Text {
+        color: #FFF,
+    }
+
+    &-Line {
+        position: absolute;
+        left: 0%;
+        bottom: 0;
+        width: 100%;
+        height: var(--space-m);
+        border-radius: var(--space-xs);
+        opacity: 0.8;
+
+        &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 200%;
+            height: var(--space-2xs);
+            background: linear-gradient(
+              90deg,
+              var(--color-bg-default) 0%,
+              var(--color-bg-default) 50%,
+              var(--color-bg-ghost) 50%,
+              var(--color-bg-ghost) 100%
+            );
+            transition: transform 1s linear;
+            transform: translate(var(--toast-line-progress));
+          }
+    }
+}
+
+@keyframes ToastLineAnimate {
+    0% {
+        transform: translate(-100%);
+    }
+
+    100% {
+        transform: translate(0%);
+    }
+}

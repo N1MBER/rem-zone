@@ -1,0 +1,9 @@
+@import '../../../assets/styles/mixins.scss';
+
+.HeaderLeftSide {
+    @include flex-center();
+    
+    &-Button {
+        margin-right: var(--space-s);
+    }
+}

@@ -1,0 +1,137 @@
+@import '../../assets/styles/mixins.scss';
+
+.Menu {
+    height: 100%;
+    background: var(--color-bg-brand);
+    position: sticky;
+    top: 60px;
+    left: 0;
+    z-index: 200;
+    box-sizing: border-box;
+    padding: var(--space-xl);
+    transition: min-width var(--menu-animate-delay), max-width var(--menu-animate-delay), padding var(--menu-animate-delay);
+
+    &_dark {
+        background: var(--color-bg-ghost);
+    }
+
+    &_view {
+        &_full {
+            min-width: 240px;
+            max-width: 240px;
+
+            & .Menu-Info {
+                opacity: 1;
+                transform: scaleX(1) scaleY(1);
+                animation: AnimationMenuShow var(--menu-animate-delay);
+            }
+
+            & .MenuLinks-Link {
+                & .Icon {
+                    padding-left: 0;
+                }
+
+                & .Text {
+                    opacity: 1;
+                    transform: scaleX(1) scaleY(1);
+                    animation: AnimationMenuShow var(--menu-animate-delay);
+                }
+            }
+        }
+
+        &_short {
+            min-width: 76px;
+            max-width: 76px;
+            padding: var(--space-xl) 10px;
+
+            & .MenuLinks-Line {
+                left: -10px;
+            }
+
+            & .Menu-Info {
+                animation: AnimationMenuHide var(--menu-animate-delay);
+                transform: scaleX(0) scaleY(0);
+                opacity: 0;
+                width: 0;
+                margin-left: 0;
+            }
+
+            & .MenuLinks-Link {
+                & .Icon {
+                    padding-left: var(--space-m);
+                    min-width: var(--space-m);
+                    min-height: var(--space-m);
+                }
+
+                & .Text {
+                    animation: AnimationMenuHide var(--menu-animate-delay);
+                    transform: scaleX(0) scaleY(0);
+                    opacity: 0;
+                    // width: 0;
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+
+    &-User {
+        @include flex-start();
+    }
+
+    &-Info {
+        transition: opacity var(--menu-animate-delay), margin var(--menu-animate-delay);
+        opacity: 1;
+        display: block;
+        margin-left: var(--space-m);
+    }
+
+    &-ImageContainer {
+        @include flex-center();
+        min-height: 56px;
+        min-width: 56px;
+        max-height: 56px;
+        max-width: 56px;
+        border-radius: var(--control-radius);
+        background-color: var(--color-bg-default);
+    }
+
+    &-Image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    &-Name {
+        color: #FFF;
+    }
+
+    &-Links {
+        margin-top: var(--space-xl);
+    }
+}
+
+@keyframes AnimationMenuHide {
+    0% {
+       opacity: 1;
+       transform: scaleX(1) scaleY(1);
+    }
+
+    100% {    
+       opacity: 0;
+       transform: scaleX(0) scaleY(0);
+       width: 0;
+    }
+}
+
+@keyframes AnimationMenuShow {
+    0% {    
+        opacity: 0;
+        transform: scaleX(0) scaleY(0);
+        width: 0;
+    }
+
+    100% {
+       opacity: 1;
+       transform: scaleX(1) scaleY(1);
+    }
+}

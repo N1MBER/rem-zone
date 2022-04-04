@@ -1,0 +1,13 @@
+@import '../../assets/styles/mixins';
+
+.Auth {
+    height: 100vh;
+    background: var(--color-bg-ghost);
+    display: flex;
+
+    &-Carousel {
+        width: calc(100% - 300px - var(--space-5xl) - var(--space-5xl));
+        @include flex-center();
+        overflow: hidden;
+    }
+}

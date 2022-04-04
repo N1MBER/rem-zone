@@ -1,0 +1,8 @@
+{
+  "short_name": "Culture Logisitc",
+  "name": "Culture Logisitc Project",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

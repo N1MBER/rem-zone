@@ -1,0 +1,7 @@
+node_modules/*
+public/*
+scripts/*
+dist/*
+__mocks__/*
+webpack*.js
+*config.js

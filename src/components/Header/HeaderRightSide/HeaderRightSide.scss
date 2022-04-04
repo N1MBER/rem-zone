@@ -1,0 +1,15 @@
+@import '../../../assets/styles/mixins.scss';
+
+.HeaderRightSide {
+    &-Calendar {
+        @include flex-center();
+
+        & .Icon {
+            color: var(--color-control-typo-clear);
+        }
+    }
+
+    &-Date {
+        margin-left: var(--space-xs);
+    }
+}

@@ -1,0 +1,39 @@
+@mixin flex-space-center(){
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  @mixin clear(){
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  @mixin flex-center(){
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  @mixin flexible-row(){
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+  }
+  
+  @mixin border-radius($radius){
+    border-radius: $radius;
+    -moz-border-radius: $radius;
+    -o-border-radius: $radius;
+    -webkit-border-radius: $radius;
+  }
+  
+  @mixin flex-start(){
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  
+  

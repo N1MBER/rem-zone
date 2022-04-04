@@ -1,0 +1,21 @@
+@import '../../../assets/styles/mixins.scss';
+
+.PageLayout {
+    min-height: 100vh;
+    position: relative;
+
+    &-Content {
+        background: var(--color-bg-secondary);
+        min-height: var(--menu-height);
+        @include flex-space-center();
+        align-items: flex-start;
+
+        &_error {
+            align-items: center;
+        }
+
+        & .Menu {
+            min-height: var(--menu-height);
+        }
+    }
+}

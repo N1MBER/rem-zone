@@ -1,0 +1,41 @@
+@import '../../assets/styles/mixins.scss';
+
+.TimeTable {
+    min-width: var(--time-table-width);
+    margin: calc(0px - var(--space-2xl));
+    overflow-x: scroll;
+
+    &::-webkit-scrollbar-track {
+        background: var(--color-scroll-bg);
+        width: calc(100% - 2 * var(--space-2xl));
+        margin: 0 var(--space-2xl);
+        margin-top: var(--space-l);
+        margin-bottom: var(--space-2xl);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: var(--color-scroll-thumb);
+        cursor: pointer;
+
+        &:hover {
+            background: var(--color-scroll-thumb-hover);
+        }
+    }
+
+    &-Body {
+        position: relative;
+    }
+
+    &-Container {
+        background: var(--color-bg-default);
+        box-shadow: var(--shadow-modal);
+        min-width: max-content;
+        position: relative;
+        margin: var(--space-2xl);
+
+        & .TimeTable-Header, & .TimeTable-Row {
+            display: grid;
+            grid-template-columns: var(--table-grid-template-columns)
+        }
+    }
+}

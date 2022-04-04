@@ -1,0 +1,45 @@
+@import '../../../assets/styles/mixins.scss';
+
+.AnalyticCard {
+    &-Content {
+        width: 100%;
+        margin-top: var(--space-m);
+    }
+
+    &-Orders {
+        @include flex-space-center();
+        padding-top: var(--space-xs);
+        align-items: flex-start;
+        height: 36px;
+
+        & span {
+            font-weight: bold;
+        }
+
+        & .Icon {
+            transform: scale(1.5);
+            margin-top: var(--space-xs);
+        }
+    }
+
+    &-Total {
+        margin-top: 11px;
+        @include flex-space-center();
+    }
+
+    &-Position {
+        width: 100%;
+        @include flex-space-center();
+        padding-bottom: var(--space-2xs);
+        margin-bottom: var(--space-xs);
+        border-bottom: 1px solid var(--color-typo-ghost);
+
+        &-Label {
+            @include flex-center();
+
+            & .Icon {
+                margin-right: var(--space-xs);
+            }
+        }
+    }
+}

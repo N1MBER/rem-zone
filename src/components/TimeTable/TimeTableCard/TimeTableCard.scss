@@ -1,0 +1,28 @@
+@import '../../../assets/styles/mixins.scss';
+
+.TimeTableCard {
+    background: var(--time-table-card-color);
+    position: absolute;
+    padding: var(--space-s);
+    box-sizing: border-box;
+    border-radius: var(--control-radius);
+    min-height: calc(var(--space-4xl) + var(--space-2xl));
+    cursor: move;
+
+    & .Text, & .Icon {
+        color: #FFF;
+    }
+
+    &-Button {
+        @include clear();
+        @include flex-center();
+        cursor: pointer;
+        border-radius: 50%;
+        position: absolute;
+        bottom: var(--space-xs);
+        right: var(--space-xs);
+        width: var(--space-m);
+        height: var(--space-m);
+        border: 1px solid #FFF;
+    }
+}
