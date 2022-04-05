@@ -1,4 +1,5 @@
 .Logotype {
-    max-width: 222px;
-    max-height: 39px;
+   & path {
+       transition: color 0.3s;
+   }
 }
