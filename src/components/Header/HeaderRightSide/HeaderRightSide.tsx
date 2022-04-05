@@ -1,13 +1,5 @@
-import React, {
-  CSSProperties,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import { IconCalendar } from '@consta/uikit/IconCalendar';
+import React, { CSSProperties, useContext, useRef } from 'react';
 import { IconCards } from '@consta/uikit/IconCards';
-import { Text } from '@consta/uikit/Text';
 import { Button } from '@consta/uikit/Button';
 import { ThemeToggler } from '@consta/uikit/ThemeToggler';
 import { HeaderLogin, HeaderModule } from '@consta/uikit/Header';
@@ -20,11 +12,9 @@ import { IconComponent } from '@consta/uikit/__internal__/src/icons/Icon/Icon';
 import { getDataOfTheme } from './helper';
 import { ThemeContext } from '../../App';
 import { IconExit } from '@consta/uikit/IconExit';
-import moment from 'moment';
 
 import './HeaderRightSide.scss';
-
-const minute = 60000;
+import { HeaderCalendar } from './HeaderCalendar/HeaderCalendar';
 
 type Props = {
   isMinified?: boolean;
@@ -56,7 +46,6 @@ export const HeaderRightSide = (props: Props) => {
   const { avatar, name, info, status } = getUserData(user);
 
   const [showContextMenu, { on, off }] = useFlag(false);
-  const [date, setDate] = useState<Date>(new Date());
 
   const loginRef = useRef<HTMLButtonElement>(null);
 
@@ -75,13 +64,6 @@ export const HeaderRightSide = (props: Props) => {
     }
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setDate(new Date());
-    }, minute);
-    return () => clearInterval(interval);
-  }, []);
-
   const onContextMenuClick = (item: Item) => {
     if (!item.onClick) {
       off();
@@ -94,17 +76,7 @@ export const HeaderRightSide = (props: Props) => {
   return (
     <>
       <HeaderModule indent="s" className={cnHeaderRightSide()}>
-        <div className={cnHeaderRightSide('Calendar')}>
-          <IconCalendar size="m" />
-          <div className={cnHeaderRightSide('Date')}>
-            <Text align="right" size="m" view="primary" lineHeight="2xs">
-              {moment(date).locale('ru').format('DD MMMM')}
-            </Text>
-            <Text align="right" size="xs" view="secondary" lineHeight="2xs">
-              {moment(date).locale('ru').format('HH:mm')}
-            </Text>
-          </div>
-        </div>
+        <HeaderCalendar />
       </HeaderModule>
       <HeaderModule indent="s">
         <ThemeToggler
