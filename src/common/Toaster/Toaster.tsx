@@ -4,7 +4,7 @@ import {
   Toaster as ToasterComponent,
   ToastOptions,
 } from 'react-hot-toast';
-import { Message } from '../../utils/toast';
+import { Message } from '../../utils/toast/toast';
 import { ToasterCard } from './ToasterCard/ToasterCard';
 
 const options: ToastOptions = {

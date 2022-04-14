@@ -11,7 +11,7 @@ import { Task } from '../../types/schedule';
 import { useFlag } from '@consta/uikit/useFlag';
 import { ScheduleTaskModal } from './ScheduleTaskModal/ScheduleTaskModal';
 import { getRandomColor } from './helper';
-import { toast } from '../../utils/toast';
+import { toast } from '../../utils/toast/toast';
 
 const cnShedule = cn('Shedule');
 
