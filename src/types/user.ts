@@ -16,3 +16,21 @@ export type UserLogin = {
   first_name: string;
   last_name: string;
 };
+
+export type Staff = {
+  id: string | number;
+  groups: string[];
+  position: string;
+  password: string;
+  username: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  patronomic: string;
+  salary: string;
+};
+
+export type Group = {
+  id: number;
+  name: string;
+};
