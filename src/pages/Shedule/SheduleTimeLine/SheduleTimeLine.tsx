@@ -4,7 +4,7 @@ import { Tabs } from '@consta/uikit/Tabs';
 import { getItems } from './helper';
 import { cn } from '../../../__private__/utils/bem';
 import { useRefSizes } from '../../../hooks/useRefSizes/useRefSizes';
-import { compareDates } from '../../../utils/date';
+import { compareDates } from '../../../utils/date/date';
 
 import './SheduleTimeLine.scss';
 

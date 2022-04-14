@@ -3,7 +3,7 @@ import { useRefs } from '@consta/uikit/useRefs';
 import moment from 'moment';
 import { TimeTableDefaultItem, TimeTablePropGetItemDate } from '../types';
 import { ViewMode } from '../../../types/timetable';
-import { getWeekday, compareDates, getWeek } from '../../../utils/date';
+import { getWeekday, compareDates, getWeek } from '../../../utils/date/date';
 
 type UseTimeTableParams<ITEM, TYPE> = {
   mode: TYPE;

@@ -72,6 +72,9 @@
     "react/require-default-props": "off",
     "import/no-cycle": "off",
     "no-unused-vars": "error",
+    "no-underscore-dangle": ["error", {
+      "allow": ["_retry"]
+    }],
     "no-restricted-syntax": "off",
     "consistent-return": "off",
     "no-unused-expressions": "off",

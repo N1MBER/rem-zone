@@ -1,7 +1,7 @@
 import { ViewMode } from '../../../types/timetable';
 import moment from 'moment';
 import { ViewDate } from './SheduleTimeLine';
-import { getWeek } from '../../../utils/date';
+import { getWeek } from '../../../utils/date/date';
 
 type Result<TYPE> = {
   label: string;
