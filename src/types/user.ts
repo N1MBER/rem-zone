@@ -34,3 +34,10 @@ export type Group = {
   id: number;
   name: string;
 };
+
+export type Position = {
+  id: number | string;
+  name: string;
+  rate: string;
+  description: string;
+};
