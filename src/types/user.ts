@@ -8,3 +8,11 @@ export type User = {
   info: string;
   status?: UserStatus;
 };
+
+export type UserLogin = {
+  pk: string;
+  username: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+};
