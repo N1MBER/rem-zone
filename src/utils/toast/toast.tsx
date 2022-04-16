@@ -9,11 +9,15 @@ export type Message =
       title?: string;
       message: string;
     }
-  | string;
+  | string
+  | string[];
 
 const converToString = (message: Message): string => {
   if (typeof message === 'string') {
     return message;
+  }
+  if (Array.isArray(message)) {
+    return message.join(' ');
   }
   return JSON.stringify(message);
 };

@@ -9,6 +9,8 @@ import { ThemeName } from '../types/theme';
 import { ErrorBoundary } from '../common/Layouts/ErrorBoundary/ErrorBoundary';
 import { Routes } from '../common/Routes/Routes';
 import { Toaster } from '../common/Toaster/Toaster';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/reducers';
 
 export const ThemeContext = React.createContext({
   theme: 'Default',
@@ -27,11 +29,13 @@ const App: FC = () => {
     return presetGpnDisplay;
   };
 
+  const isAuthorized = useSelector((store: RootState) => store.user.isLogged);
+
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
       <Theme preset={getPresetByTheme()} className="root">
         <ErrorBoundary>
-          <Routes />
+          <Routes authorized={isAuthorized} />
           <Toaster />
         </ErrorBoundary>
       </Theme>

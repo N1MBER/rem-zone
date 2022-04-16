@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import { Auth } from '../../pages/Auth/Auth';
 import { Analytic } from '../../pages/Analytic/Analytic';
 import { PageLayout } from '../Layouts/PageLayout/PageLayout';
@@ -9,10 +9,11 @@ import { Shedule } from '../../pages/Shedule/Shedule';
 
 type Props = {
   isAdmin?: boolean;
+  authorized?: boolean;
 };
 
 export const Routes = (props: Props) => {
-  const { isAdmin } = props;
+  const { isAdmin, authorized = false } = props;
 
   const location = useLocation();
 
@@ -37,6 +38,9 @@ export const Routes = (props: Props) => {
         )}
         <Route path="/timetable" exact>
           <Shedule />
+        </Route>
+        <Route exact path="/">
+          {!authorized ? <Redirect to="/auth" /> : <Redirect to="/analytic" />}
         </Route>
       </PageLayout>
     </Switch>

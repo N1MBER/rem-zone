@@ -15,6 +15,10 @@ import { IconExit } from '@consta/uikit/IconExit';
 
 import './HeaderRightSide.scss';
 import { HeaderCalendar } from './HeaderCalendar/HeaderCalendar';
+import { useHistory } from 'react-router-dom';
+import { logout as logoutFunc } from '../../../utils/api/routes/auth/auth';
+import { logout as logoutStore } from '../../../store/reducers/user/user';
+import { useDispatch } from 'react-redux';
 
 type Props = {
   isMinified?: boolean;
@@ -26,6 +30,7 @@ type Props = {
 type Item = {
   name: string;
   icon?: IconComponent;
+  type?: string;
   onClick?: () => void;
 };
 
@@ -49,10 +54,21 @@ export const HeaderRightSide = (props: Props) => {
 
   const loginRef = useRef<HTMLButtonElement>(null);
 
+  const history = useHistory();
+
+  const dispatch = useDispatch();
+
+  const logout = async () => {
+    history.push('/auth');
+    dispatch(logoutStore());
+    await logoutFunc();
+  };
+
   const menuItems: Item[] = [
     {
       name: 'Выход',
       icon: IconExit,
+      onClick: logout,
     },
   ];
 
@@ -65,8 +81,8 @@ export const HeaderRightSide = (props: Props) => {
   };
 
   const onContextMenuClick = (item: Item) => {
-    if (!item.onClick) {
-      off();
+    if (item.onClick) {
+      item?.onClick();
     }
     off();
   };
@@ -123,6 +139,7 @@ export const HeaderRightSide = (props: Props) => {
         style={{
           zIndex: style?.zIndex ? Number(style.zIndex) + 1 : 1,
         }}
+        getItemOnClick={(item) => item.onClick}
         onItemClick={({ item }) => onContextMenuClick(item)}
       />
     </>
