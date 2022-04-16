@@ -3,13 +3,13 @@ import Cookies from 'js-cookie';
 import { DOMAIN } from '../constants/environment';
 import { refreshToken as refreshTokenRequest } from './routes/auth/auth';
 
-const logoutAction = () => {
+export const logoutAction = () => {
   Cookies.remove('refresh');
   Cookies.remove('access');
 };
 
 export const instance = Axios.create({
-  baseURL: `${DOMAIN}/api/v1`,
+  baseURL: `${DOMAIN}/`,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -27,7 +27,6 @@ instance.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
     if (error?.response?.status === 429) {
-      console.log('Очень много запросов на сервер. Пожалуйста, подождите.');
       return error.response;
     }
 

@@ -31,25 +31,42 @@ export const withDefaultGetters = (props: CarouselProps) => {
 
 export const getItems = <ITEM>(
   props: GetItemsParams<ITEM>
-): [ITEM, ITEM, ITEM] | [ITEM] => {
-  const { items, getItemKey, activeKey } = props;
+):
+  | [CarouselDefaultItem, CarouselDefaultItem, CarouselDefaultItem]
+  | [CarouselDefaultItem] => {
+  const {
+    items,
+    getItemKey,
+    getItemLabel,
+    getItemOnClick,
+    getItemSrc,
+    activeKey,
+  } = props;
   const currentItem =
     items.find((item) => getItemKey(item) === activeKey) ?? items[0];
   const index = items.indexOf(currentItem);
-  if (items.length > 2) {
-    if (index === items.length - 1) {
-      return [items[index - 1], items[index], items[0]];
+  const validItems: CarouselDefaultItem[] = items.map((item) => {
+    return {
+      label: getItemLabel(item),
+      src: getItemSrc(item),
+      key: getItemKey(item),
+      onClick: () => getItemOnClick(item)?.(item),
+    };
+  });
+  if (validItems.length > 2) {
+    if (index === validItems.length - 1) {
+      return [validItems[index - 1], validItems[index], validItems[0]];
     }
     if (index === 0) {
-      return [items[items.length - 1], items[index], items[1]];
+      return [validItems[items.length - 1], validItems[index], validItems[1]];
     }
-    return [items[index - 1], items[index], items[index + 1]];
+    return [validItems[index - 1], validItems[index], validItems[index + 1]];
   }
-  if (items.length === 1) {
-    return [items[0]];
+  if (validItems.length === 1) {
+    return [validItems[0]];
   }
   if (index === 0) {
-    return [items[1], items[0], items[1]];
+    return [validItems[1], validItems[0], validItems[1]];
   }
-  return [items[0], items[1], items[0]];
+  return [validItems[0], validItems[1], validItems[0]];
 };

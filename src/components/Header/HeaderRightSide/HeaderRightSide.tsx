@@ -6,7 +6,7 @@ import { HeaderLogin, HeaderModule } from '@consta/uikit/Header';
 import { ContextMenu } from '@consta/uikit/ContextMenuCanary';
 import { cn } from '../../../__private__/utils/bem';
 import { ThemeName, themes } from '../../../types/theme';
-import { User } from '../../../types/user';
+import { UserLogin } from '../../../types/user';
 import { useFlag } from '@consta/uikit/useFlag';
 import { IconComponent } from '@consta/uikit/__internal__/src/icons/Icon/Icon';
 import { getDataOfTheme } from './helper';
@@ -15,27 +15,23 @@ import { IconExit } from '@consta/uikit/IconExit';
 
 import './HeaderRightSide.scss';
 import { HeaderCalendar } from './HeaderCalendar/HeaderCalendar';
+import { useHistory } from 'react-router-dom';
+import { logout as logoutFunc } from '../../../utils/api/routes/auth/auth';
+import { logout as logoutStore } from '../../../store/reducers/user/user';
+import { useDispatch } from 'react-redux';
 
 type Props = {
   isMinified?: boolean;
   isLogged?: boolean;
-  user?: User;
+  user?: UserLogin;
   style?: CSSProperties;
 };
 
 type Item = {
   name: string;
   icon?: IconComponent;
+  type?: string;
   onClick?: () => void;
-};
-
-const getUserData = (user?: User): User => {
-  return {
-    avatar: user?.avatar ?? undefined,
-    name: user?.name ?? '',
-    info: user?.info ?? '',
-    userType: 'worker',
-  };
 };
 
 const cnHeaderRightSide = cn('HeaderRightSide');
@@ -43,16 +39,25 @@ const cnHeaderRightSide = cn('HeaderRightSide');
 export const HeaderRightSide = (props: Props) => {
   const { user, isLogged, isMinified, style } = props;
 
-  const { avatar, name, info, status } = getUserData(user);
-
   const [showContextMenu, { on, off }] = useFlag(false);
 
   const loginRef = useRef<HTMLButtonElement>(null);
+
+  const history = useHistory();
+
+  const dispatch = useDispatch();
+
+  const logout = async () => {
+    history.push('/auth');
+    dispatch(logoutStore());
+    await logoutFunc();
+  };
 
   const menuItems: Item[] = [
     {
       name: 'Выход',
       icon: IconExit,
+      onClick: logout,
     },
   ];
 
@@ -65,8 +70,8 @@ export const HeaderRightSide = (props: Props) => {
   };
 
   const onContextMenuClick = (item: Item) => {
-    if (!item.onClick) {
-      off();
+    if (item.onClick) {
+      item?.onClick();
     }
     off();
   };
@@ -102,10 +107,9 @@ export const HeaderRightSide = (props: Props) => {
         <HeaderLogin
           ref={loginRef}
           isLogged={isLogged}
-          personName={name || 'Михаил Зерно'}
-          personStatus={status || 'available'}
-          personInfo={info}
-          personAvatarUrl={avatar || undefined}
+          personName={user?.first_name || '???'}
+          personStatus="available"
+          personInfo={user?.email}
           isMinified={isMinified}
           onClick={handleClick}
         />
@@ -123,6 +127,7 @@ export const HeaderRightSide = (props: Props) => {
         style={{
           zIndex: style?.zIndex ? Number(style.zIndex) + 1 : 1,
         }}
+        getItemOnClick={(item) => item.onClick}
         onItemClick={({ item }) => onContextMenuClick(item)}
       />
     </>

@@ -1,6 +1,6 @@
 import { UserLogin } from '../../../../types/user';
 import { AxiosPromise } from 'axios';
-import { instance } from '../..';
+import { instance, logoutAction } from '../..';
 import { endpoints } from '../../endpoints/endpoints';
 import {
   AuthData,
@@ -18,6 +18,7 @@ export const login = (data: AuthData): AxiosPromise<LoginResponse> => {
 };
 
 export const logout = (): AxiosPromise<DetailResponse> => {
+  logoutAction();
   return instance.post(endpoints.auth.logout, {});
 };
 

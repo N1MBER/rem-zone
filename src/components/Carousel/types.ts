@@ -19,7 +19,7 @@ export type CarouselPropGetItemLabel<ITEM> = (
 ) => CarouselDefaultItem['label'];
 export type CarouselPropGetItemOnClick<ITEM> = (
   item: ITEM
-) => CarouselDefaultItem['onClick'];
+) => ((item: ITEM) => void) | undefined;
 
 export type Mappers<ITEM> = {
   getItemKey?: CarouselPropGetItemKey<ITEM>;
@@ -52,5 +52,4 @@ export type CarouselComponent = <ITEM = CarouselDefaultItem>(
 export type GetItemsParams<ITEM> = {
   items: ITEM[];
   activeKey: string;
-  getItemKey: CarouselPropGetItemKey<ITEM>;
-};
+} & Required<Mappers<ITEM>>;

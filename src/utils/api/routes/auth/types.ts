@@ -18,7 +18,7 @@ export type ConfirmPasswordData = {
 
 export type AuthData = {
   username: string;
-  email: string;
+  email?: string;
   password: string;
 };
 

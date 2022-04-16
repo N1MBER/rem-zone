@@ -5,6 +5,7 @@ import { persistReducer } from 'redux-persist';
 import Cookies from 'cookies-js';
 import { accessReducer } from './tokenStorage/accessStore';
 import { refreshReducer } from './tokenStorage/refreshStore';
+import userReducer from './user/user';
 
 type PersistParam = {
   key: string;
@@ -40,6 +41,7 @@ export const rootReducer = combineReducers({
     getPersistConfig({ key: 'refresh', whitelist: ['refresh'] }),
     refreshReducer
   ),
+  user: userReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

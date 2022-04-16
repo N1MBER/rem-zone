@@ -3,7 +3,7 @@ import { Button } from '@consta/uikit/Button';
 import { IconHamburger } from '@consta/uikit/IconHamburger';
 import { cn } from '../../../__private__/utils/bem';
 import { HeaderLogo, HeaderModule } from '@consta/uikit/Header';
-import { Logotype } from '../../Logotype/Logotype';
+import { Logotype } from '../../Icons/Logotype/Logotype';
 
 import './HeaderLeftSide.scss';
 

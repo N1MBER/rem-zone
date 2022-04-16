@@ -79,11 +79,14 @@ export const AnalyticCard = (props: Props) => {
         Статистика за месяц
       </Text>
       <div className={cnAnalyticCard('Content')}>
-        {elements.map((element) => {
+        {elements.map((element, index) => {
           const { icon, color, label, value } = element;
           const Icon = icon;
           return (
-            <div className={cnAnalyticCard('Position')}>
+            <div
+              className={cnAnalyticCard('Position')}
+              key={cnAnalyticCard(`Position-${index}`)}
+            >
               <div className={cnAnalyticCard('Position-Label')}>
                 <Icon size="s" view={color} />
                 <Text size="s" lineHeight="m" view="primary">

@@ -20,6 +20,9 @@ function CarouselRender(props: CarouselProps, ref: React.Ref<HTMLDivElement>) {
     renderItem = CarouselItem,
     emptyItemsText = 'Хм, кажется, картинка не загрузилась.',
     getItemKey,
+    getItemLabel,
+    getItemOnClick,
+    getItemSrc,
     ...otherProps
   } = withDefaultGetters(props);
   type Item = typeof items[number];
@@ -35,6 +38,9 @@ function CarouselRender(props: CarouselProps, ref: React.Ref<HTMLDivElement>) {
           items,
           activeKey: getItemKey(items[0]),
           getItemKey,
+          getItemLabel,
+          getItemSrc,
+          getItemOnClick,
         })
       );
     }
@@ -61,6 +67,9 @@ function CarouselRender(props: CarouselProps, ref: React.Ref<HTMLDivElement>) {
               visibleItems[index + 1 * (type === 'previous' ? -1 : 1)]
             ),
             getItemKey,
+            getItemLabel,
+            getItemSrc,
+            getItemOnClick,
           })
         );
       }, 500);

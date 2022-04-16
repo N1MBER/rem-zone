@@ -7,30 +7,47 @@ import { TextField, TextFieldPropOnChange } from '@consta/uikit/TextField';
 import { PropsWithHTMLAttributes } from '../../../../__private__/utils/types/PropsWithHTMLAttributes';
 import { cn } from '../../../../__private__/utils/bem';
 import { useFormControlsFocus } from '../../../../hooks/useFormControlsFocus/useFormControlsFocus';
+import { validateAuthData } from '../helper';
 
 const cnAuthFormSignIn = cn('AuthFormSignIn');
 
-type SignInData = {
-  email?: string;
+export type SignInData = {
+  username?: string;
   password?: string;
 };
 
 type Props = PropsWithHTMLAttributes<
   {
-    onSubmit?: (value: { e: React.MouseEvent; data: SignInData }) => void;
+    error?: string;
+    onSubmit?: (value: {
+      e: React.MouseEvent;
+      data: Required<SignInData>;
+    }) => void;
   },
   HTMLDivElement
 >;
 
 export const AuthFormSignIn = (props: Props) => {
-  const { onSubmit, className } = props;
+  const { onSubmit, className, error } = props;
   const [data, setData] = useState<SignInData>({});
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof SignInData, string>>
+  >({});
 
   const handleClick = (e: React.MouseEvent) => {
-    onSubmit?.({
-      e,
-      data,
-    });
+    const { valid, data: errorsData } = validateAuthData(data);
+    if (valid) {
+      setErrors({});
+      onSubmit?.({
+        e,
+        data: {
+          username: data.username || '',
+          password: data.password || '',
+        },
+      });
+    } else {
+      errorsData && setErrors(errorsData);
+    }
   };
 
   const handleChange: TextFieldPropOnChange = (params) => {
@@ -50,15 +67,17 @@ export const AuthFormSignIn = (props: Props) => {
       </Text>
       <TextField
         label="Имя пользователя"
-        type="email"
-        name="email"
-        value={data.email}
+        type="text"
+        name="username"
+        value={data.username}
         autoFocus
         width="full"
         size="m"
         ref={refs[0]}
         onKeyPress={(e) => onKeyPress(e, 1)}
         placeholder="Email"
+        status={errors.username || error ? 'alert' : undefined}
+        caption={errors.username || error}
         className={cnAuthFormSignIn('Input')}
         onChange={handleChange}
       />
@@ -71,6 +90,8 @@ export const AuthFormSignIn = (props: Props) => {
         ref={refs[1]}
         value={data.password}
         placeholder="Пароль"
+        status={errors.password ? 'alert' : undefined}
+        caption={errors.password}
         onKeyPress={(e) => onKeyPress(e, 2)}
         className={cnAuthFormSignIn('Input')}
         onChange={handleChange}

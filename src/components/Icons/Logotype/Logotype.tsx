@@ -1,5 +1,5 @@
 import React from 'react';
-import { cn } from '../../__private__/utils/bem';
+import { cn } from '../../../__private__/utils/bem';
 
 import './Logotype.scss';
 

@@ -3,6 +3,7 @@ import { Text } from '@consta/uikit/Text';
 import { cn } from '../../../__private__/utils/bem';
 
 import './CarouselNotFound.scss';
+import { NotFound } from '../../Icons/NotFound/NotFound';
 
 type Props = {
   label: string;
@@ -14,7 +15,7 @@ export const CarouselNotFound = (props: Props) => {
   return (
     <div className={cnCarouselNotFound()}>
       <div className={cnCarouselNotFound('ImageContainer')}>
-        <img className={cnCarouselNotFound('Image')} alt="" src="" />
+        <NotFound />
       </div>
       <Text
         align="center"
