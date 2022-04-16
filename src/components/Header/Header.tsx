@@ -2,10 +2,10 @@ import React from 'react';
 import { Header as ConstaHeader } from '@consta/uikit/Header';
 import { cn } from '../../__private__/utils/bem';
 import { HeaderLeftSide } from './HeaderLeftSide/HeaderLeftSide';
-
+import { useSelector } from 'react-redux';
 import './Header.scss';
 import { HeaderRightSide } from './HeaderRightSide/HeaderRightSide';
-import { User } from '../../types/user';
+import { RootState } from '../../store/reducers/index';
 
 type Props = {
   changeVisibleMenu?: () => void;
@@ -13,15 +13,11 @@ type Props = {
 
 const cnHeader = cn('Header');
 
-const user: User = {
-  name: 'Имя Фамилия',
-  info: 'Доп. информация',
-  status: 'remote',
-  userType: 'worker',
-};
-
 export const Header = (props: Props) => {
   const { changeVisibleMenu } = props;
+
+  const user = useSelector((store: RootState) => store.user.profile);
+
   return (
     <ConstaHeader
       style={{

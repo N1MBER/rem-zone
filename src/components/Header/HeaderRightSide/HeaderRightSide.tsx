@@ -6,7 +6,7 @@ import { HeaderLogin, HeaderModule } from '@consta/uikit/Header';
 import { ContextMenu } from '@consta/uikit/ContextMenuCanary';
 import { cn } from '../../../__private__/utils/bem';
 import { ThemeName, themes } from '../../../types/theme';
-import { User } from '../../../types/user';
+import { UserLogin } from '../../../types/user';
 import { useFlag } from '@consta/uikit/useFlag';
 import { IconComponent } from '@consta/uikit/__internal__/src/icons/Icon/Icon';
 import { getDataOfTheme } from './helper';
@@ -23,7 +23,7 @@ import { useDispatch } from 'react-redux';
 type Props = {
   isMinified?: boolean;
   isLogged?: boolean;
-  user?: User;
+  user?: UserLogin;
   style?: CSSProperties;
 };
 
@@ -34,21 +34,10 @@ type Item = {
   onClick?: () => void;
 };
 
-const getUserData = (user?: User): User => {
-  return {
-    avatar: user?.avatar ?? undefined,
-    name: user?.name ?? '',
-    info: user?.info ?? '',
-    userType: 'worker',
-  };
-};
-
 const cnHeaderRightSide = cn('HeaderRightSide');
 
 export const HeaderRightSide = (props: Props) => {
   const { user, isLogged, isMinified, style } = props;
-
-  const { avatar, name, info, status } = getUserData(user);
 
   const [showContextMenu, { on, off }] = useFlag(false);
 
@@ -118,10 +107,9 @@ export const HeaderRightSide = (props: Props) => {
         <HeaderLogin
           ref={loginRef}
           isLogged={isLogged}
-          personName={name || 'Михаил Зерно'}
-          personStatus={status || 'available'}
-          personInfo={info}
-          personAvatarUrl={avatar || undefined}
+          personName={user?.first_name || '???'}
+          personStatus="available"
+          personInfo={user?.email}
           isMinified={isMinified}
           onClick={handleClick}
         />

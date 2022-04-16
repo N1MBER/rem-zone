@@ -52,14 +52,20 @@ export const login = createAsyncThunk<unknown, LoginPayloadType>(
       .then(async (res) => {
         const accessExpireTime = 1;
         const refreshExpireTime = 3;
-        Cookies.set('access', res.data.access, { expires: accessExpireTime });
-        Cookies.set('refresh', res.data.refresh, {
-          expires: refreshExpireTime,
-        });
-        setAuthToken(res.data.access);
-        setLoading(false);
-        successCallback?.();
-        dispatch(setLogged());
+        ('Ошибка сервера!');
+        if (res.data) {
+          const { access, refresh, user } = res.data;
+          Cookies.set('access', access, { expires: accessExpireTime });
+          Cookies.set('refresh', refresh, {
+            expires: refreshExpireTime,
+          });
+          setAuthToken(access);
+          successCallback?.();
+          dispatch(setLogged());
+          user && dispatch(setProfile(user));
+        } else {
+          errorCallback?.('Ошибка сервера!');
+        }
       })
       .catch((err: AxiosResponse) => {
         setLoading(false);
