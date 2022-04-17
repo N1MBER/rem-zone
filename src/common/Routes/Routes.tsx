@@ -3,14 +3,37 @@ import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import { Auth } from '../../pages/Auth/Auth';
 import { Analytic } from '../../pages/Analytic/Analytic';
 import { PageLayout } from '../Layouts/PageLayout/PageLayout';
-import { menuLinks } from '../../components/Menu/helper';
-import { Link } from '../../components/Menu/MenuLinks/MenuLinks';
 import { Shedule } from '../../pages/Shedule/Shedule';
+import { Staff } from '../../pages/Staff/Staff';
 
 type Props = {
   isAdmin?: boolean;
   authorized?: boolean;
 };
+
+type Path = {
+  path: string;
+  component: React.FC;
+};
+
+const paths: Path[] = [
+  {
+    path: '/auth',
+    component: Auth,
+  },
+  {
+    path: '/analytic',
+    component: Analytic,
+  },
+  {
+    path: '/staff',
+    component: Staff,
+  },
+  {
+    path: '/timetable',
+    component: Shedule,
+  },
+];
 
 export const Routes = (props: Props) => {
   const { isAdmin, authorized = false } = props;
@@ -18,9 +41,7 @@ export const Routes = (props: Props) => {
   const location = useLocation();
 
   const error = useMemo(() => {
-    return !menuLinks.find((link: Link) =>
-      link.link.includes(location.pathname)
-    );
+    return !paths.find((route: Path) => location.pathname.includes(route.path));
   }, [location.pathname, location.search]);
 
   return (
@@ -29,16 +50,15 @@ export const Routes = (props: Props) => {
         <Auth />
       </Route>
       <PageLayout error={error} isAdmin={isAdmin}>
-        {menuLinks.map((link, index) =>
-          link.link !== '/timetable' ? (
-            <Route key={`Route-${index}`} strict exact path={link.link}>
-              <Analytic />
+        {paths.map((route, index) => {
+          const Component = route.component;
+          return (
+            <Route path={route.path} key={`Route-${index}`} exact>
+              <Component />
             </Route>
-          ) : null
-        )}
-        <Route path="/timetable" exact>
-          <Shedule />
-        </Route>
+          );
+        })}
+
         <Route exact path="/">
           {!authorized ? <Redirect to="/auth" /> : <Redirect to="/analytic" />}
         </Route>
