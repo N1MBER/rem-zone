@@ -18,6 +18,7 @@ export type UserLogin = {
 };
 
 export type StaffGroup = {
+  id: string;
   name: string | null;
 };
 
@@ -30,7 +31,7 @@ export type Position = {
 
 export type Staff = {
   id: string;
-  groups: StaffGroup;
+  groups: string[];
   position: Position;
   password: string;
   username: string;

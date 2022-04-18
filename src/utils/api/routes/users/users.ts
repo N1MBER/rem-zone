@@ -1,4 +1,4 @@
-import { Group, Staff } from '../../../../types/user';
+import { StaffGroup, Staff } from '../../../../types/user';
 import { AxiosPromise } from 'axios';
 import { instance } from '../..';
 import { endpoints } from '../../endpoints/endpoints';
@@ -39,24 +39,26 @@ export const deleteStaff = (id: number) => {
 
 export const getGroups = (
   query: BaseListRequest
-): AxiosPromise<BaseListResponse<Group>> => {
+): AxiosPromise<BaseListResponse<StaffGroup>> => {
   return instance.get(endpoints.users.groups, {
     params: query,
   });
 };
 
-export const addGroup = (data: Omit<Group, 'id'>): AxiosPromise<Group> => {
+export const addGroup = (
+  data: Omit<StaffGroup, 'id'>
+): AxiosPromise<StaffGroup> => {
   return instance.post(endpoints.users.staff, { ...data });
 };
 
 export const updateGroup = (
-  data: Omit<Group, 'id'>,
+  data: Omit<StaffGroup, 'id'>,
   id: number
-): AxiosPromise<Group> => {
+): AxiosPromise<StaffGroup> => {
   return instance.put(`${endpoints.users.staff}${id}/`, { ...data });
 };
 
-export const getGroup = (id: number): AxiosPromise<Group> => {
+export const getGroup = (id: number): AxiosPromise<StaffGroup> => {
   return instance.get(`${endpoints.users.staff}/${id}`);
 };
 

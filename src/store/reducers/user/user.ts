@@ -16,6 +16,8 @@ import {
 import { setAuthToken } from '../../../utils/api';
 import { AxiosResponse } from 'axios';
 import { ConfirmPasswordData } from '../../../utils/api/routes/auth/types';
+import { getGroups } from '../../../utils/api/routes/users/users';
+import { setGroup } from '../settings/settings';
 
 const initialState: State = {
   isLogged: false,
@@ -63,6 +65,11 @@ export const login = createAsyncThunk<unknown, LoginPayloadType>(
           successCallback?.();
           dispatch(setLogged());
           user && dispatch(setProfile(user));
+          getGroups({}).then((res) => {
+            if (res.data) {
+              dispatch(setGroup(res.data.results));
+            }
+          });
         } else {
           errorCallback?.('Ошибка сервера!');
         }
