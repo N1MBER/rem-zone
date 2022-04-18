@@ -1,10 +1,9 @@
-import { Group, Staff } from '../../../../types/user';
+import { StaffGroup, Staff } from '../../../../types/user';
 import { AxiosPromise } from 'axios';
 import { instance } from '../..';
 import { endpoints } from '../../endpoints/endpoints';
 import { BaseListRequest, BaseListResponse } from '../../types';
-
-type StaffData = Omit<Staff, 'id' | 'salary'>;
+import { StaffData } from '../../../../pages/Staff/StaffModal/StaffModalControl/StaffModalControl';
 
 // Staff
 
@@ -22,44 +21,46 @@ export const addStaff = (data: StaffData): AxiosPromise<Staff> => {
 
 export const updateStaff = (
   data: StaffData,
-  id: number
+  id: string
 ): AxiosPromise<Staff> => {
   return instance.put(`${endpoints.users.staff}${id}/`, { ...data });
 };
 
-export const getStaff = (id: number): AxiosPromise<Staff> => {
-  return instance.get(`${endpoints.users.staff}/${id}`);
+export const getStaff = (id: string): AxiosPromise<Staff> => {
+  return instance.get(`${endpoints.users.staff}${id}/`);
 };
 
-export const deleteStaff = (id: number) => {
-  return instance.delete(`${endpoints.users.staff}/${id}`);
+export const deleteStaff = (id: string) => {
+  return instance.delete(`${endpoints.users.staff}${id}/`);
 };
 
 // Groups
 
 export const getGroups = (
   query: BaseListRequest
-): AxiosPromise<BaseListResponse<Group>> => {
+): AxiosPromise<StaffGroup[]> => {
   return instance.get(endpoints.users.groups, {
     params: query,
   });
 };
 
-export const addGroup = (data: Omit<Group, 'id'>): AxiosPromise<Group> => {
+export const addGroup = (
+  data: Omit<StaffGroup, 'id'>
+): AxiosPromise<StaffGroup> => {
   return instance.post(endpoints.users.staff, { ...data });
 };
 
 export const updateGroup = (
-  data: Omit<Group, 'id'>,
-  id: number
-): AxiosPromise<Group> => {
+  data: Omit<StaffGroup, 'id'>,
+  id: string
+): AxiosPromise<StaffGroup> => {
   return instance.put(`${endpoints.users.staff}${id}/`, { ...data });
 };
 
-export const getGroup = (id: number): AxiosPromise<Group> => {
-  return instance.get(`${endpoints.users.staff}/${id}`);
+export const getGroup = (id: string): AxiosPromise<StaffGroup> => {
+  return instance.get(`${endpoints.users.staff}${id}/`);
 };
 
-export const deleteGroup = (id: number) => {
-  return instance.delete(`${endpoints.users.staff}/${id}`);
+export const deleteGroup = (id: string) => {
+  return instance.delete(`${endpoints.users.staff}${id}/`);
 };

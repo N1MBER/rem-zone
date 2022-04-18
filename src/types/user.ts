@@ -17,10 +17,22 @@ export type UserLogin = {
   last_name: string;
 };
 
+export type StaffGroup = {
+  id: string;
+  name: string | null;
+};
+
+export type Position = {
+  id: number | string;
+  name: string;
+  rate: string;
+  description: string;
+};
+
 export type Staff = {
-  id: string | number;
+  id: string;
   groups: string[];
-  position: string;
+  position: Position;
   password: string;
   username: string;
   first_name: string;
@@ -33,11 +45,4 @@ export type Staff = {
 export type Group = {
   id: number;
   name: string;
-};
-
-export type Position = {
-  id: number | string;
-  name: string;
-  rate: string;
-  description: string;
 };

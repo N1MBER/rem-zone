@@ -6,6 +6,7 @@ import Cookies from 'cookies-js';
 import { accessReducer } from './tokenStorage/accessStore';
 import { refreshReducer } from './tokenStorage/refreshStore';
 import userReducer from './user/user';
+import settingsReducer from './settings/settings';
 
 type PersistParam = {
   key: string;
@@ -42,6 +43,7 @@ export const rootReducer = combineReducers({
     refreshReducer
   ),
   user: userReducer,
+  settings: settingsReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
