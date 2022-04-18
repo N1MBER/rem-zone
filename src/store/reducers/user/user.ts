@@ -17,7 +17,8 @@ import { setAuthToken } from '../../../utils/api';
 import { AxiosResponse } from 'axios';
 import { ConfirmPasswordData } from '../../../utils/api/routes/auth/types';
 import { getGroups } from '../../../utils/api/routes/users/users';
-import { setGroup } from '../settings/settings';
+import { setGroup, setPositions } from '../settings/settings';
+import { getPositions } from '../../../utils/api/routes/positions/positions';
 
 const initialState: State = {
   isLogged: false,
@@ -68,6 +69,11 @@ export const login = createAsyncThunk<unknown, LoginPayloadType>(
           getGroups({}).then((res) => {
             if (res.data) {
               dispatch(setGroup(res.data.results));
+            }
+          });
+          getPositions({}).then((res) => {
+            if (res.data) {
+              dispatch(setPositions(res.data.results));
             }
           });
         } else {

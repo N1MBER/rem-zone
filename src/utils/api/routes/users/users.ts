@@ -22,17 +22,17 @@ export const addStaff = (data: StaffData): AxiosPromise<Staff> => {
 
 export const updateStaff = (
   data: StaffData,
-  id: number
+  id: string
 ): AxiosPromise<Staff> => {
   return instance.put(`${endpoints.users.staff}${id}/`, { ...data });
 };
 
-export const getStaff = (id: number): AxiosPromise<Staff> => {
-  return instance.get(`${endpoints.users.staff}/${id}`);
+export const getStaff = (id: string): AxiosPromise<Staff> => {
+  return instance.get(`${endpoints.users.staff}${id}/`);
 };
 
-export const deleteStaff = (id: number) => {
-  return instance.delete(`${endpoints.users.staff}/${id}`);
+export const deleteStaff = (id: string) => {
+  return instance.delete(`${endpoints.users.staff}${id}/`);
 };
 
 // Groups
@@ -53,15 +53,15 @@ export const addGroup = (
 
 export const updateGroup = (
   data: Omit<StaffGroup, 'id'>,
-  id: number
+  id: string
 ): AxiosPromise<StaffGroup> => {
   return instance.put(`${endpoints.users.staff}${id}/`, { ...data });
 };
 
-export const getGroup = (id: number): AxiosPromise<StaffGroup> => {
-  return instance.get(`${endpoints.users.staff}/${id}`);
+export const getGroup = (id: string): AxiosPromise<StaffGroup> => {
+  return instance.get(`${endpoints.users.staff}${id}/`);
 };
 
-export const deleteGroup = (id: number) => {
-  return instance.delete(`${endpoints.users.staff}/${id}`);
+export const deleteGroup = (id: string) => {
+  return instance.delete(`${endpoints.users.staff}${id}/`);
 };
