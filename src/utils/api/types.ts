@@ -1,6 +1,7 @@
 export type BaseListRequest = {
   limit?: number;
   offset?: number;
+  // page?: number;
 };
 
 export type BaseListResponse<T> = {
@@ -9,3 +10,5 @@ export type BaseListResponse<T> = {
   previous: string | null;
   results: T[];
 };
+
+export type DefaultQueries = Record<string, unknown>;

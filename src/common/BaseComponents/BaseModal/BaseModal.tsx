@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Modal } from '@consta/uikit/Modal';
-import { PropsWithHTMLAttributes } from '../../__private__/utils/types/PropsWithHTMLAttributes';
-import { cn } from '../../__private__/utils/bem';
+import { PropsWithHTMLAttributes } from '../../../__private__/utils/types/PropsWithHTMLAttributes';
+import { cn } from '../../../__private__/utils/bem';
 import { Button } from '@consta/uikit/Button';
 import { IconClose } from '@consta/uikit/IconClose';
 import { Text } from '@consta/uikit/Text';
