@@ -15,6 +15,7 @@ type Props<TYPE> = {
   defaultPage?: number;
   queries?: Record<string, unknown>;
   limit?: number;
+  getCount?: (count: number) => void;
 };
 
 const cnBaseDataTable = cn('BaseDataTable');

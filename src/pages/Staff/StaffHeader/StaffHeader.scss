@@ -7,7 +7,7 @@
     flex-direction: column;
 
     & > *:not(:last-child) {
-        margin-bottom: var(--space-xs);
+        margin-bottom: var(--space-m);
     }
 
     &-Top {

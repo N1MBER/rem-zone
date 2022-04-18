@@ -52,19 +52,19 @@ export const StaffHeader = (props: Props) => {
     <>
       <div className={cnStaffHeader()}>
         <div className={cnStaffHeader('Top')}>
-          <Text size="xl" lineHeight="m" view="primary" weight="bold">
+          <Text size="3xl" lineHeight="m" view="primary" weight="bold">
             Сотрудники
           </Text>
           <Button
             label="Добавить Сотрудника"
-            size="xs"
+            size="s"
             iconLeft={IconAdd}
             onClick={setOpen.on}
           />
         </div>
         <div className={cnStaffHeader('Bottom')}>
           <div className={cnStaffHeader('Controls')}>
-            <Text size="xs" lineHeight="m" view="primary" weight="regular">
+            <Text size="s" lineHeight="m" view="primary" weight="regular">
               Поиск
             </Text>
             <div className={cnStaffHeader('Inputs')}>
@@ -72,7 +72,7 @@ export const StaffHeader = (props: Props) => {
                 className={cnStaffHeader('Input')}
                 form="defaultClear"
                 type="text"
-                size="xs"
+                size="s"
                 value={data.name}
                 onChange={({ value }) => setValue('name', value?.toString())}
                 placeholder="Ф.И.О."
@@ -83,11 +83,11 @@ export const StaffHeader = (props: Props) => {
                 type="email"
                 value={data.email}
                 onChange={({ value }) => setValue('email', value?.toString())}
-                size="xs"
+                size="s"
                 placeholder="Email"
               />
               <Select
-                size="xs"
+                size="s"
                 className={cnStaffHeader('Input')}
                 form="clearDefault"
                 placeholder="Должность"
@@ -102,7 +102,7 @@ export const StaffHeader = (props: Props) => {
           <div className={cnStaffHeader('Buttons')}>
             <Button
               form="defaultBrick"
-              size="xs"
+              size="s"
               view="secondary"
               label="Сброс"
               onClick={clearData}
@@ -110,14 +110,14 @@ export const StaffHeader = (props: Props) => {
             />
             <Button
               form="brickDefault"
-              size="xs"
+              size="s"
               label="Поиск"
               onClick={() => setFilters?.(data)}
               iconRight={IconSearch}
             />
           </div>
           <Select
-            size="xs"
+            size="s"
             className={cnStaffHeader('Select')}
             placeholder="Количество"
             items={limits}

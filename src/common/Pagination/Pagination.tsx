@@ -6,7 +6,9 @@ import { usePrevious } from '../../hooks/usePrevious/usePrevious';
 import { useDebounce } from '../../hooks/useDebounce/useDebounce';
 import { cn } from '../../__private__/utils/bem';
 
-const cnPagination = cn('Pagination');
+import './Pagination.scss';
+
+const cnPagination = cn('PaginationComponent');
 
 const memoizeQuery = <T extends DefaultQueries>(
   prevQuery?: T,
@@ -42,6 +44,7 @@ const PaginationRender = <
     successCallback,
     errorCallback,
     queries,
+    getCount,
     defaultPage,
     rerenderAfterActionTrigger,
     className,
@@ -78,6 +81,7 @@ const PaginationRender = <
 
     getList?.(params)
       .then((res) => {
+        getCount?.(res.data.count);
         setState((prev) => ({
           count: res.data.count,
           data:

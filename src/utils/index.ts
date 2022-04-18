@@ -8,7 +8,7 @@ export const limits = [10, 20, 50, 100];
 
 export function getQueryData<TYPE extends Record<string, unknown>>(
   search: string
-) {
+): TYPE | undefined {
   if (search.trim() !== '') {
     const query = JSON.parse(
       `{"${decodeURI(search.substring(1))
@@ -18,7 +18,6 @@ export function getQueryData<TYPE extends Record<string, unknown>>(
     ) as TYPE;
     return query;
   }
-  return {};
 }
 
 export function convertDataToQuery<TYPE extends Record<string, unknown>>(
