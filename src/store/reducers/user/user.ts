@@ -54,12 +54,12 @@ export const login = createAsyncThunk<unknown, LoginPayloadType>(
         const refreshExpireTime = 3;
         ('Ошибка сервера!');
         if (res.data) {
-          const { access, refresh, user } = res.data;
-          Cookies.set('access', access, { expires: accessExpireTime });
-          Cookies.set('refresh', refresh, {
+          const { access_token, refresh_token, user } = res.data;
+          Cookies.set('access', access_token, { expires: accessExpireTime });
+          Cookies.set('refresh', refresh_token, {
             expires: refreshExpireTime,
           });
-          setAuthToken(access);
+          setAuthToken(access_token);
           successCallback?.();
           dispatch(setLogged());
           user && dispatch(setProfile(user));

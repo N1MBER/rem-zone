@@ -23,6 +23,8 @@ export type AuthData = {
 };
 
 export type LoginResponse = RefreshResponse & {
+  access_token: string;
+  refresh_token: string;
   user?: UserLogin;
 };
 
