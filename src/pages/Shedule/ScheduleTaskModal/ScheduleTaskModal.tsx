@@ -1,5 +1,8 @@
-import { BaseModal, BaseModalProps } from '../../../common/BaseModal/BaseModal';
 import React, { useEffect, useState } from 'react';
+import {
+  BaseModal,
+  BaseModalProps,
+} from '../../../common/BaseComponents/BaseModal/BaseModal';
 import { Task } from '../../../types/schedule';
 import { Combobox } from '@consta/uikit/Combobox';
 import { ChoiceGroup } from '@consta/uikit/ChoiceGroup';

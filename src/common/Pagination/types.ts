@@ -24,6 +24,7 @@ export interface PaginationProps<TYPE, U, Q, K> {
   successCallback?: (data: TYPE[]) => void;
   errorCallback?: (err?: AxiosError) => void;
   className?: string;
+  defaultPage?: number;
   rerenderAfterActionTrigger?: string | number | boolean;
 }
 

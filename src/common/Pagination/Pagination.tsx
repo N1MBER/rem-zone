@@ -42,6 +42,7 @@ const PaginationRender = <
     successCallback,
     errorCallback,
     queries,
+    defaultPage,
     rerenderAfterActionTrigger,
     className,
   } = props;
@@ -53,6 +54,10 @@ const PaginationRender = <
     data: [],
   });
   const previousPage = usePrevious(page);
+
+  useEffect(() => {
+    typeof defaultPage === 'number' && setPage(defaultPage);
+  }, [defaultPage]);
 
   const debouncedQueries = useDebounce(queries, 300);
 
@@ -87,7 +92,7 @@ const PaginationRender = <
       .finally(() => {
         page === 1 && setInitialLoading(false);
       });
-  }, [page, debouncedQueries]);
+  }, [page, debouncedQueries, limit]);
 
   useEffect(() => {
     successCallback && successCallback(state.data);
@@ -117,6 +122,9 @@ export const Pagination = memo(PaginationRender, (prev, next) => {
     memoizeQuery(
       prev.queries as DefaultQueries,
       next.queries as DefaultQueries
-    ) && prev.rerenderAfterActionTrigger === next.rerenderAfterActionTrigger
+    ) &&
+    prev.rerenderAfterActionTrigger === next.rerenderAfterActionTrigger &&
+    prev.limit === next.limit &&
+    prev.defaultPage === next.defaultPage
   );
 }) as typeof PaginationRender;

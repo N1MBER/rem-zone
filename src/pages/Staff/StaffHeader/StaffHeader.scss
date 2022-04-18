@@ -1,0 +1,56 @@
+@import '../../../assets/styles/mixins.scss';
+
+.StaffHeader {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    & > *:not(:last-child) {
+        margin-bottom: var(--space-xs);
+    }
+
+    &-Top {
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+
+    &-Bottom {
+        width: 100%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+
+    &-Controls {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+
+        & > *:not(:last-child) {
+            margin-bottom: var(--space-xs);
+        }
+    }
+
+    &-Inputs {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &-Buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &-Input {
+        width: 120px;
+    }
+
+    &-Select {
+        width: 80px;
+    }
+}
