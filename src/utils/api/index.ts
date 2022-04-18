@@ -12,6 +12,7 @@ export const instance = Axios.create({
   baseURL: `${DOMAIN}/`,
   headers: {
     'Content-Type': 'application/json',
+    Authorization: `Bearer ${Cookies.get('access')}`,
   },
 });
 
