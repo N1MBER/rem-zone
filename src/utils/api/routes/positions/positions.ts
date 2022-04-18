@@ -2,13 +2,13 @@ import { Position } from '../../../../types/user';
 import { AxiosPromise } from 'axios';
 import { instance } from '../..';
 import { endpoints } from '../../endpoints/endpoints';
-import { BaseListRequest, BaseListResponse } from '../../types';
+import { BaseListRequest } from '../../types';
 
 // Position
 
 export const getPositions = (
   query: BaseListRequest
-): AxiosPromise<BaseListResponse<Position>> => {
+): AxiosPromise<Position[]> => {
   return instance.get(endpoints.positions.positions, {
     params: query,
   });

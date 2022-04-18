@@ -68,12 +68,12 @@ export const login = createAsyncThunk<unknown, LoginPayloadType>(
           user && dispatch(setProfile(user));
           getGroups({}).then((res) => {
             if (res.data) {
-              dispatch(setGroup(res.data.results));
+              dispatch(setGroup(res.data));
             }
           });
           getPositions({}).then((res) => {
             if (res.data) {
-              dispatch(setPositions(res.data.results));
+              dispatch(setPositions(res.data));
             }
           });
         } else {

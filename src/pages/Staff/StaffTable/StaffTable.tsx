@@ -11,10 +11,15 @@ import { deleteStaff as deleteStaffFunc } from '../../../utils/api/routes/users/
 import { toast } from '../../../utils/toast/toast';
 import { useFlag } from '@consta/uikit/useFlag';
 import { ModeProps, StaffModal } from '../StaffModal/StaffModal';
+import { cn } from '../../../__private__/utils/bem';
+
+import './StaffTable.scss';
 
 type Props = {
   data: Staff[];
 };
+
+const cnStaffTable = cn('StaffTable');
 
 export const StaffTable = (props: Props) => {
   const { data = [] } = props;
@@ -25,7 +30,8 @@ export const StaffTable = (props: Props) => {
   const deleteStaff = (id: string) => {
     deleteStaffFunc(id).then((res) => {
       if (res.status === 204) {
-        document.location.reload();
+        toast.success('Сотрудник успешно удален');
+        setTimeout(() => document.location.reload(), 1000);
       } else {
         toast.alert(res.data.detail);
       }
@@ -36,6 +42,7 @@ export const StaffTable = (props: Props) => {
     {
       title: 'Ф.И.О',
       accessor: 'first_name',
+      width: 150,
       renderCell: (row) =>
         `${row.last_name} ${row.first_name[0]}.${row.patronomic[0]}.`,
     },
@@ -75,7 +82,7 @@ export const StaffTable = (props: Props) => {
           setShowModal.on();
         };
         return (
-          <div>
+          <div className={cnStaffTable('Controls')}>
             <Button
               size="xs"
               title="Просмотр"
@@ -111,11 +118,17 @@ export const StaffTable = (props: Props) => {
 
   return (
     <>
-      <BaseTable columns={columns} data={data} stickyColumns={2} />
+      <BaseTable
+        className={cnStaffTable()}
+        columns={columns}
+        data={data}
+        stickyColumns={2}
+      />
       {modalType === 'edit' ? (
         <StaffModal
           isOpen={showModal}
           mode={modalType}
+          id={staff?.id ?? ''}
           staff={staff ?? ({} as Staff)}
           onSubmit={() => {}}
           onClose={() => {

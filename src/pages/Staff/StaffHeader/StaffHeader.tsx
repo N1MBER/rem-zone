@@ -12,6 +12,8 @@ import { cn } from '../../../__private__/utils/bem';
 
 import './StaffHeader.scss';
 import { StaffQueries } from '../Staff';
+import { useFlag } from '@consta/uikit/useFlag';
+import { StaffModal } from '../StaffModal/StaffModal';
 
 const cnStaffHeader = cn('StaffHeader');
 
@@ -22,6 +24,8 @@ type Props = {
 
 export const StaffHeader = (props: Props) => {
   const { filters, setFilters } = props;
+
+  const [open, setOpen] = useFlag();
 
   const [data, setData] = useState<StaffQueries>({});
 
@@ -45,78 +49,86 @@ export const StaffHeader = (props: Props) => {
   };
 
   return (
-    <div className={cnStaffHeader()}>
-      <div className={cnStaffHeader('Top')}>
-        <Text size="xl" lineHeight="m" view="primary" weight="bold">
-          Сотрудники
-        </Text>
-        <Button label="Добавить Сотрудника" size="xs" iconLeft={IconAdd} />
-      </div>
-      <div className={cnStaffHeader('Bottom')}>
-        <div className={cnStaffHeader('Controls')}>
-          <Text size="xs" lineHeight="m" view="primary" weight="regular">
-            Поиск
+    <>
+      <div className={cnStaffHeader()}>
+        <div className={cnStaffHeader('Top')}>
+          <Text size="xl" lineHeight="m" view="primary" weight="bold">
+            Сотрудники
           </Text>
-          <div className={cnStaffHeader('Inputs')}>
-            <TextField
-              className={cnStaffHeader('Input')}
-              form="defaultClear"
-              type="text"
+          <Button
+            label="Добавить Сотрудника"
+            size="xs"
+            iconLeft={IconAdd}
+            onClick={setOpen.on}
+          />
+        </div>
+        <div className={cnStaffHeader('Bottom')}>
+          <div className={cnStaffHeader('Controls')}>
+            <Text size="xs" lineHeight="m" view="primary" weight="regular">
+              Поиск
+            </Text>
+            <div className={cnStaffHeader('Inputs')}>
+              <TextField
+                className={cnStaffHeader('Input')}
+                form="defaultClear"
+                type="text"
+                size="xs"
+                value={data.name}
+                onChange={({ value }) => setValue('name', value?.toString())}
+                placeholder="Ф.И.О."
+              />
+              <TextField
+                className={cnStaffHeader('Input')}
+                form="brick"
+                type="email"
+                value={data.email}
+                onChange={({ value }) => setValue('email', value?.toString())}
+                size="xs"
+                placeholder="Email"
+              />
+              <Select
+                size="xs"
+                className={cnStaffHeader('Input')}
+                form="clearDefault"
+                placeholder="Должность"
+                items={positions}
+                value={positions.find((item) => item.name === data.position)}
+                onChange={({ value }) => setValue('position', value?.name)}
+                getItemKey={(item) => item.type}
+                getItemLabel={(item) => item.name}
+              />
+            </div>
+          </div>
+          <div className={cnStaffHeader('Buttons')}>
+            <Button
+              form="defaultBrick"
               size="xs"
-              value={data.name}
-              onChange={({ value }) => setValue('name', value?.toString())}
-              placeholder="Ф.И.О."
+              view="secondary"
+              label="Сброс"
+              onClick={clearData}
+              iconLeft={IconRevert}
             />
-            <TextField
-              className={cnStaffHeader('Input')}
-              form="brick"
-              type="email"
-              value={data.email}
-              onChange={({ value }) => setValue('email', value?.toString())}
+            <Button
+              form="brickDefault"
               size="xs"
-              placeholder="Email"
-            />
-            <Select
-              size="xs"
-              className={cnStaffHeader('Input')}
-              form="clearDefault"
-              placeholder="Должность"
-              items={positions}
-              value={positions.find((item) => item.name === data.position)}
-              onChange={({ value }) => setValue('position', value?.name)}
-              getItemKey={(item) => item.type}
-              getItemLabel={(item) => item.name}
+              label="Поиск"
+              onClick={() => setFilters?.(data)}
+              iconRight={IconSearch}
             />
           </div>
-        </div>
-        <div className={cnStaffHeader('Buttons')}>
-          <Button
-            form="defaultBrick"
+          <Select
             size="xs"
-            view="secondary"
-            label="Сброс"
-            onClick={clearData}
-            iconLeft={IconRevert}
-          />
-          <Button
-            form="brickDefault"
-            size="xs"
-            label="Поиск"
-            onClick={() => setFilters?.(data)}
-            iconRight={IconSearch}
+            className={cnStaffHeader('Select')}
+            placeholder="Количество"
+            items={limits}
+            value={data.limit}
+            onChange={({ value }) => value && setValue('limit', value)}
+            getItemKey={(item) => item}
+            getItemLabel={(item) => item.toString()}
           />
         </div>
-        <Select
-          size="xs"
-          className={cnStaffHeader('Select')}
-          placeholder="Количество"
-          items={limits}
-          value={data.limit}
-          onChange={({ value }) => value && setValue('limit', value)}
-          getItemKey={(item) => item}
-          getItemLabel={(item) => item.toString()}
-        />
       </div>
-    </div>
+      <StaffModal mode="create" isOpen={open} onClose={setOpen.off} />
+    </>
   );
 };

@@ -3,8 +3,7 @@ import { AxiosPromise } from 'axios';
 import { instance } from '../..';
 import { endpoints } from '../../endpoints/endpoints';
 import { BaseListRequest, BaseListResponse } from '../../types';
-
-type StaffData = Omit<Staff, 'id' | 'salary'>;
+import { StaffData } from '../../../../pages/Staff/StaffModal/StaffModalControl/StaffModalControl';
 
 // Staff
 
@@ -39,7 +38,7 @@ export const deleteStaff = (id: string) => {
 
 export const getGroups = (
   query: BaseListRequest
-): AxiosPromise<BaseListResponse<StaffGroup>> => {
+): AxiosPromise<StaffGroup[]> => {
   return instance.get(endpoints.users.groups, {
     params: query,
   });
