@@ -14,7 +14,15 @@ import {
 // Auth
 
 export const login = (data: AuthData): AxiosPromise<LoginResponse> => {
-  return instance.post(endpoints.auth.login, { ...data });
+  return instance.post(
+    endpoints.auth.login,
+    { ...data },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
 };
 
 export const logout = (): AxiosPromise<DetailResponse> => {
