@@ -81,14 +81,14 @@ const PaginationRender = <
 
     getList?.(params)
       .then((res) => {
-        getCount?.(res.data.count);
-        setState((prev) => ({
-          count: res.data.count,
-          data:
-            page === previousPage
-              ? res.data.results
-              : [...prev.data, ...res.data.results],
-        }));
+        getCount?.(Array.isArray(res.data) ? res.data.length : res.data.count);
+        setState((prev) => {
+          const array = Array.isArray(res.data) ? res.data : res.data.results;
+          return {
+            count: Array.isArray(res.data) ? res.data.length : res.data.count,
+            data: page === previousPage ? array : [...prev.data, ...array],
+          };
+        });
       })
       .catch((err) => {
         errorCallback && errorCallback(err);

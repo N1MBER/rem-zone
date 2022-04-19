@@ -1,15 +1,12 @@
 import React from 'react';
-import { BaseListRequest, BaseListResponse } from '../../../utils/api/types';
-import { AxiosPromise } from 'axios';
 import { cn } from '../../../__private__/utils/bem';
 import { Pagination } from '../../Pagination/Pagination';
+import { ApiFunction } from '../../Pagination/types';
 
 import './BaseDataTable.scss';
 
 type Props<TYPE> = {
-  apiFunction?: (
-    params: BaseListRequest
-  ) => AxiosPromise<BaseListResponse<TYPE>>;
+  apiFunction?: ApiFunction<TYPE>;
   tableComponent: React.FC<{ data: TYPE[] }>;
   scrollClassName?: string;
   defaultPage?: number;

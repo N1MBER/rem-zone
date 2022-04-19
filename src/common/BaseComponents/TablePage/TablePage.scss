@@ -1,0 +1,36 @@
+@import '../../../assets/styles/mixins.scss';
+
+.TablePage {
+    width: 100%;
+    max-width: 100%;
+    background: var(--color-bg-default);
+
+    &-Container{
+        padding: var(--space-4xl);
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+        overflow-x: hidden;
+    }
+
+    & > *:not(:last-child) {
+        margin-bottom: var(--space-2xl);
+    }
+
+    &-Pagination {
+        margin-top: var(--space-xl);
+    }
+
+    &-Table {
+        width: 100%;
+        min-height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        & a {
+            color: var(--color-typo-link);
+        }
+    }
+}

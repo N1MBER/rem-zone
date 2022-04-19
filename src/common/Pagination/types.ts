@@ -12,10 +12,12 @@ type ComponentProps<TYPE, K> = PropsWithHTMLAttributes<
 
 export type PaginationState<TYPE> = { count: number; data: TYPE[] };
 
+export type ApiFunction<TYPE> = (
+  params: BaseListRequest
+) => AxiosPromise<BaseListResponse<TYPE>> | AxiosPromise<TYPE[]>;
+
 export interface PaginationProps<TYPE, U, Q, K> {
-  getList?: (
-    params: BaseListRequest & U
-  ) => AxiosPromise<BaseListResponse<TYPE>>;
+  getList?: ApiFunction<TYPE>;
   listComponent: React.FC<ComponentProps<TYPE, K>>;
   queries?: Omit<U, keyof BaseListRequest> extends Q ? Q : never;
   listProps?: K;
