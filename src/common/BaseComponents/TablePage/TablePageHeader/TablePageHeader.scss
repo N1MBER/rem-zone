@@ -1,0 +1,30 @@
+@import '../../../../assets/styles/mixins.scss';
+
+.TablePageHeader {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    & > *:not(:last-child) {
+        margin-bottom: var(--space-m);
+    }
+
+    &-Top {
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+
+    &-Bottom {
+        width: 100%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+
+    &-Select {
+        width: 100px;
+    }
+}
