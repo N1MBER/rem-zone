@@ -5,30 +5,94 @@
     padding: 0;
     position: relative;
 
+    & .Icon, & .Text {
+        transition: color 0.3s;
+    }
+
     & > *:not(:last-child) {
         margin-bottom: var(--space-m);
     }
 
+    &-LinkContainer {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: center;
+        color: var(--color-typo-system);
+    }
+
+    &-SubMenu {
+        height: var(--menu-link-height);
+        overflow: hidden;
+        transition: height 0.3s;
+
+        &-Item {
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            box-sizing: border-box;
+            text-decoration: none;
+            cursor: pointer;
+            padding-left: var(--space-xl);
+            text-decoration: none;
+
+            & .Text {
+                color: var(--color-typo-system);
+            }
+
+            &:hover .Text, &_active .Text {
+                color: #FFF;
+            }
+        }
+    }
+
+    &-LinkButton {
+        & .Icon {
+            transition: transform  0.3s;
+        }
+
+        &_active .Icon {
+            transform: rotate(180deg);
+        }
+    }
+
     &-Link {
         width: 100%;
-        height: var(--space-xl);
         @include flex-center();
-        justify-content: flex-start;
-        text-decoration: none;
 
-        &, & * {
-            color: var(--color-typo-system);
+        &_active {
+            &, & *, & > .Text.Text_size_m {
+                color: #FFF !important;
+            } 
+        }
+
+        & .Icon, & .Text {
             transition: color 0.3s;
         }
 
-        & .Icon {
-            margin-right: var(--space-xs);
+        & {
+           & .Text, & .Icon, & .Button {
+            color: var(--color-typo-system);
+           }
         }
 
-        &_active {
-            &, & * {
+        &:hover {
+            &, & *, & .Text{
                 color: #FFF;
             } 
+        }
+
+        &-Item {
+            width: 100%;
+            height: var(--space-xl);
+            @include flex-center();
+            justify-content: flex-start;
+            text-decoration: none;
+
+            & .Icon {
+                margin-right: var(--space-xs);
+            }
         }
     }
 
@@ -36,12 +100,11 @@
         overflow: hidden;
         white-space: nowrap;
         opacity: 1;
-        display: block;
-        transition: opacity var(--menu-animate-delay), margin var(--menu-animate-delay), width var(--menu-animate-delay);
+        transition: color 0.3s, opacity var(--menu-animate-delay), margin var(--menu-animate-delay), width var(--menu-animate-delay);
     }
 
     & .Icon {
-        transition: padding var(--menu-animate-delay), margin var(--menu-animate-delay);
+        transition: color 0.3s, padding var(--menu-animate-delay), margin var(--menu-animate-delay);
     }
 
     &-Line {
