@@ -6,6 +6,7 @@ import { refreshToken as refreshTokenRequest } from './routes/auth/auth';
 export const logoutAction = () => {
   Cookies.remove('refresh');
   Cookies.remove('access');
+  window.location.href = '/auth';
 };
 
 export const instance = Axios.create({
@@ -39,7 +40,7 @@ instance.interceptors.response.use(
 
       const refreshToken = Cookies.get('refresh') || '';
 
-      if (refreshToken) {
+      if (refreshToken.length > 0) {
         try {
           const response = await refreshTokenRequest(refreshToken);
           const { access } = response.data;

@@ -1,4 +1,4 @@
-import { Link } from './MenuLinks/MenuLinks';
+import { LinkType } from './MenuLinks/MenuLinks';
 import { IconInComparison } from '@consta/uikit/IconInComparison';
 import { IconWorld } from '@consta/uikit/IconWorld';
 import { IconUser } from '@consta/uikit/IconUser';
@@ -7,7 +7,7 @@ import { IconProcessing } from '@consta/uikit/IconProcessing';
 import { IconTable } from '@consta/uikit/IconTable';
 import { IconDocFilled } from '@consta/uikit/IconDocFilled';
 
-export const menuLinks: Link[] = [
+export const menuLinks: LinkType[] = [
   {
     label: 'Аналитика',
     icon: IconInComparison,
@@ -22,6 +22,20 @@ export const menuLinks: Link[] = [
     label: 'Сотрудники',
     icon: IconUser,
     link: '/staff',
+    subMenu: [
+      {
+        label: 'Сотрудники',
+        link: '/staff',
+      },
+      {
+        label: 'Группы',
+        link: '/groups',
+      },
+      {
+        label: 'Должности',
+        link: '/positions',
+      },
+    ],
   },
   {
     label: 'Обслуживание',
