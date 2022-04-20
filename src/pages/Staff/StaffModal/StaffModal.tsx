@@ -15,6 +15,7 @@ import {
   addStaff,
 } from '../../../utils/api/routes/users/users';
 import { toast } from '../../../utils/toast/toast';
+import { ModalCrudType } from '../../../types/setings';
 
 import './StaffModal.scss';
 
@@ -35,7 +36,7 @@ export type ModeProps =
       id?: never;
     };
 
-const getTitle = (mode: ModeProps['mode']) => {
+const getTitle = (mode: ModalCrudType) => {
   if (mode === 'create') {
     return 'Создание сотрудника';
   }

@@ -5,6 +5,7 @@ import { Analytic } from '../../pages/Analytic/Analytic';
 import { PageLayout } from '../Layouts/PageLayout/PageLayout';
 import { Shedule } from '../../pages/Shedule/Shedule';
 import { Staff } from '../../pages/Staff/Staff';
+import { Groups } from '../../pages/Groups/Groups';
 
 type Props = {
   isAdmin?: boolean;
@@ -32,6 +33,10 @@ const paths: Path[] = [
   {
     path: '/timetable',
     component: Shedule,
+  },
+  {
+    path: '/groups',
+    component: Groups,
   },
 ];
 

@@ -105,7 +105,7 @@ const PaginationRender = <
   const Component = listComponent;
 
   return (
-    <div className={cnPagination(null, [className])}>
+    <div className={cnPagination({ loading: initialLoading }, [className])}>
       {initialLoading ? (
         <Loader className={cnPagination('Loader')} />
       ) : (
