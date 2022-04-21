@@ -1,9 +1,8 @@
-import { StaffGroup, Staff } from '../../../../types/user';
+import { StaffGroup, Staff, StaffData } from '../../../../types/user';
 import { AxiosPromise } from 'axios';
 import { instance } from '../..';
 import { endpoints } from '../../endpoints/endpoints';
 import { BaseListRequest, BaseListResponse } from '../../types';
-import { StaffData } from '../../../../pages/Staff/StaffModal/StaffModalControl/StaffModalControl';
 
 // Staff
 
@@ -15,14 +14,14 @@ export const getStaffs = (
   });
 };
 
-export const addStaff = (data: StaffData): AxiosPromise<Staff> => {
+export const addStaff = (data: StaffData): AxiosPromise<StaffData> => {
   return instance.post(endpoints.users.staff, { ...data });
 };
 
 export const updateStaff = (
   data: StaffData,
   id: string
-): AxiosPromise<Staff> => {
+): AxiosPromise<StaffData> => {
   return instance.put(`${endpoints.users.staff}${id}/`, { ...data });
 };
 

@@ -1,17 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TableColumn } from '@consta/uikit/Table';
 import { Button } from '@consta/uikit/Button';
 import { Badge } from '@consta/uikit/Badge';
 import { IconDocFilled } from '@consta/uikit/IconDocFilled';
 import { IconEdit } from '@consta/uikit/IconEdit';
 import { IconTrash } from '@consta/uikit/IconTrash';
-import { Staff } from '../../../types/user';
+import { Staff, StaffData } from '../../../types/user';
 import { BaseTable } from '../../../common/BaseComponents/BaseTable/BaseTable';
-import { deleteStaff as deleteStaffFunc } from '../../../utils/api/routes/users/users';
+import {
+  deleteStaff as deleteStaffFunc,
+  getStaff,
+  getGroups,
+  updateStaff,
+} from '../../../utils/api/routes/users/users';
 import { toast } from '../../../utils/toast/toast';
 import { useFlag } from '@consta/uikit/useFlag';
-import { ModeProps, StaffModal } from '../StaffModal/StaffModal';
 import { cn } from '../../../__private__/utils/bem';
+import { CrudModal } from '../../../common/CrudModal/CrudModal';
+import { staffEdit, staffItem } from './helper';
+import { RootState } from '../../../store/reducers';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPositions } from '../../../utils/api/routes/positions/positions';
+import {
+  setGroup,
+  setPositions,
+} from '../../../store/reducers/settings/settings';
+import { ModalCrudType } from '../../../types/setings';
 
 import './StaffTable.scss';
 
@@ -23,7 +37,7 @@ const cnStaffTable = cn('StaffTable');
 
 export const StaffTable = (props: Props) => {
   const { data = [] } = props;
-  const [modalType, setModalType] = useState<ModeProps['mode'] | undefined>();
+  const [modalType, setModalType] = useState<ModalCrudType | undefined>();
   const [showModal, setShowModal] = useFlag();
   const [staff, setStaff] = useState<Staff | undefined>();
 
@@ -36,6 +50,53 @@ export const StaffTable = (props: Props) => {
         toast.alert(res.data.detail);
       }
     });
+  };
+
+  const dispatch = useDispatch();
+
+  const { groups, positions } = useSelector(
+    (store: RootState) => store.settings
+  );
+
+  useEffect(() => {
+    if (!groups) {
+      getGroups({}).then((res) => {
+        if (res.data) {
+          dispatch(setGroup(res.data));
+        }
+      });
+    }
+    if (!positions) {
+      getPositions({}).then((res) => {
+        if (res.data) {
+          dispatch(setPositions(res.data));
+        }
+      });
+    }
+  }, [groups, positions]);
+
+  const convertStaffToData = (
+    staff: Staff | undefined
+  ): StaffData | undefined => {
+    if (staff) {
+      return {
+        password: staff.password,
+        first_name: staff.first_name,
+        last_name: staff.last_name,
+        patronomic: staff.patronomic,
+        email: staff.email,
+        username: staff.username,
+        groups: Array.isArray(staff.groups)
+          ? (groups ?? [])
+              .filter(
+                (item) => item.name && staff.groups.indexOf(item.name) !== -1
+              )
+              .map((el) => el.name ?? '')
+          : [],
+        position: staff.position.name,
+        salary: Number(staff.salary),
+      };
+    }
   };
 
   const columns: Array<TableColumn<Staff>> = [
@@ -125,26 +186,41 @@ export const StaffTable = (props: Props) => {
         stickyColumns={2}
       />
       {modalType === 'edit' ? (
-        <StaffModal
-          isOpen={showModal}
-          mode={modalType}
-          id={staff?.id ?? ''}
-          staff={staff ?? ({} as Staff)}
-          onSubmit={() => {}}
+        <CrudModal
+          mode="edit"
+          updateFunc={updateStaff}
+          items={staffEdit(
+            groups.map((el) => el.name ?? ''),
+            positions.map((el) => el.name ?? '')
+          )}
+          element={convertStaffToData(staff)}
+          title="Изменение данных сотрудника"
           onClose={() => {
             setModalType(undefined);
             setShowModal.off();
+          }}
+          itemId={staff?.id ?? ''}
+          isOpen={showModal}
+          successCallback={() => {
+            toast.success('Данные успешно обновились');
+            setTimeout(() => document.location.reload(), 1000);
+          }}
+          errorCallback={() => {
+            toast.alert('Ну удалось обновить данные сотрудника');
           }}
         />
       ) : (
-        <StaffModal
-          isOpen={showModal}
+        <CrudModal
           mode="view"
-          id={staff?.id ?? ''}
+          viewFunc={getStaff}
+          items={staffItem}
+          title="Просмотр данных сотрудника"
           onClose={() => {
             setModalType(undefined);
             setShowModal.off();
           }}
+          itemId={staff?.id ?? ''}
+          isOpen={showModal}
         />
       )}
     </>
