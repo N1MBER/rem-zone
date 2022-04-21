@@ -17,4 +17,7 @@ export const endpoints = {
   positions: {
     positions: '/api/v1/positions/',
   },
+  worklog: {
+    worklog: '/api/v1/worklogs/',
+  },
 };

@@ -58,3 +58,9 @@ export type StaffData = {
   email: string;
   patronomic: string;
 };
+
+export type Worklog = {
+  id: string;
+  timeworked: string;
+  user: string;
+};
