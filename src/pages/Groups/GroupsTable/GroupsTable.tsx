@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TableColumn } from '@consta/uikit/Table';
 import { Button } from '@consta/uikit/Button';
-// import { Badge } from '@consta/uikit/Badge';
 import { IconDocFilled } from '@consta/uikit/IconDocFilled';
 import { IconEdit } from '@consta/uikit/IconEdit';
 import { IconTrash } from '@consta/uikit/IconTrash';
 import { StaffGroup } from '../../../types/user';
 import { BaseTable } from '../../../common/BaseComponents/BaseTable/BaseTable';
-import { deleteGroup as deleteGroupFunc } from '../../../utils/api/routes/users/users';
+import {
+  deleteGroup as deleteGroupFunc,
+  getGroup,
+  updateGroup,
+} from '../../../utils/api/routes/users/users';
 import { toast } from '../../../utils/toast/toast';
-// import { ModeProps, StaffModal } from '../StaffModal/StaffModal';
 import { cn } from '../../../__private__/utils/bem';
+import { ModalCrudType } from '../../../types/setings';
+import { useFlag } from '@consta/uikit/useFlag';
+import { CrudModal } from '../../../common/CrudModal/CrudModal';
+import { groupCreate, groupView } from '../helper';
 
 import './GroupsTable.scss';
 
@@ -22,14 +28,14 @@ const cnGroupsTable = cn('GroupsTable');
 
 export const GroupsTable = (props: Props) => {
   const { data = [] } = props;
-  //   const [modalType, setModalType] = useState<ModeProps['mode'] | undefined>();
-  //   const [showModal, setShowModal] = useFlag();
-  //   const [staff, setStaff] = useState<Staff | undefined>();
+  const [modalType, setModalType] = useState<ModalCrudType | undefined>();
+  const [showModal, setShowModal] = useFlag();
+  const [group, setGroup] = useState<StaffGroup | undefined>();
 
   const deleteGroups = (id: string) => {
     deleteGroupFunc(id).then((res) => {
       if (res.status === 204) {
-        toast.success('Сотрудник успешно удален');
+        toast.success('Группа успешно удалена');
         setTimeout(() => document.location.reload(), 1000);
       } else {
         toast.alert(res.data.detail);
@@ -52,11 +58,11 @@ export const GroupsTable = (props: Props) => {
       title: '',
       accessor: 'id',
       renderCell: (row) => {
-        // const onClick = (type: 'edit' | 'view') => {
-        //   setModalType(type);
-        //   setStaff(row);
-        //   setShowModal.on();
-        // };
+        const onClick = (type: 'edit' | 'view') => {
+          setModalType(type);
+          setGroup(row);
+          setShowModal.on();
+        };
         return (
           <div className={cnGroupsTable('Controls')}>
             <Button
@@ -64,7 +70,7 @@ export const GroupsTable = (props: Props) => {
               title="Просмотр"
               onlyIcon
               view="secondary"
-              //   onClick={() => onClick('view')}
+              onClick={() => onClick('view')}
               iconLeft={IconDocFilled}
               form="defaultBrick"
             />
@@ -74,7 +80,7 @@ export const GroupsTable = (props: Props) => {
               view="secondary"
               title="Изменить"
               onlyIcon
-              //   onClick={() => onClick('edit')}
+              onClick={() => onClick('edit')}
               iconLeft={IconEdit}
             />
             <Button
@@ -95,29 +101,41 @@ export const GroupsTable = (props: Props) => {
   return (
     <>
       <BaseTable className={cnGroupsTable()} columns={columns} data={data} />
-      {/* {modalType === 'edit' ? (
-        <StaffModal
-          isOpen={showModal}
-          mode={modalType}
-          id={staff?.id ?? ''}
-          staff={staff ?? ({} as Staff)}
-          onSubmit={() => {}}
+      {modalType === 'edit' ? (
+        <CrudModal
+          mode="edit"
+          updateFunc={updateGroup}
+          items={groupCreate}
+          element={{ name: group?.name ?? '' }}
+          title="Изменение данных группы"
           onClose={() => {
             setModalType(undefined);
             setShowModal.off();
+          }}
+          itemId={group?.id ?? ''}
+          isOpen={showModal}
+          successCallback={() => {
+            toast.success('Данные успешно обновились');
+            setTimeout(() => document.location.reload(), 1000);
+          }}
+          errorCallback={() => {
+            toast.alert('Ну удалось обновить данные группы');
           }}
         />
       ) : (
-        <StaffModal
-          isOpen={showModal}
+        <CrudModal
           mode="view"
-          id={staff?.id ?? ''}
+          viewFunc={getGroup}
+          items={groupView}
+          title="Просмотр данных группы"
           onClose={() => {
             setModalType(undefined);
             setShowModal.off();
           }}
+          itemId={group?.id ?? ''}
+          isOpen={showModal}
         />
-      )} */}
+      )}
     </>
   );
 };

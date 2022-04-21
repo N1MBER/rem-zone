@@ -46,20 +46,20 @@ export const getGroups = (
 export const addGroup = (
   data: Omit<StaffGroup, 'id'>
 ): AxiosPromise<StaffGroup> => {
-  return instance.post(endpoints.users.staff, { ...data });
+  return instance.post(endpoints.users.groups, { ...data });
 };
 
 export const updateGroup = (
   data: Omit<StaffGroup, 'id'>,
   id: string
 ): AxiosPromise<StaffGroup> => {
-  return instance.put(`${endpoints.users.staff}${id}/`, { ...data });
+  return instance.put(`${endpoints.users.groups}${id}/`, { ...data });
 };
 
 export const getGroup = (id: string): AxiosPromise<StaffGroup> => {
-  return instance.get(`${endpoints.users.staff}${id}/`);
+  return instance.get(`${endpoints.users.groups}${id}/`);
 };
 
 export const deleteGroup = (id: string) => {
-  return instance.delete(`${endpoints.users.staff}${id}/`);
+  return instance.delete(`${endpoints.users.groups}${id}/`);
 };

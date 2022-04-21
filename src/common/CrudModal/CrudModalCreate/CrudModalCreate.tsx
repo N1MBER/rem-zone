@@ -50,7 +50,7 @@ export const CrudModalCreate = <TYPE,>(props: CrudModalCreateProps<TYPE>) => {
         const { key, label, type, list, multiple, getItemLabel, getItemKey } =
           item;
         const defaultGetter = () => '';
-        if (type === 'email' || type === 'number' || type === 'select') {
+        if (type === 'email' || type === 'number' || type === 'text') {
           return (
             <TextField
               width="full"
