@@ -37,15 +37,15 @@ const paths: Path[] = [
     component: Shedule,
   },
   {
-    path: '/groups',
+    path: '/staff/groups',
     component: Groups,
   },
   {
-    path: '/positions',
+    path: '/staff/positions',
     component: Positions,
   },
   {
-    path: '/worklogs',
+    path: '/staff/worklogs',
     component: Worklogs,
   },
 ];

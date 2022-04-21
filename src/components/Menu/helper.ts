@@ -29,15 +29,15 @@ export const menuLinks: LinkType[] = [
       },
       {
         label: 'Группы',
-        link: '/groups',
+        link: '/staff/groups',
       },
       {
         label: 'Должности',
-        link: '/positions',
+        link: '/staff/positions',
       },
       {
         label: 'Время работы',
-        link: '/worklogs',
+        link: '/staff/worklogs',
       },
     ],
   },

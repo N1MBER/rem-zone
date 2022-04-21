@@ -46,6 +46,8 @@ const Menu = (props: {
   const [open, setOpen] = useFlag();
   const [active, setActive] = useFlag();
 
+  const location = useLocation();
+
   return (
     <div className={cnMenuLinks('LinkContainer')}>
       <div className={cnMenuLinks('Link', { active })}>
@@ -89,8 +91,13 @@ const Menu = (props: {
                 key={`${cnMenuLinks()}-${item.link}`}
                 to={item.link}
                 className={(active) => {
-                  active && setActive.on();
-                  return cnMenuLinks('SubMenu-Item', { active });
+                  active &&
+                    location.pathname.split('?')[0] === item.link &&
+                    setActive.on();
+                  return cnMenuLinks('SubMenu-Item', {
+                    active:
+                      active && location.pathname.split('?')[0] === item.link,
+                  });
                 }}
               >
                 <Text align="left" weight="bold" lineHeight="m" size="m">
