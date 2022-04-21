@@ -7,6 +7,7 @@ import { Shedule } from '../../pages/Shedule/Shedule';
 import { Staff } from '../../pages/Staff/Staff';
 import { Groups } from '../../pages/Groups/Groups';
 import { Positions } from '../../pages/Positions/Positions';
+import { Worklogs } from '../../pages/Worklogs/Worklogs';
 
 type Props = {
   isAdmin?: boolean;
@@ -42,6 +43,10 @@ const paths: Path[] = [
   {
     path: '/positions',
     component: Positions,
+  },
+  {
+    path: '/worklogs',
+    component: Worklogs,
   },
 ];
 

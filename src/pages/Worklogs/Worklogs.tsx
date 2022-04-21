@@ -3,31 +3,31 @@ import { TablePage } from '../../common/BaseComponents/TablePage/TablePage';
 import { Button } from '@consta/uikit/Button';
 import { IconAdd } from '@consta/uikit/IconAdd';
 import { useFlag } from '@consta/uikit/useFlag';
-import { PositionsTable } from './PositionsTable/PositionsTable';
+import { WorklogsTable } from './WorklogsTable/WorklogsTable';
 import { CrudModal } from '../../common/CrudModal/CrudModal';
 import { toast } from '../../utils/toast/toast';
 import { cn } from '../../__private__/utils/bem';
-import { positionCreate } from './helper';
+import { worklogCreate } from './helper';
 import {
-  getPositions,
-  addPosition,
-} from '../../utils/api/routes/positions/positions';
+  getWorklogs,
+  addWorklog,
+} from '../../utils/api/routes/worklogs/worklogs';
 
-const cnPositions = cn('Positions');
+const cnWorklogs = cn('cnWorklogs');
 
-export const Positions = () => {
+export const Worklogs = () => {
   const [open, setOpen] = useFlag();
 
   return (
     <>
       <TablePage
-        className={cnPositions()}
-        title="Должности"
-        apiFunction={getPositions}
-        tableComponent={PositionsTable}
+        className={cnWorklogs()}
+        title="Время работы"
+        apiFunction={getWorklogs}
+        tableComponent={WorklogsTable}
         titleButton={
           <Button
-            label="Добавить должность"
+            label="Зафиксировать время"
             size="s"
             iconLeft={IconAdd}
             onClick={setOpen.on}
@@ -36,17 +36,17 @@ export const Positions = () => {
       />
       <CrudModal
         mode="create"
-        createFunc={addPosition}
-        title="Создание новой должности"
+        createFunc={addWorklog}
+        title="Фиксация времени работы"
         onClose={setOpen.off}
         isOpen={open}
-        items={positionCreate}
+        items={worklogCreate}
         successCallback={() => {
-          toast.success('Должность успешно создана');
+          toast.success('Время работы зафиксирована');
           setTimeout(() => document.location.reload(), 1000);
         }}
         errorCallback={() => {
-          toast.alert('Ну удалось создать должность');
+          toast.alert('Ну удалось зафиксировать время');
         }}
       />
     </>
