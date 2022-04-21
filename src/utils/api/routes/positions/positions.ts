@@ -22,15 +22,15 @@ export const addPosition = (
 
 export const updatePosition = (
   data: Omit<Position, 'id'>,
-  id: number
+  id: string
 ): AxiosPromise<Position> => {
   return instance.put(`${endpoints.positions.positions}${id}/`, { ...data });
 };
 
-export const getPosition = (id: number): AxiosPromise<Position> => {
-  return instance.get(`${endpoints.positions.positions}/${id}`);
+export const getPosition = (id: string): AxiosPromise<Position> => {
+  return instance.get(`${endpoints.positions.positions}${id}/`);
 };
 
-export const deletePosition = (id: number) => {
-  return instance.delete(`${endpoints.positions.positions}/${id}`);
+export const deletePosition = (id: string) => {
+  return instance.delete(`${endpoints.positions.positions}${id}/`);
 };

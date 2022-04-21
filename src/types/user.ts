@@ -23,9 +23,9 @@ export type StaffGroup = {
 };
 
 export type Position = {
-  id: number | string;
+  id: string;
   name: string;
-  rate: string;
+  rate: number;
   description: string;
 };
 

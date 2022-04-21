@@ -6,6 +6,7 @@ import { PageLayout } from '../Layouts/PageLayout/PageLayout';
 import { Shedule } from '../../pages/Shedule/Shedule';
 import { Staff } from '../../pages/Staff/Staff';
 import { Groups } from '../../pages/Groups/Groups';
+import { Positions } from '../../pages/Positions/Positions';
 
 type Props = {
   isAdmin?: boolean;
@@ -37,6 +38,10 @@ const paths: Path[] = [
   {
     path: '/groups',
     component: Groups,
+  },
+  {
+    path: '/positions',
+    component: Positions,
   },
 ];
 
