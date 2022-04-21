@@ -86,6 +86,7 @@ const Menu = (props: {
           {link.subMenu.map((item) => {
             return (
               <NavLink
+                key={`${cnMenuLinks()}-${item.link}`}
                 to={item.link}
                 className={(active) => {
                   active && setActive.on();

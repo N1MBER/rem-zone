@@ -20,6 +20,7 @@ export const login = (data: AuthData): AxiosPromise<LoginResponse> => {
     {
       headers: {
         'Content-Type': 'application/json',
+        Authorization: undefined,
       },
     }
   );
@@ -35,7 +36,16 @@ export const logout = (): AxiosPromise<DetailResponse> => {
 export const refreshToken = (
   refresh: string
 ): AxiosPromise<RefreshResponse> => {
-  return instance.post(endpoints.auth.token_refresh, { refresh });
+  return instance.post(
+    endpoints.auth.token_refresh,
+    { refresh },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        // Authorization: undefined,
+      },
+    }
+  );
 };
 
 export const verifyToken = (token: string): AxiosPromise<unknown> => {

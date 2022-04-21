@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useFlag } from '@consta/uikit/useFlag';
 import { cn } from '../../__private__/utils/bem';
-import { getStaffs } from '../../utils/api/routes/users/users';
+import { addStaff, getStaffs } from '../../utils/api/routes/users/users';
 import { StaffTable } from './StaffTable/StaffTable';
 import { useHistory, useLocation } from 'react-router-dom';
 import { convertDataToQuery, getQueryData } from '../../utils';
@@ -13,10 +13,13 @@ import { Button } from '@consta/uikit/Button';
 import { IconAdd } from '@consta/uikit/IconAdd';
 import { IconRevert } from '@consta/uikit/IconRevert';
 import { IconSearch } from '@consta/uikit/IconSearch';
-import { positions } from '../../utils/constants/user';
+import { RootState } from '../../store/reducers';
+import { useSelector } from 'react-redux';
+import { CrudModal } from '../../common/CrudModal/CrudModal';
+import { staffEdit } from './StaffTable/helper';
+import { toast } from '../../utils/toast/toast';
 
 import './Staff.scss';
-import { StaffModal } from './StaffModal/StaffModal';
 
 const cnStaff = cn('Staff');
 
@@ -36,6 +39,10 @@ export const Staff = () => {
 
   const { search } = useLocation();
   const history = useHistory();
+
+  const { groups, positions } = useSelector(
+    (store: RootState) => store.settings
+  );
 
   useEffect(() => {
     const data = getQueryData<FilterData>(search);
@@ -66,6 +73,11 @@ export const Staff = () => {
     setFilterData({});
     setData({});
   };
+
+  const items = staffEdit(
+    groups.map((el) => el.name ?? ''),
+    positions.map((el) => el.name ?? '')
+  );
 
   return (
     <>
@@ -116,7 +128,7 @@ export const Staff = () => {
                     (item) => item.name === filterData.position
                   )}
                   onChange={({ value }) => setValue('position', value?.name)}
-                  getItemKey={(item) => item.type}
+                  getItemKey={(item) => item.id}
                   getItemLabel={(item) => item.name}
                 />
               </div>
@@ -146,7 +158,21 @@ export const Staff = () => {
           position: filterData.position,
         }}
       />
-      <StaffModal mode="create" isOpen={open} onClose={setOpen.off} />
+      <CrudModal
+        mode="create"
+        createFunc={addStaff}
+        title="Создание нового сотрудника"
+        onClose={setOpen.off}
+        isOpen={open}
+        items={items}
+        successCallback={() => {
+          toast.success('Сотрудник успешно создан');
+          setTimeout(() => document.location.reload(), 1000);
+        }}
+        errorCallback={() => {
+          toast.alert('Ну удалось создать сотрудника');
+        }}
+      />
     </>
   );
 };

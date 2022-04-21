@@ -1,4 +1,6 @@
-.StaffModalControl {
+@import '../../../assets/styles/mixins.scss';
+
+.CrudModalCreate {
     display: flex;
     flex-direction: column;
     align-items: flex-start;

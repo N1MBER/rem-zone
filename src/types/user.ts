@@ -46,3 +46,15 @@ export type Group = {
   id: number;
   name: string;
 };
+
+export type StaffData = {
+  groups: string[];
+  position: string;
+  password: string;
+  username: string;
+  salary: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  patronomic: string;
+};
