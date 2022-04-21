@@ -1,0 +1,9 @@
+@import '../../../assets/styles/mixins.scss';
+
+.PositionsTable {
+    &-Controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

@@ -49,6 +49,12 @@ export const staffItem: Array<ItemRecord<Staff, InputType>> = [
       />
     ),
   },
+  {
+    key: 'salary',
+    label: 'Ставка час',
+    type: 'number',
+    renderValue: (item) => <p>{Number(item.salary).toFixed(2)} ₽</p>,
+  },
 ];
 
 export const staffEdit = (
@@ -106,5 +112,6 @@ export const staffEdit = (
     key: 'salary',
     label: 'Ставка час',
     type: 'number',
+    renderValue: (item) => <p>{Number(item.salary).toFixed(2)} ₽</p>,
   },
 ];

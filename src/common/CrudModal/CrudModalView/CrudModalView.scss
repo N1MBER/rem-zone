@@ -6,6 +6,16 @@
     align-items: flex-start;
     justify-content: flex-start;
 
+    & .Text {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        & > * {
+            margin-right: var(--space-xs);
+        }
+    }
+
     &_loading {
         align-items: center;
         justify-content: center;

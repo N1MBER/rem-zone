@@ -132,6 +132,7 @@ export const StaffTable = (props: Props) => {
     {
       title: 'Ставка час',
       accessor: 'salary',
+      renderCell: (row) => <p>{Number(row.salary).toFixed(2)} ₽</p>,
     },
     {
       title: '',
