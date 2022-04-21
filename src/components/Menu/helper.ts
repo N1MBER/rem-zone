@@ -35,6 +35,10 @@ export const menuLinks: LinkType[] = [
         label: 'Должности',
         link: '/positions',
       },
+      {
+        label: 'Время работы',
+        link: '/worklogs',
+      },
     ],
   },
   {
