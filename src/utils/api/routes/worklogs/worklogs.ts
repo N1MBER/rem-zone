@@ -31,6 +31,6 @@ export const getWorklog = (id: string): AxiosPromise<Worklog> => {
   return instance.get(`${endpoints.worklog.worklog}${id}/`);
 };
 
-export const deleteWorklog = (id: string) => {
+export const deleteWorklog = (id: string): AxiosPromise => {
   return instance.delete(`${endpoints.worklog.worklog}${id}/`);
 };

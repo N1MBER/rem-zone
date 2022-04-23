@@ -73,8 +73,7 @@ export const Routes = (props: Props) => {
             </Route>
           );
         })}
-
-        <Route exact path="/">
+        <Route strict path="/">
           {!authorized ? <Redirect to="/auth" /> : <Redirect to="/analytic" />}
         </Route>
       </PageLayout>

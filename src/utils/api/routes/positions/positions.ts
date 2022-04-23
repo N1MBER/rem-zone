@@ -31,6 +31,6 @@ export const getPosition = (id: string): AxiosPromise<Position> => {
   return instance.get(`${endpoints.positions.positions}${id}/`);
 };
 
-export const deletePosition = (id: string) => {
+export const deletePosition = (id: string): AxiosPromise => {
   return instance.delete(`${endpoints.positions.positions}${id}/`);
 };

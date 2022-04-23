@@ -29,7 +29,7 @@ export const getStaff = (id: string): AxiosPromise<Staff> => {
   return instance.get(`${endpoints.users.staff}${id}/`);
 };
 
-export const deleteStaff = (id: string) => {
+export const deleteStaff = (id: string): AxiosPromise => {
   return instance.delete(`${endpoints.users.staff}${id}/`);
 };
 
@@ -60,6 +60,6 @@ export const getGroup = (id: string): AxiosPromise<StaffGroup> => {
   return instance.get(`${endpoints.users.groups}${id}/`);
 };
 
-export const deleteGroup = (id: string) => {
+export const deleteGroup = (id: string): AxiosPromise => {
   return instance.delete(`${endpoints.users.groups}${id}/`);
 };
