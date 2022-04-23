@@ -5,13 +5,13 @@ import { SheduleHeader } from './SheduleHeader/SheduleHeader';
 import { cn } from '../../__private__/utils/bem';
 import './Shedule.scss';
 import { SheduleTimeLine } from './SheduleTimeLine/SheduleTimeLine';
-import { TimeTable } from '../../components/TimeTable/TimeTable';
 import { timeTableItems } from '../../components/TimeTable/__mocks__/mock.data';
 import { Task } from '../../types/schedule';
 import { useFlag } from '@consta/uikit/useFlag';
 import { ScheduleTaskModal } from './ScheduleTaskModal/ScheduleTaskModal';
 import { getRandomColor } from './helper';
 import { toast } from '../../utils/toast/toast';
+import { BigCalendar } from '../../components/BigCalendar/BigCalendar';
 
 const cnShedule = cn('Shedule');
 
@@ -104,14 +104,15 @@ export const Shedule = () => {
         className={cnShedule('TimeLine')}
         onChangeDate={setCurrentDate}
       />
-      <TimeTable
+      <BigCalendar />
+      {/* <TimeTable
         type={viewMode}
         items={tasks}
         containerRef={containerRef}
         onItemClick={({ item }) => setVisibleTask(item)}
         date={Array.isArray(currentDate) ? currentDate[0] : currentDate}
         className={cnShedule('TimeTable')}
-      />
+      /> */}
       <ScheduleTaskModal
         isOpen={showModal}
         onClose={handleCloseModal}
