@@ -72,7 +72,6 @@ export const login = createAsyncThunk<unknown, LoginPayloadType>(
             expires: refreshExpireTime,
           });
           setAuthToken(access_token);
-          successCallback?.();
           dispatch(setLogged());
           user && dispatch(setProfile(user));
           getGroups({}).then((res) => {
@@ -85,6 +84,7 @@ export const login = createAsyncThunk<unknown, LoginPayloadType>(
               dispatch(setPositions(res.data));
             }
           });
+          successCallback?.(res.data.user);
         } else {
           errorCallback?.('Ошибка сервера!');
         }

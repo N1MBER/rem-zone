@@ -9,17 +9,24 @@ export type User = {
   status?: UserStatus;
 };
 
+export type StaffGroup = {
+  id: string;
+  name: string | null;
+};
+
+export type Group = {
+  id: number;
+  name: string;
+};
+
 export type UserLogin = {
   pk: string;
   username: string;
   email: string;
   first_name: string;
   last_name: string;
-};
-
-export type StaffGroup = {
-  id: string;
-  name: string | null;
+  is_superuser?: boolean;
+  groups: Group[];
 };
 
 export type Position = {
@@ -40,11 +47,6 @@ export type Staff = {
   email: string;
   patronomic: string;
   salary: string;
-};
-
-export type Group = {
-  id: number;
-  name: string;
 };
 
 export type StaffData = {

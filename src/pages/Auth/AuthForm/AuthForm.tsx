@@ -25,7 +25,10 @@ export const AuthForm: React.FC = () => {
       login({
         ...data,
         setLoading,
-        successCallback: () => history.push('/analytic'),
+        successCallback: (data) =>
+          history.push(
+            data?.groups[0].id === 2 ? '/staff/worklogs' : '/analytic'
+          ),
         errorCallback: (message) => {
           setErrorMessage(message);
           toast.alert(message);

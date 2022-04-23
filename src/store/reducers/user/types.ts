@@ -14,7 +14,7 @@ export type LoginPayloadType = {
   password: string;
   username: string;
   setLoading: (val: boolean) => void;
-} & DefaultPayload<undefined>;
+} & DefaultPayload<UserLogin>;
 
 export type UpdatePayloadType = {
   profile: UserLogin;

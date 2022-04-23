@@ -1,3 +1,5 @@
+import { Group } from '../types/user';
+
 export const generateRandomValue = (maxLimit = 10) => {
   const rand = Math.random() * maxLimit;
   const value = Math.floor(rand);
@@ -36,3 +38,15 @@ export function convertDataToQuery<TYPE extends Record<string, unknown>>(
   });
   return new URLSearchParams(params).toString();
 }
+
+export const convertGroupToString = (group?: Group): string => {
+  if (group) {
+    if (group.id === 1) {
+      return 'Мастер приемщик';
+    }
+    if (group.id === 2) {
+      return 'Исполнитель';
+    }
+  }
+  return '';
+};

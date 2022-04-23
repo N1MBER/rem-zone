@@ -8,6 +8,9 @@ import { Staff } from '../../pages/Staff/Staff';
 import { Groups } from '../../pages/Groups/Groups';
 import { Positions } from '../../pages/Positions/Positions';
 import { Worklogs } from '../../pages/Worklogs/Worklogs';
+import { Group } from '../../types/user';
+import { RootState } from '../../store/reducers';
+import { useSelector } from 'react-redux';
 
 type Props = {
   isAdmin?: boolean;
@@ -19,44 +22,66 @@ type Path = {
   component: React.FC;
 };
 
-const paths: Path[] = [
-  {
-    path: '/auth',
-    component: Auth,
-  },
-  {
-    path: '/analytic',
-    component: Analytic,
-  },
-  {
-    path: '/staff',
-    component: Staff,
-  },
-  {
-    path: '/timetable',
-    component: Shedule,
-  },
-  {
-    path: '/staff/groups',
-    component: Groups,
-  },
-  {
-    path: '/staff/positions',
-    component: Positions,
-  },
-  {
-    path: '/staff/worklogs',
-    component: Worklogs,
-  },
-];
+const paths = (groups?: Group[], superUser?: boolean): Path[] => {
+  if ((groups && groups.find((el) => el.id === 1)) || superUser) {
+    return [
+      {
+        path: '/auth',
+        component: Auth,
+      },
+      {
+        path: '/analytic',
+        component: Analytic,
+      },
+      {
+        path: '/staff',
+        component: Staff,
+      },
+      {
+        path: '/timetable',
+        component: Shedule,
+      },
+      {
+        path: '/staff/groups',
+        component: Groups,
+      },
+      {
+        path: '/staff/positions',
+        component: Positions,
+      },
+      {
+        path: '/staff/worklogs',
+        component: Worklogs,
+      },
+    ];
+  }
+  return [
+    {
+      path: '/auth',
+      component: Auth,
+    },
+    {
+      path: '/timetable',
+      component: Shedule,
+    },
+
+    {
+      path: '/staff/worklogs',
+      component: Worklogs,
+    },
+  ];
+};
 
 export const Routes = (props: Props) => {
   const { isAdmin, authorized = false } = props;
 
   const location = useLocation();
+  const user = useSelector((store: RootState) => store.user.profile);
 
   const error = useMemo(() => {
-    return !paths.find((route: Path) => location.pathname.includes(route.path));
+    return !paths(user?.groups, user?.is_superuser).find((route: Path) =>
+      location.pathname.includes(route.path)
+    );
   }, [location.pathname, location.search]);
 
   const renderRedirect = () => {
@@ -74,7 +99,7 @@ export const Routes = (props: Props) => {
         {authorized ? <Redirect to="/analytic" /> : <Auth />}
       </Route>
       <PageLayout error={error} isAdmin={isAdmin}>
-        {paths.map((route, index) => {
+        {paths(user?.groups, user?.is_superuser).map((route, index) => {
           const Component = route.component;
           return (
             <Route path={route.path} key={`Route-${index}`} exact>

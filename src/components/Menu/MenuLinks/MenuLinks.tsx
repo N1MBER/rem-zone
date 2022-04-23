@@ -131,6 +131,8 @@ export const MenuLinks: React.FC<Props> = (props) => {
       if (refs[index].current) {
         setLinePosition(refs[index].current?.offsetTop ?? 0);
       }
+    } else {
+      setLinePosition(-1);
     }
   };
 
@@ -149,7 +151,10 @@ export const MenuLinks: React.FC<Props> = (props) => {
       ))}
       <span
         className={cnMenuLinks('Line')}
-        style={{ ['--menu-line-top' as string]: `${linePosition}px` }}
+        style={{
+          ['--menu-line-top' as string]: `${linePosition}px`,
+          ['--menu-line-left' as string]: `${linePosition < 0 ? -5 : 0}px`,
+        }}
       />
     </ul>
   );

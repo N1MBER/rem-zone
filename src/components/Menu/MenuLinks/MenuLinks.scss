@@ -109,7 +109,7 @@
 
     &-Line {
         top: calc(var(--menu-line-top) - var(--space-2xs));
-        left: calc(0px - var(--space-xl));
+        left: calc(var(--menu-line-left) - var(--space-xl));
         width: var(--space-3xs);
         height: var(--space-2xl);
         background-color: #FFF;

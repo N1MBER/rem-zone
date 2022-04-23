@@ -2,15 +2,16 @@ import React, { useContext, useEffect } from 'react';
 import { cn } from '../../__private__/utils/bem';
 import { Text } from '@consta/uikit/Text';
 import { MenuLinks } from './MenuLinks/MenuLinks';
-import { menuLinks } from './helper';
+import { getMenuLinks } from './helper';
 import { ThemeContext } from '../App';
 import { useLocation } from 'react-router-dom';
+import { RootState } from '../../store/reducers';
+import { useSelector } from 'react-redux';
+import { convertGroupToString } from '../../utils';
 
 import './Menu.scss';
 
 type Props = {
-  name?: string;
-  position?: string;
   image?: string;
   view: 'full' | 'short';
 };
@@ -18,10 +19,12 @@ type Props = {
 const cnMenu = cn('Menu');
 
 export const Menu = (props: Props) => {
-  const { name = 'Имя', position = 'Должность', image, view } = props;
+  const { image, view } = props;
   const { theme } = useContext(ThemeContext);
 
   const location = useLocation();
+
+  const user = useSelector((store: RootState) => store.user.profile);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -32,16 +35,22 @@ export const Menu = (props: Props) => {
       <div className={cnMenu('User')}>
         <div className={cnMenu('ImageContainer', { hasImage: !!image })}>
           {image ? (
-            <img src={image} alt={position} className={cnMenu('Image')} />
+            <img
+              src={image}
+              alt={user?.first_name[0]}
+              className={cnMenu('Image')}
+            />
           ) : (
             <Text size="xl" lineHeight="m" view="brand">
-              {name[0]}
+              {`${user?.first_name[0] ?? '???'}`}
             </Text>
           )}
         </div>
         <div className={cnMenu('Info')}>
           <Text size="xl" lineHeight="m" className={cnMenu('Name')}>
-            {name}
+            {user?.last_name && user.first_name
+              ? `${user?.last_name} ${user?.first_name[0]}.`
+              : '???'}
           </Text>
           <Text
             size="m"
@@ -49,11 +58,14 @@ export const Menu = (props: Props) => {
             view="secondary"
             className={cnMenu('Position')}
           >
-            {position}
+            {convertGroupToString(user?.groups[0])}
           </Text>
         </div>
       </div>
-      <MenuLinks className={cnMenu('Links')} links={menuLinks} />
+      <MenuLinks
+        className={cnMenu('Links')}
+        links={getMenuLinks(user?.groups, user?.is_superuser)}
+      />
     </div>
   );
 };
