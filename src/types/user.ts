@@ -1,5 +1,5 @@
 export type UserStatus = 'available' | 'remote' | 'out';
-export type UserType = 'customer' | 'worker' | 'administrator';
+export type UserType = 'master-executor' | 'master-reciever' | 'admin';
 
 export type User = {
   avatar?: string;

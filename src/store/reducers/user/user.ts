@@ -26,6 +26,7 @@ import { getPositions } from '../../../utils/api/routes/positions/positions';
 const initialState: State = {
   isLogged: false,
   profile: undefined,
+  userType: undefined,
 };
 
 const userSlice = createSlice({
@@ -38,14 +39,18 @@ const userSlice = createSlice({
     logout: (state) => {
       state.isLogged = false;
       state.profile = undefined;
+      state.userType = undefined;
     },
     setProfile: (state, action: PayloadAction<UserLogin>) => {
       state.profile = action.payload;
     },
+    setUserType: (state, action: PayloadAction<State['userType']>) => {
+      state.userType = action.payload;
+    },
   },
 });
 
-export const { setLogged, setProfile, logout } = userSlice.actions;
+export const { setLogged, setProfile, logout, setUserType } = userSlice.actions;
 
 export const login = createAsyncThunk<unknown, LoginPayloadType>(
   'user/login',
@@ -73,17 +78,33 @@ export const login = createAsyncThunk<unknown, LoginPayloadType>(
           });
           setAuthToken(access_token);
           dispatch(setLogged());
+
+          const additionalRequest = () => {
+            getGroups({}).then((res) => {
+              if (res.data) {
+                dispatch(setGroup(res.data));
+              }
+            });
+            getPositions({}).then((res) => {
+              if (res.data) {
+                dispatch(setPositions(res.data));
+              }
+            });
+          };
+
           user && dispatch(setProfile(user));
-          getGroups({}).then((res) => {
-            if (res.data) {
-              dispatch(setGroup(res.data));
+          if (user) {
+            if (user.is_superuser) {
+              dispatch(setUserType('admin'));
+              additionalRequest();
+            } else if (user.groups[0].id === 1) {
+              dispatch(setUserType('master-reciever'));
+              additionalRequest();
+            } else {
+              dispatch(setUserType('master-executor'));
             }
-          });
-          getPositions({}).then((res) => {
-            if (res.data) {
-              dispatch(setPositions(res.data));
-            }
-          });
+          }
+
           successCallback?.(res.data.user);
         } else {
           errorCallback?.('Ошибка сервера!');

@@ -8,7 +8,7 @@ import { Staff } from '../../pages/Staff/Staff';
 import { Groups } from '../../pages/Groups/Groups';
 import { Positions } from '../../pages/Positions/Positions';
 import { Worklogs } from '../../pages/Worklogs/Worklogs';
-import { Group } from '../../types/user';
+import { UserType } from '../../types/user';
 import { RootState } from '../../store/reducers';
 import { useSelector } from 'react-redux';
 
@@ -22,8 +22,8 @@ type Path = {
   component: React.FC;
 };
 
-const paths = (groups?: Group[], superUser?: boolean): Path[] => {
-  if ((groups && groups.find((el) => el.id === 1)) || superUser) {
+const paths = (userType?: UserType): Path[] => {
+  if (userType !== 'master-executor') {
     return [
       {
         path: '/auth',
@@ -76,10 +76,10 @@ export const Routes = (props: Props) => {
   const { isAdmin, authorized = false } = props;
 
   const location = useLocation();
-  const user = useSelector((store: RootState) => store.user.profile);
+  const userType = useSelector((store: RootState) => store.user.userType);
 
   const error = useMemo(() => {
-    return !paths(user?.groups, user?.is_superuser).find((route: Path) =>
+    return !paths(userType).find((route: Path) =>
       location.pathname.includes(route.path)
     );
   }, [location.pathname, location.search]);
@@ -99,7 +99,7 @@ export const Routes = (props: Props) => {
         {authorized ? <Redirect to="/analytic" /> : <Auth />}
       </Route>
       <PageLayout error={error} isAdmin={isAdmin}>
-        {paths(user?.groups, user?.is_superuser).map((route, index) => {
+        {paths(userType).map((route, index) => {
           const Component = route.component;
           return (
             <Route path={route.path} key={`Route-${index}`} exact>

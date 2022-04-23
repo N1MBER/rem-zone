@@ -24,7 +24,7 @@ export const Shedule = () => {
   >();
   const [tasks, setTasks] = useState<Task[]>(timeTableItems);
   const [visibleTask, setVisibleTask] = useState<Task | undefined>();
-  const [showModal, setShowModal] = useFlag(true);
+  const [showModal, setShowModal] = useFlag();
 
   const containerRef = useRef<HTMLDivElement>(null);
 

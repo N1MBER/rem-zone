@@ -24,7 +24,9 @@ export const Menu = (props: Props) => {
 
   const location = useLocation();
 
-  const user = useSelector((store: RootState) => store.user.profile);
+  const { userType, profile: user } = useSelector(
+    (store: RootState) => store.user
+  );
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -62,10 +64,7 @@ export const Menu = (props: Props) => {
           </Text>
         </div>
       </div>
-      <MenuLinks
-        className={cnMenu('Links')}
-        links={getMenuLinks(user?.groups, user?.is_superuser)}
-      />
+      <MenuLinks className={cnMenu('Links')} links={getMenuLinks(userType)} />
     </div>
   );
 };

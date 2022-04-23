@@ -27,7 +27,9 @@ export const AuthForm: React.FC = () => {
         setLoading,
         successCallback: (data) =>
           history.push(
-            data?.groups[0].id === 2 ? '/staff/worklogs' : '/analytic'
+            data?.groups && data?.groups.length > 0 && data?.groups[0].id === 2
+              ? '/timetable'
+              : '/analytic'
           ),
         errorCallback: (message) => {
           setErrorMessage(message);

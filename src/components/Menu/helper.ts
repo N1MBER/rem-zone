@@ -6,13 +6,10 @@ import { IconFunnel } from '@consta/uikit/IconFunnel';
 import { IconProcessing } from '@consta/uikit/IconProcessing';
 import { IconTable } from '@consta/uikit/IconTable';
 import { IconDocFilled } from '@consta/uikit/IconDocFilled';
-import { Group } from '../../types/user';
+import { UserType } from '../../types/user';
 
-export const getMenuLinks = (
-  groups?: Group[],
-  superUser?: boolean
-): LinkType[] => {
-  if ((groups && groups.find((el) => el.id === 1)) || superUser) {
+export const getMenuLinks = (userType?: UserType): LinkType[] => {
+  if (userType !== 'master-executor') {
     return [
       {
         label: 'Аналитика',
@@ -80,6 +77,11 @@ export const getMenuLinks = (
           link: '/staff/worklogs',
         },
       ],
+    },
+    {
+      label: 'Расписание',
+      icon: IconTable,
+      link: '/timetable',
     },
   ];
 };

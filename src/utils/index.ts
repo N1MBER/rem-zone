@@ -48,5 +48,5 @@ export const convertGroupToString = (group?: Group): string => {
       return 'Исполнитель';
     }
   }
-  return '';
+  return 'Администратор';
 };
