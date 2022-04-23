@@ -8,6 +8,7 @@ import { cn } from '../../../__private__/utils/bem';
 import { useRefs } from '@consta/uikit/useRefs';
 import { useFlag } from '@consta/uikit/useFlag';
 import { IconArrowDown } from '@consta/uikit/IconArrowDown';
+import { useComponentSize } from '@consta/uikit/useComponentSize';
 
 import './MenuLinks.scss';
 
@@ -113,7 +114,12 @@ export const MenuLinks: React.FC<Props> = (props) => {
 
   const location = useLocation();
 
-  useEffect(() => {
+  const refs = useRefs<HTMLAnchorElement>(links.length);
+  const containerRef = useRef<HTMLUListElement>(null);
+
+  const size = useComponentSize(containerRef);
+
+  const defineLinePosition = () => {
     const currentLink = links.find((link) => {
       return (
         link.link.includes(location.pathname) ||
@@ -126,12 +132,14 @@ export const MenuLinks: React.FC<Props> = (props) => {
         setLinePosition(refs[index].current?.offsetTop ?? 0);
       }
     }
-  }, [location.pathname, location.search]);
+  };
 
-  const refs = useRefs<HTMLAnchorElement>(links.length);
+  useEffect(() => {
+    defineLinePosition();
+  }, [location.pathname, location.search, size.height]);
 
   return (
-    <ul className={cnMenuLinks(null, [className])}>
+    <ul className={cnMenuLinks(null, [className])} ref={containerRef}>
       {links.map((link, index) => (
         <Menu
           key={cnMenuLinks(`Link-${index}`)}
