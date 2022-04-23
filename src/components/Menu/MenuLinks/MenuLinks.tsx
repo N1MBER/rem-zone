@@ -48,15 +48,16 @@ const Menu = (props: {
 
   const location = useLocation();
 
+  useEffect(() => {
+    setActive[location.pathname.includes(link.link) ? 'on' : 'off']();
+  }, [location.pathname]);
+
   return (
     <div className={cnMenuLinks('LinkContainer')}>
       <div className={cnMenuLinks('Link', { active })}>
         <NavLink
           ref={linkRef}
-          className={(isActive) => {
-            setActive[isActive ? 'on' : 'off']();
-            return cnMenuLinks('Link-Item');
-          }}
+          className={cnMenuLinks('Link-Item')}
           to={link.link}
         >
           {getIcon(link.icon)}
@@ -90,15 +91,9 @@ const Menu = (props: {
               <NavLink
                 key={`${cnMenuLinks()}-${item.link}`}
                 to={item.link}
-                className={(active) => {
-                  active &&
-                    location.pathname.split('?')[0] === item.link &&
-                    setActive.on();
-                  return cnMenuLinks('SubMenu-Item', {
-                    active:
-                      active && location.pathname.split('?')[0] === item.link,
-                  });
-                }}
+                className={cnMenuLinks('SubMenu-Item', {
+                  active: location.pathname.split('?')[0] === item.link,
+                })}
               >
                 <Text align="left" weight="bold" lineHeight="m" size="m">
                   {item.label}
