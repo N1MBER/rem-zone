@@ -86,7 +86,11 @@ export const Routes = (props: Props) => {
 
   const renderRedirect = () => {
     if (location.pathname.includes('/auth') && authorized) {
-      return <Redirect to="/analytic" />;
+      return (
+        <Redirect
+          to={userType === 'master-executor' ? '/timetable' : '/analytic'}
+        />
+      );
     }
     if (!authorized && location.pathname !== '/auth') {
       return <Redirect to="/auth" />;
@@ -96,7 +100,13 @@ export const Routes = (props: Props) => {
   return (
     <Switch>
       <Route exact path="/auth">
-        {authorized ? <Redirect to="/analytic" /> : <Auth />}
+        {authorized ? (
+          <Redirect
+            to={userType === 'master-executor' ? '/timetable' : '/analytic'}
+          />
+        ) : (
+          <Auth />
+        )}
       </Route>
       <PageLayout error={error} isAdmin={isAdmin}>
         {paths(userType).map((route, index) => {
