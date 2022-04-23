@@ -62,7 +62,7 @@ export const Routes = (props: Props) => {
   return (
     <Switch>
       <Route exact path="/auth">
-        <Auth />
+        {authorized ? <Redirect to="/analytic" /> : <Auth />}
       </Route>
       <PageLayout error={error} isAdmin={isAdmin}>
         {paths.map((route, index) => {
