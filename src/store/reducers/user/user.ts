@@ -15,7 +15,10 @@ import {
 } from '../../../utils/api/routes/auth/auth';
 import { setAuthToken } from '../../../utils/api';
 import { AxiosResponse } from 'axios';
-import { ConfirmPasswordData } from '../../../utils/api/routes/auth/types';
+import {
+  AuthData,
+  ConfirmPasswordData,
+} from '../../../utils/api/routes/auth/types';
 import { getGroups } from '../../../utils/api/routes/users/users';
 import { setGroup, setPositions } from '../settings/settings';
 import { getPositions } from '../../../utils/api/routes/positions/positions';
@@ -51,7 +54,13 @@ export const login = createAsyncThunk<unknown, LoginPayloadType>(
       payload;
     setLoading(true);
 
-    loginFunc({ password, username })
+    const userData = {
+      password,
+      username: username.includes('@') ? undefined : username,
+      email: username.includes('@') ? username : undefined,
+    } as AuthData;
+
+    loginFunc(userData)
       .then(async (res) => {
         const accessExpireTime = 1;
         const refreshExpireTime = 3;

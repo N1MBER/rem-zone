@@ -107,7 +107,11 @@ export const HeaderRightSide = (props: Props) => {
         <HeaderLogin
           ref={loginRef}
           isLogged={isLogged}
-          personName={user?.first_name || '???'}
+          personName={
+            user?.last_name
+              ? `${user?.last_name} ${user?.first_name[0]}.`
+              : '???'
+          }
           personStatus="available"
           personInfo={user?.email}
           isMinified={isMinified}

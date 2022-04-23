@@ -75,7 +75,7 @@ export const AuthFormSignIn = (props: Props) => {
         size="m"
         ref={refs[0]}
         onKeyPress={(e) => onKeyPress(e, 1)}
-        placeholder="Email"
+        placeholder="Имя пользователя"
         status={errors.username || error ? 'alert' : undefined}
         caption={errors.username || error}
         className={cnAuthFormSignIn('Input')}

@@ -16,11 +16,17 @@ export type ConfirmPasswordData = {
   token: string;
 };
 
-export type AuthData = {
-  username: string;
-  email?: string;
-  password: string;
-};
+export type AuthData =
+  | {
+      username: string;
+      email?: string;
+      password: string;
+    }
+  | {
+      username?: string;
+      email: string;
+      password: string;
+    };
 
 export type LoginResponse = RefreshResponse & {
   access_token: string;
