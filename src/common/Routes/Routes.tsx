@@ -59,6 +59,15 @@ export const Routes = (props: Props) => {
     return !paths.find((route: Path) => location.pathname.includes(route.path));
   }, [location.pathname, location.search]);
 
+  const renderRedirect = () => {
+    if (location.pathname.includes('/auth') && authorized) {
+      return <Redirect to="/analytic" />;
+    }
+    if (!authorized && location.pathname !== '/auth') {
+      return <Redirect to="/auth" />;
+    }
+  };
+
   return (
     <Switch>
       <Route exact path="/auth">
@@ -74,7 +83,7 @@ export const Routes = (props: Props) => {
           );
         })}
         <Route strict path="/">
-          {!authorized ? <Redirect to="/auth" /> : <Redirect to="/analytic" />}
+          {renderRedirect()}
         </Route>
       </PageLayout>
     </Switch>
