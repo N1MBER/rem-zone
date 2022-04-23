@@ -10,4 +10,8 @@
     &-Content {
         width: 100%;
     }
+
+    & .Table {
+        overflow: overlay;
+    }
 }

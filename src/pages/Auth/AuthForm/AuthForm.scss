@@ -11,6 +11,7 @@
     max-width: calc(300px + var(--space-5xl) + var(--space-5xl));
     box-sizing: border-box;
     background: var(--color-bg-default);
+    overflow-y: overlay;
 
     &-Form {
         margin-top: 56px;
