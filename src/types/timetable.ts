@@ -8,6 +8,6 @@ export type Job = {
   description: string;
   started_at: string;
   ended_at: string;
-  status: 'Открыта' | 'Закрыта';
+  status: 'Открыто' | 'Закрыто' | 'В процессе' | 'Отложено';
   favour: number;
 };

@@ -20,4 +20,7 @@ export const endpoints = {
   worklog: {
     worklog: '/users/staff/worklogs/',
   },
+  jobs: {
+    jobs: '/api/v1/jobs/',
+  },
 };
