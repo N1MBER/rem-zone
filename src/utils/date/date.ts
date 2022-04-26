@@ -38,6 +38,16 @@ type ResponseWeek<TYPE> = TYPE extends false
       endWeek: Date;
     };
 
+type ResponseMonth<TYPE> = TYPE extends false
+  ? {
+      startMonth: Moment;
+      endMonth: Moment;
+    }
+  : {
+      startMonth: Date;
+      endMonth: Date;
+    };
+
 export function getWeek<TYPE extends boolean>(params: {
   date: Date;
   dateMode?: TYPE;
@@ -49,4 +59,17 @@ export function getWeek<TYPE extends boolean>(params: {
     startWeek: dateMode ? startOfWeek.toDate() : startOfWeek,
     endWeek: dateMode ? endOfWeek.toDate() : endOfWeek,
   } as ResponseWeek<TYPE>;
+}
+
+export function getMonth<TYPE extends boolean>(params: {
+  date: Date;
+  dateMode?: TYPE;
+}): ResponseMonth<TYPE> {
+  const { date, dateMode = true } = params;
+  const startOfMonth = moment(date).startOf('month');
+  const endOfMonth = moment(date).endOf('month');
+  return {
+    startMonth: dateMode ? startOfMonth.toDate() : startOfMonth,
+    endMonth: dateMode ? endOfMonth.toDate() : endOfMonth,
+  } as ResponseMonth<TYPE>;
 }

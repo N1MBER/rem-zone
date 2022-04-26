@@ -1,2 +1,262 @@
 @import 'react-big-calendar/lib/sass/styles';
-@import 'react-big-calendar/lib/addons/dragAndDrop/styles'; // if using DnD
+@import 'react-big-calendar/lib/addons/dragAndDrop/styles'; 
+
+.BigCalendar {
+    border-radius: var(--control-radius);
+    overflow-x: overlay;
+    box-shadow: var(--shadow-modal);
+    position: relative;
+
+    &_loading {
+        overflow-x: hidden;
+    }
+
+
+    &-Loader {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--color-bg-border);
+    }
+
+    &-Container {
+        background-color: var(--color-bg-default);
+        border-radius: var(--control-radius);
+        border: none;
+    }
+
+    & * {
+        font-family: var(--font-primary);
+    }
+
+
+    & *[class^="rbc-"] {
+        border-color: var(--color-control-bg-border-default);
+    }
+
+    *[class^="rbc-events-container"] {
+        border: none;
+    }
+
+    & .rbc-row-content {
+
+    }
+
+    & .rbc-date-cell {
+        padding-right: var(--space-xs);
+        padding-top: var(--space-2xs);
+        box-sizing: border-box;
+        font-size: var(--size-text-s);
+        line-height: var(--line-height-text-s);
+        color: var(--color-typo-secondary);
+
+        &.rbc-off-range {
+            color: var(--color-control-typo-disable);
+        }
+    }
+
+    & .rbc-day-bg {
+        &.rbc-off-range-bg {
+            background: var(--color-control-bg-disable);
+        }
+    }
+
+    & .rbc-timeslot-group {
+        min-height: var(--space-4xl);
+
+        & > * {
+            border: none;
+        }
+    }
+
+    & .rbc-day-slot {
+        min-width: 160px;
+
+        & ~ .rbc-events-container {
+            border-bottom: none;
+        }
+
+        &.rbc-today {
+            & > *:not(.rbc-current-time-indicator):nth-last-child(-n+2){
+                border-bottom: none;
+            }
+        }
+    }
+
+    & .rbc-time {
+        &-header {
+            height: 64px;
+        }
+
+        &-gutter {
+            width: 64px;
+            background: var(--color-bg-stripe);
+
+            & * {
+                border: none;   
+            }
+
+            & .rbc-timeslot-group {
+                padding: var(--space-xs) var(--space-s);
+                box-sizing: border-box;
+                text-align: right;
+                font-size: var(--size-text-s);
+                line-height: var(--line-height-text-s);
+                color: var(--color-typo-ghost);
+            }
+        }
+
+        &-row {
+            min-height: 80px;
+        }
+
+        &-header {
+            min-width: 1184px;
+            & .rbc-header,
+            & .rbc-day-bg,
+            & .rbc-row {
+                min-width: 160px;
+            }
+
+            & .rbc-today {
+                & * {
+                    color: var(--color-typo-link);
+                }
+            }
+
+            &-content {
+                border-left: none;
+
+                & .rbc-day-bg{
+                    border: none;
+
+                    &.rbc-today {
+                        background: none;
+
+                        & * {
+                            color: var(--color-typo-link);
+                        }
+                    }
+                }
+            }
+        }
+        
+        &-content {
+            border-top: none;
+            overflow: visible;
+
+            & > *:nth-child(2) {
+                & > * {
+                    border-left: none;
+                }
+            }
+        }
+
+        &-view {
+            overflow: visible;
+            border: none;
+
+            & .rbc-time-header-gutter{
+                width: 64px;
+                background: var(--color-bg-stripe);
+    
+                & * {
+                    border: none;   
+                }
+            }
+        }
+    }
+
+    & .rbc-month {
+        &-header {
+            height: 64px;
+            min-width: 700px;
+        }
+
+        &-view {
+            border: none;
+            border-top: none;
+
+            & .rbc-row {
+                min-width: 700px;
+
+                &-bg {
+                    min-width: 700px;
+                }
+            }
+
+            & .rbc-row-content {
+                width: 100%;
+            }
+        }
+
+        &-row {
+            min-width: 700px;
+            min-height: 100px;
+            max-height: 100px;
+
+            & .rbc-day-bg {
+                min-width: 100px;
+            }
+        }
+
+        &-content {
+            overflow: visible;
+        }
+    }
+
+    & .rbc {
+        &-toolbar {
+            display: none;
+        }
+
+        &-now button {
+            color: var(--color-typo-link);
+            font-weight: bold;
+        }
+
+        &-today {
+            background-color: var(--color-control-bg-ghost-hover);
+        }
+
+        &-header * {
+            text-transform: capitalize;
+        }
+    }
+
+    & .rbc-current-time-indicator {
+        height: var(--space-3xs);
+        background: var(--color-bg-normal);
+
+        &::after {
+            font-size: var(--size-text-xs);
+            line-height: var(--line-height-text-s);
+            color: var(--color-typo-normal);
+            position: absolute;
+            top: calc(0px - var(--space-m));
+            right: var(--space-2xs);
+            content: 'Сейчас';
+        }
+    }
+
+    & .rbc-header {
+        height: 64px;
+        padding-left: var(--space-xl);
+        padding-right: var(--space-xl);
+        padding-bottom: var(--space-2xs);
+        padding-top: var(--space-xs);
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        text-transform: capitalize;
+        font-size: var(--size-text-m);
+        line-height: var(--line-height-text-s);
+        color: var(--color-typo-secondary);
+    }
+}

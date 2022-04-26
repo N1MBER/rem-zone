@@ -79,6 +79,10 @@ export const Shedule = () => {
     setVisibleTask(undefined);
   };
 
+  // const changeDate = (date: Date[] | { start: Date; end: Date }) => {
+  //   // if  ()
+  // }
+
   useEffect(() => {
     if (visibleTask) {
       setShowModal.on();
@@ -104,7 +108,11 @@ export const Shedule = () => {
         className={cnShedule('TimeLine')}
         onChangeDate={setCurrentDate}
       />
-      <BigCalendar />
+      <BigCalendar
+        mode={viewMode}
+        date={currentDate}
+        className={cnShedule('TimeTable')}
+      />
       {/* <TimeTable
         type={viewMode}
         items={tasks}

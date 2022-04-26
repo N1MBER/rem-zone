@@ -10,10 +10,8 @@
 
     &-TimeLine {
         margin-top: var(--space-xl);
+        margin-bottom: calc(var(--space-3xs) + var(--space-3xl));
     }
 
-    &-TimeTable {
-        max-width: calc(100vw - 384px);
-        margin-top: var(--space-3xs) !important;
-    }
+    
 }

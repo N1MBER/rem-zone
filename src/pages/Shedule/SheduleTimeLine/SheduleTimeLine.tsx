@@ -30,8 +30,8 @@ export function SheduleTimeLine<TYPE extends ViewMode>(props: Props<TYPE>) {
   } = props;
 
   const items = useMemo(() => {
-    return getItems(viewMode);
-  }, [viewMode]);
+    return getItems(viewMode, currentDate);
+  }, [viewMode, currentDate]);
 
   const [active, setActive] = useState<typeof items[number] | undefined>(
     items[0]
@@ -49,6 +49,13 @@ export function SheduleTimeLine<TYPE extends ViewMode>(props: Props<TYPE>) {
         return true;
       if (
         viewMode === 'week' &&
+        Array.isArray(item.date) &&
+        item.date[0] <= currentDate &&
+        item.date[1] > currentDate
+      )
+        return true;
+      if (
+        viewMode === 'month' &&
         Array.isArray(item.date) &&
         item.date[0] <= currentDate &&
         item.date[1] > currentDate

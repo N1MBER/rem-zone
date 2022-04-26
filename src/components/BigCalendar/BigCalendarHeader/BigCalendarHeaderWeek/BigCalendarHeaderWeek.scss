@@ -1,0 +1,10 @@
+.BigCalendarHeaderWeek {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: column;
+
+    &-Weekday {
+        color: var(--color-typo-system);
+    }
+}
