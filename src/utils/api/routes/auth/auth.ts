@@ -1,4 +1,4 @@
-import { UserLogin } from '../../../../types/user';
+import { User } from '../../../../types/user';
 import { AxiosPromise } from 'axios';
 import { instance, logoutAction } from '../..';
 import { endpoints } from '../../endpoints/endpoints';
@@ -72,13 +72,13 @@ export const changePassword = (
 
 // User
 
-export const getUser = (): AxiosPromise<UserLogin> => {
+export const getUser = (): AxiosPromise<User> => {
   return instance.get(endpoints.auth.user);
 };
 
-export const putUser = (data: UserData): AxiosPromise<UserLogin> => {
+export const putUser = (data: UserData): AxiosPromise<User> => {
   return instance.put(endpoints.auth.user, { ...data });
 };
-export const patchUser = (data: UserData): AxiosPromise<UserLogin> => {
+export const patchUser = (data: UserData): AxiosPromise<User> => {
   return instance.patch(endpoints.auth.user, { ...data });
 };

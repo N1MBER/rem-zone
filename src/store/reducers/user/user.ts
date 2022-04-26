@@ -6,7 +6,7 @@ import {
   DefaultPayload,
   UpdatePayloadType,
 } from './types';
-import { UserLogin } from '../../../types/user';
+import { User } from '../../../types/user';
 import {
   login as loginFunc,
   changePassword as changePasswordFunc,
@@ -41,7 +41,7 @@ const userSlice = createSlice({
       state.profile = undefined;
       state.userType = undefined;
     },
-    setProfile: (state, action: PayloadAction<UserLogin>) => {
+    setProfile: (state, action: PayloadAction<User>) => {
       state.profile = action.payload;
     },
     setUserType: (state, action: PayloadAction<State['userType']>) => {
@@ -128,22 +128,22 @@ export const login = createAsyncThunk<unknown, LoginPayloadType>(
   }
 );
 
-export const getProfile = createAsyncThunk<
-  UserLogin,
-  DefaultPayload<UserLogin>
->('user/getProfile', async (payload, { dispatch, rejectWithValue }) => {
-  try {
-    const { successCallback } = payload;
-    const response = await getUser();
-    if (response?.status === 200) {
-      dispatch(setProfile(response.data));
-      successCallback?.(response.data);
+export const getProfile = createAsyncThunk<User, DefaultPayload<User>>(
+  'user/getProfile',
+  async (payload, { dispatch, rejectWithValue }) => {
+    try {
+      const { successCallback } = payload;
+      const response = await getUser();
+      if (response?.status === 200) {
+        dispatch(setProfile(response.data));
+        successCallback?.(response.data);
+      }
+      return response.data;
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
     }
-    return response.data;
-  } catch (err: any) {
-    return rejectWithValue(err.response.data);
   }
-});
+);
 
 export const updateProfile = createAsyncThunk<unknown, UpdatePayloadType>(
   'user/updateProfile',

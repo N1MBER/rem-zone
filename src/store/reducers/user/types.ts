@@ -1,8 +1,8 @@
-import { UserLogin, UserType } from '../../../types/user';
+import { User, UserType } from '../../../types/user';
 
 export type State = {
   isLogged: boolean;
-  profile?: UserLogin;
+  profile?: User;
   userType?: UserType;
 };
 
@@ -15,8 +15,8 @@ export type LoginPayloadType = {
   password: string;
   username: string;
   setLoading: (val: boolean) => void;
-} & DefaultPayload<UserLogin>;
+} & DefaultPayload<User>;
 
 export type UpdatePayloadType = {
-  profile: UserLogin;
+  profile: User;
 } & DefaultPayload<undefined>;

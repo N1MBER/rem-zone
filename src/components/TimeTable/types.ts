@@ -1,4 +1,4 @@
-import { User } from '../../types/user';
+import { UserDeprecated } from '../../types/user';
 import { Auto } from '../../types/auto';
 import {
   PropsWithHTMLAttributes,
@@ -23,11 +23,11 @@ export const timeTablePropColorDefault: TimeTablePropColor =
 export type TimeTablePropItemType = 'service' | 'order';
 
 export type TimeTablePropGetItemKey<ITEM> = (item: ITEM) => string;
-export type TimeTablePropGetItemExecutor<ITEM> = (item: ITEM) => User;
+export type TimeTablePropGetItemExecutor<ITEM> = (item: ITEM) => UserDeprecated;
 export type TimeTablePropGetItemColor<ITEM> = (
   item: ITEM
 ) => TimeTablePropColor | undefined;
-export type TimeTablePropGetItemCustomer<ITEM> = (item: ITEM) => User;
+export type TimeTablePropGetItemCustomer<ITEM> = (item: ITEM) => UserDeprecated;
 export type TimeTablePropGetItemType<ITEM> = (
   item: ITEM
 ) => TimeTablePropItemType;
@@ -39,9 +39,9 @@ export type TimeTablePropGetItemLabel<ITEM> = (
 
 export type TimeTableDefaultItem = {
   key: string;
-  executor: User;
+  executor: UserDeprecated;
   color?: TimeTablePropColor;
-  customer: User;
+  customer: UserDeprecated;
   type: TimeTablePropItemType;
   startDate: Date;
   endDate: Date;

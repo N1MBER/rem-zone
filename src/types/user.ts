@@ -1,7 +1,7 @@
 export type UserStatus = 'available' | 'remote' | 'out';
 export type UserType = 'master-executor' | 'master-reciever' | 'admin';
 
-export type User = {
+export type UserDeprecated = {
   avatar?: string;
   userType: UserType;
   name: string;
@@ -19,7 +19,7 @@ export type Group = {
   name: string;
 };
 
-export type UserLogin = {
+export type User = {
   pk: string;
   username: string;
   email: string;

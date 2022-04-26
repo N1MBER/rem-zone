@@ -1,4 +1,4 @@
-import { UserLogin } from '../../../../types/user';
+import { User } from '../../../../types/user';
 
 export type RefreshResponse = {
   access: string;
@@ -31,7 +31,7 @@ export type AuthData =
 export type LoginResponse = RefreshResponse & {
   access_token: string;
   refresh_token: string;
-  user?: UserLogin;
+  user?: User;
 };
 
 export type UserData = {
