@@ -4,11 +4,16 @@ import moment from 'moment';
 import { cn } from '../../__private__/utils/bem';
 
 import './BigCalendar.scss';
-import { ViewMode } from '../../types/timetable';
+import { Job, ViewMode } from '../../types/timetable';
 import { BigCalendarHeaderWeek } from './BigCalendarHeader/BigCalendarHeaderWeek/BigCalendarHeaderWeek';
 import { BigCalendarHeaderMonth } from './BigCalendarHeader/BigCalendarHeaderMonth/BigCalendarHeaderMonth';
 import { BigCalendarHeaderDay } from './BigCalendarHeader/BigCalendarHeaderDay/BigCalendarHeaderDay';
 import { Loader } from '@consta/uikit/Loader';
+import {
+  BigCalendarEvent,
+  BigCalendarResource,
+  getUniqueJobGroup,
+} from './helper';
 
 moment.locale('RU');
 const localizer = momentLocalizer(moment);
@@ -25,6 +30,7 @@ type Props = {
   mode?: 'month' | 'week' | 'day';
   date?: Date | [Date, Date];
   onChangeDate?: ChangeDate;
+  items?: Job[];
   minDate?: Date;
   maxDate?: Date;
   loading?: boolean;
@@ -39,6 +45,7 @@ export const BigCalendar = (props: Props) => {
     date,
     onChangeDate,
     loading,
+    items = [],
   } = props;
 
   const min = useMemo(() => {
@@ -55,6 +62,20 @@ export const BigCalendar = (props: Props) => {
     return maxDate ?? date;
   }, [maxDate]);
 
+  const data = useMemo(() => {
+    const elements = getUniqueJobGroup(items);
+    const events: BigCalendarEvent<Job>[] = [];
+    const resources: BigCalendarResource[] = [];
+    elements.forEach((el) => {
+      events.concat(el.items);
+      resources.push(el.group);
+    });
+    return {
+      resources,
+      events,
+    };
+  }, [items]);
+
   return (
     <div className={cnBigCalendar({ loading }, [className])}>
       {loading && (
@@ -65,7 +86,8 @@ export const BigCalendar = (props: Props) => {
       <Calendar
         className={cnBigCalendar('Container')}
         localizer={localizer}
-        events={[]}
+        events={data.events}
+        resources={data.resources}
         onRangeChange={onChangeDate}
         view={mode}
         date={Array.isArray(date) ? date[0] : date}
