@@ -23,4 +23,7 @@ export const endpoints = {
   jobs: {
     jobs: '/api/v1/jobs/',
   },
+  favours: {
+    favours: '/api/v1/favours/',
+  },
 };
