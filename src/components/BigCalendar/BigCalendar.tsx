@@ -9,6 +9,7 @@ import { BigCalendarHeaderWeek } from './BigCalendarHeader/BigCalendarHeaderWeek
 import { BigCalendarHeaderMonth } from './BigCalendarHeader/BigCalendarHeaderMonth/BigCalendarHeaderMonth';
 import { BigCalendarHeaderDay } from './BigCalendarHeader/BigCalendarHeaderDay/BigCalendarHeaderDay';
 import { Loader } from '@consta/uikit/Loader';
+import { getWeek, getMonth } from '../../utils/date/date';
 import {
   BigCalendarEvent,
   BigCalendarResource,
@@ -27,12 +28,14 @@ type ChangeDate = (
 
 type Props = {
   className?: string;
-  mode?: 'month' | 'week' | 'day';
+  mode?: ViewMode;
   date?: Date | [Date, Date];
   onChangeDate?: ChangeDate;
   items?: Job[];
   minDate?: Date;
   maxDate?: Date;
+  changeView?: (view: ViewMode) => void;
+  changeDate?: (date: [Date, Date]) => void;
   loading?: boolean;
 };
 
@@ -46,6 +49,8 @@ export const BigCalendar = (props: Props) => {
     onChangeDate,
     loading,
     items = [],
+    changeView,
+    changeDate,
   } = props;
 
   const min = useMemo(() => {
@@ -76,6 +81,16 @@ export const BigCalendar = (props: Props) => {
     };
   }, [items]);
 
+  const handleChangeDate = (date: Date) => {
+    if (mode !== 'month') {
+      const dates = getWeek<true>({ date });
+      changeDate?.([dates.startWeek, dates.endWeek]);
+    } else {
+      const dates = getMonth<true>({ date });
+      changeDate?.([dates.startMonth, dates.endMonth]);
+    }
+  };
+
   return (
     <div className={cnBigCalendar({ loading }, [className])}>
       {loading && (
@@ -90,6 +105,8 @@ export const BigCalendar = (props: Props) => {
         resources={mode === 'day' ? data.resources : undefined}
         onRangeChange={onChangeDate}
         view={mode}
+        onNavigate={handleChangeDate}
+        onView={(view) => changeView?.(view as ViewMode)}
         resourceIdAccessor="resourceId"
         date={Array.isArray(date) ? date[0] : date}
         components={{

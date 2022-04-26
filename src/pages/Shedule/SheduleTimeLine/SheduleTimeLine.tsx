@@ -24,7 +24,7 @@ export function SheduleTimeLine<TYPE extends ViewMode>(props: Props<TYPE>) {
   const {
     viewMode = 'day',
     onChangeDate,
-    currentDate = new Date(),
+    currentDate,
     className,
     containerRef,
   } = props;
@@ -40,31 +40,32 @@ export function SheduleTimeLine<TYPE extends ViewMode>(props: Props<TYPE>) {
   const { width } = useRefSizes(containerRef);
 
   useEffect(() => {
+    const targetDate = currentDate ?? new Date();
     const activeItem = items.find((item) => {
       if (
         viewMode === 'day' &&
         !Array.isArray(item.date) &&
-        compareDates(item.date, currentDate)
+        compareDates(item.date, targetDate)
       )
         return true;
       if (
         viewMode === 'week' &&
         Array.isArray(item.date) &&
-        item.date[0] <= currentDate &&
-        item.date[1] > currentDate
+        item.date[0] <= targetDate &&
+        item.date[1] > targetDate
       )
         return true;
       if (
         viewMode === 'month' &&
         Array.isArray(item.date) &&
-        item.date[0] <= currentDate &&
-        item.date[1] > currentDate
+        item.date[0] <= targetDate &&
+        item.date[1] > targetDate
       )
         return true;
       return false;
     });
     setActive(activeItem);
-  }, [currentDate, typeof currentDate, viewMode]);
+  }, [viewMode, currentDate, typeof currentDate]);
 
   return (
     <div

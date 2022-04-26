@@ -154,7 +154,9 @@ export const Shedule = () => {
         mode={viewMode}
         date={currentDate}
         items={tasks}
+        changeView={setViewMode}
         loading={loading}
+        changeDate={setCurrentDate}
         className={cnShedule('TimeTable')}
       />
       <CrudModal
