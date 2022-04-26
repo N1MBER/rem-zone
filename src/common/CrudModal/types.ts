@@ -2,7 +2,14 @@ import { AxiosPromise } from 'axios';
 
 import { ModalCrudType } from '../../types/setings';
 
-export type InputType = 'email' | 'text' | 'number' | 'select';
+export type InputType =
+  | 'email'
+  | 'text'
+  | 'number'
+  | 'select'
+  | 'date'
+  | 'date-time'
+  | 'date-time-range';
 
 export type ItemRecord<ITEM, TYPE> = {
   key: keyof ITEM;
