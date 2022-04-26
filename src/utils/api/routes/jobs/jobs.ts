@@ -14,12 +14,14 @@ export const getJobs = (
   });
 };
 
-export const addJob = (data: Omit<Job, 'id'>): AxiosPromise<Job> => {
+export const addJob = (
+  data: Omit<Job, 'id' | 'master' | 'status'>
+): AxiosPromise<Job> => {
   return instance.post(endpoints.jobs.jobs, { ...data });
 };
 
 export const updateJob = (
-  data: Omit<Job, 'id'>,
+  data: Omit<Job, 'id' | 'master' | 'status'>,
   id: string
 ): AxiosPromise<Job> => {
   return instance.put(`${endpoints.jobs.jobs}${id}/`, { ...data });

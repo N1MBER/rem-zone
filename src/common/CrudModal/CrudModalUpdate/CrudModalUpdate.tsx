@@ -92,6 +92,7 @@ export const CrudModalUpdate = <TYPE,>(props: CrudModalUpdateProps<TYPE>) => {
               size="m"
               key={`${cnCrudModalUpdate()}-${index}`}
               items={list ?? []}
+              labelPosition="top"
               getItemLabel={getItemLabel ?? defaultGetter}
               getItemKey={getItemKey ?? defaultGetter}
               // @ts-ignore
@@ -111,6 +112,7 @@ export const CrudModalUpdate = <TYPE,>(props: CrudModalUpdateProps<TYPE>) => {
             placeholder={(label ?? key).toString()}
             size="m"
             style={{ zIndex: 10000 }}
+            onChange={({ value }) => handleChange(value, key.toString())}
             value={data[key as string] as DatePickerPropValue<DATE_TYPE>}
           />
         );
