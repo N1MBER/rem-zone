@@ -1,6 +1,6 @@
 export type Favour = {
-  id: number;
+  id: string;
   name: string;
   description: string;
-  price: string;
+  price: number;
 };

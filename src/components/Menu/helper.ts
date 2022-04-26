@@ -45,9 +45,9 @@ export const getMenuLinks = (userType?: UserType): LinkType[] => {
         ],
       },
       {
-        label: 'Обслуживание',
+        label: 'Услуги',
         icon: IconFunnel,
-        link: '/service',
+        link: '/favours',
       },
       {
         label: 'Склад',

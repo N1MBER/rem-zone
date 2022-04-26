@@ -5,6 +5,7 @@ import { Analytic } from '../../pages/Analytic/Analytic';
 import { PageLayout } from '../Layouts/PageLayout/PageLayout';
 import { Shedule } from '../../pages/Shedule/Shedule';
 import { Staff } from '../../pages/Staff/Staff';
+import { Favours } from '../../pages/Favours/Favours';
 import { Groups } from '../../pages/Groups/Groups';
 import { Positions } from '../../pages/Positions/Positions';
 import { Worklogs } from '../../pages/Worklogs/Worklogs';
@@ -52,6 +53,10 @@ const paths = (userType?: UserType): Path[] => {
       {
         path: '/staff/worklogs',
         component: Worklogs,
+      },
+      {
+        path: '/favours',
+        component: Favours,
       },
     ];
   }
