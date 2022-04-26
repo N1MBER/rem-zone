@@ -6,7 +6,9 @@ import { Job } from '../../../../types/timetable';
 
 // Jobs
 
-export const getJobs = (query: BaseListRequest): AxiosPromise<Job[]> => {
+export const getJobs = (
+  query: BaseListRequest & { start: string; end: string }
+): AxiosPromise<Job[]> => {
   return instance.get(endpoints.jobs.jobs, {
     params: query,
   });

@@ -12,6 +12,7 @@ import { ScheduleTaskModal } from './ScheduleTaskModal/ScheduleTaskModal';
 import { getRandomColor } from './helper';
 import { toast } from '../../utils/toast/toast';
 import { BigCalendar } from '../../components/BigCalendar/BigCalendar';
+import { getJobs } from '../../utils/api/routes/jobs/jobs';
 
 const cnShedule = cn('Shedule');
 
@@ -25,12 +26,42 @@ export const Shedule = () => {
   const [tasks, setTasks] = useState<Task[]>(timeTableItems);
   const [visibleTask, setVisibleTask] = useState<Task | undefined>();
   const [showModal, setShowModal] = useFlag();
+  const [loading, setLoading] = useFlag();
 
   const containerRef = useRef<HTMLDivElement>(null);
 
   const addTask = () => {
     setShowModal.on();
   };
+
+  const getJobsList = () => {
+    const start =
+      (Array.isArray(currentDate)
+        ? currentDate[0]
+        : currentDate
+      )?.toISOString() ?? '';
+    const end =
+      (Array.isArray(currentDate)
+        ? currentDate[1]
+        : currentDate
+      )?.toISOString() ?? '';
+    setLoading.on();
+    getJobs({ offset: 0, limit: 100, start, end })
+      .then((res) => {
+        console.log(res);
+        setLoading.off();
+      })
+      .catch(() => {
+        setLoading.off();
+      })
+      .finally(() => {
+        setLoading.off();
+      });
+  };
+
+  useEffect(() => {
+    getJobsList();
+  }, [currentDate]);
 
   const changeTask = (params: {
     type: 'add' | 'remove' | 'update';
@@ -111,6 +142,7 @@ export const Shedule = () => {
       <BigCalendar
         mode={viewMode}
         date={currentDate}
+        loading={loading}
         className={cnShedule('TimeTable')}
       />
       {/* <TimeTable

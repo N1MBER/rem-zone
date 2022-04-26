@@ -1,7 +1,6 @@
 export type BaseListRequest = {
   limit?: number;
   offset?: number;
-  // page?: number;
 };
 
 export type BaseListResponse<T> = {
