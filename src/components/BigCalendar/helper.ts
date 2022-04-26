@@ -10,8 +10,8 @@ export type BigCalendarEvent<TYPE> = {
 };
 
 export type BigCalendarResource = {
-  id: number | string;
-  title: string;
+  resourceId: number | string;
+  resourceTitle: string;
 };
 
 type JobGroup = {
@@ -61,6 +61,15 @@ export const getUniqueJobGroup = (items: Job[]): JobGroup[] => {
         title: 'Не определены',
       };
     }
+  });
+  Object.keys(object).forEach((key) => {
+    array.push({
+      items: object[key].items,
+      group: {
+        resourceId: key,
+        resourceTitle: object[key].title,
+      },
+    });
   });
 
   return array;

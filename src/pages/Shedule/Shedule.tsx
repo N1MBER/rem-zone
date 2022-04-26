@@ -1,11 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Card } from '@consta/uikit/Card';
-import { ViewMode } from '../../types/timetable';
+import { Job, ViewMode } from '../../types/timetable';
 import { SheduleHeader } from './SheduleHeader/SheduleHeader';
 import { cn } from '../../__private__/utils/bem';
 import './Shedule.scss';
 import { SheduleTimeLine } from './SheduleTimeLine/SheduleTimeLine';
-// import { timeTableItems } from '../../components/TimeTable/__mocks__/mock.data';
 import { Task } from '../../types/schedule';
 import { useFlag } from '@consta/uikit/useFlag';
 import { CustomJob, jobsCreate } from './helper';
@@ -24,7 +23,7 @@ export const Shedule = () => {
   const [currentDate, setCurrentDate] = useState<
     Date | [Date, Date] | undefined
   >();
-  // const [tasks, setTasks] = useState<Task[]>(timeTableItems);
+  const [tasks, setTasks] = useState<Job[]>();
   const [visibleTask, setVisibleTask] = useState<Task | undefined>();
   const [showModal, setShowModal] = useFlag();
   const [loading, setLoading] = useFlag();
@@ -47,8 +46,9 @@ export const Shedule = () => {
         : currentDate
       )?.toISOString() ?? '';
     setLoading.on();
-    getJobs({ offset: 0, limit: 100, start, end })
+    getJobs({ offset: 0, limit: 200, start, end })
       .then((res) => {
+        setTasks(res.data.results);
         console.log(res);
         setLoading.off();
       })
@@ -153,6 +153,7 @@ export const Shedule = () => {
       <BigCalendar
         mode={viewMode}
         date={currentDate}
+        items={tasks}
         loading={loading}
         className={cnShedule('TimeTable')}
       />

@@ -57,17 +57,17 @@ export const BigCalendar = (props: Props) => {
 
   const max = useMemo(() => {
     const date = new Date();
-    date.setHours(21);
+    date.setHours(23);
     date.setMinutes(0);
     return maxDate ?? date;
   }, [maxDate]);
 
   const data = useMemo(() => {
     const elements = getUniqueJobGroup(items);
-    const events: BigCalendarEvent<Job>[] = [];
+    let events: BigCalendarEvent<Job>[] = [];
     const resources: BigCalendarResource[] = [];
     elements.forEach((el) => {
-      events.concat(el.items);
+      events = events.concat(el.items);
       resources.push(el.group);
     });
     return {
@@ -87,9 +87,10 @@ export const BigCalendar = (props: Props) => {
         className={cnBigCalendar('Container')}
         localizer={localizer}
         events={data.events}
-        resources={data.resources}
+        resources={mode === 'day' ? data.resources : undefined}
         onRangeChange={onChangeDate}
         view={mode}
+        resourceIdAccessor="resourceId"
         date={Array.isArray(date) ? date[0] : date}
         components={{
           week: {

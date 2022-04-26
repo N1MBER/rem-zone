@@ -1,14 +1,14 @@
 import { AxiosPromise } from 'axios';
 import { instance } from '../..';
 import { endpoints } from '../../endpoints/endpoints';
-import { BaseListRequest } from '../../types';
+import { BaseListRequest, BaseListResponse } from '../../types';
 import { Job } from '../../../../types/timetable';
 
 // Jobs
 
 export const getJobs = (
   query: BaseListRequest & { start: string; end: string }
-): AxiosPromise<Job[]> => {
+): AxiosPromise<BaseListResponse<Job>> => {
   return instance.get(endpoints.jobs.jobs, {
     params: query,
   });
