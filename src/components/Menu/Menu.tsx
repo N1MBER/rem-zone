@@ -39,12 +39,12 @@ export const Menu = (props: Props) => {
           {image ? (
             <img
               src={image}
-              alt={user?.first_name[0]}
+              alt={user?.first_name?.[0]}
               className={cnMenu('Image')}
             />
           ) : (
             <Text size="xl" lineHeight="m" view="brand">
-              {`${user?.first_name[0] ?? '???'}`}
+              {`${user?.first_name?.[0] ?? '???'}`}
             </Text>
           )}
         </div>
@@ -60,7 +60,7 @@ export const Menu = (props: Props) => {
             view="secondary"
             className={cnMenu('Position')}
           >
-            {convertGroupToString(user?.groups[0])}
+            {convertGroupToString(user?.groups?.[0])}
           </Text>
         </div>
       </div>

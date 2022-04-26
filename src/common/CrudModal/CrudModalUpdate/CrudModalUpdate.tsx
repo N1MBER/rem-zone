@@ -5,6 +5,10 @@ import { cn } from '../../../__private__/utils/bem';
 import { Button } from '@consta/uikit/Button';
 import { TextField, TextFieldPropValue } from '@consta/uikit/TextField';
 import { Combobox } from '@consta/uikit/Combobox';
+import {
+  DatePicker,
+  DatePickerPropValue,
+} from '@consta/uikit/DatePickerCanary';
 
 import './CrudModalUpdate.scss';
 
@@ -79,21 +83,37 @@ export const CrudModalUpdate = <TYPE,>(props: CrudModalUpdateProps<TYPE>) => {
             />
           );
         }
+        if (type === 'select') {
+          return (
+            // @ts-ignore
+            <Combobox
+              label={(label ?? key).toString()}
+              placeholder={(label ?? key).toString()}
+              size="m"
+              key={`${cnCrudModalUpdate()}-${index}`}
+              items={list ?? []}
+              labelPosition="top"
+              getItemLabel={getItemLabel ?? defaultGetter}
+              getItemKey={getItemKey ?? defaultGetter}
+              // @ts-ignore
+              value={data[key] as TYPE}
+              multiple={multiple}
+              style={{ zIndex: 10000 }}
+              onChange={({ value }) => handleChange(value, key.toString())}
+            />
+          );
+        }
+        type DATE_TYPE = typeof type;
         return (
-          // @ts-ignore
-          <Combobox
+          <DatePicker
+            type={type}
             key={`${cnCrudModalUpdate()}-${index}`}
             label={(label ?? key).toString()}
             placeholder={(label ?? key).toString()}
             size="m"
-            items={list ?? []}
-            getItemLabel={getItemLabel ?? defaultGetter}
-            getItemKey={getItemKey ?? defaultGetter}
-            // @ts-ignore
-            value={data[key] as TYPE}
-            multiple={multiple}
             style={{ zIndex: 10000 }}
             onChange={({ value }) => handleChange(value, key.toString())}
+            value={data[key as string] as DatePickerPropValue<DATE_TYPE>}
           />
         );
       })}

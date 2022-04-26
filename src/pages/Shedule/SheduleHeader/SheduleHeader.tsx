@@ -70,16 +70,23 @@ export const SheduleHeader = (props: Props) => {
         </div>
         <div className={cnSheduleHeader('View')}>
           <Button
+            label="Месяц"
+            size="xs"
+            view={viewMode === 'month' ? 'secondary' : 'ghost'}
+            onClick={() => changeViewMode?.('month')}
+            iconLeft={viewMode === 'month' ? IconCheck : undefined}
+          />
+          <Button
             label="Неделя"
             size="xs"
-            view={viewMode !== 'week' ? 'ghost' : 'secondary'}
+            view={viewMode === 'week' ? 'secondary' : 'ghost'}
             onClick={() => changeViewMode?.('week')}
             iconLeft={viewMode === 'week' ? IconCheck : undefined}
           />
           <Button
             label="День"
             size="xs"
-            view={viewMode !== 'day' ? 'ghost' : 'secondary'}
+            view={viewMode === 'day' ? 'secondary' : 'ghost'}
             onClick={() => changeViewMode?.('day')}
             iconLeft={viewMode === 'day' ? IconCheck : undefined}
           />

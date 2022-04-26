@@ -105,7 +105,9 @@ export const StaffTable = (props: Props) => {
       accessor: 'first_name',
       width: 150,
       renderCell: (row) =>
-        `${row.last_name} ${row.first_name[0]}.${row.patronomic[0]}.`,
+        row.last_name
+          ? `${row.last_name} ${row.first_name?.[0]}.${row.patronomic?.[0]}.`
+          : '???',
     },
     {
       title: 'Email',
@@ -119,15 +121,20 @@ export const StaffTable = (props: Props) => {
     {
       title: 'Должность',
       accessor: 'position',
-      renderCell: (row) => (
-        <Badge
-          size="s"
-          label={row.position.description}
-          status={
-            row.position.name === 'master-receiver' ? 'success' : 'warning'
-          }
-        />
-      ),
+      renderCell: (row) => {
+        let status: 'error' | 'success' | 'warning' =
+          row.position?.name === 'master-receiver' ? 'success' : 'warning';
+        if (!row.position) {
+          status = 'error';
+        }
+        return (
+          <Badge
+            size="s"
+            label={row.position?.name ?? 'Не определена'}
+            status={status}
+          />
+        );
+      },
     },
     {
       title: 'Ставка час',

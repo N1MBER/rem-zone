@@ -1,14 +1,14 @@
 import { Auto } from '../../../types/auto';
-import { User } from '../../../types/user';
+import { UserDeprecated } from '../../../types/user';
 import { TimeTableDefaultItem } from '../types';
 
-export const executor: User = {
-  userType: 'worker',
+export const executor: UserDeprecated = {
+  userType: 'master-executor',
   name: 'Иванов',
   info: '',
 };
-export const customer: User = {
-  userType: 'customer',
+export const customer: UserDeprecated = {
+  userType: 'master-executor',
   name: 'Владимир',
   info: '',
 };

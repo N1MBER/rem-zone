@@ -1,5 +1,5 @@
 import { Auto } from './auto';
-import { User } from './user';
+import { UserDeprecated } from './user';
 
 type ItemType = 'service' | 'order';
 
@@ -13,9 +13,9 @@ type ItemColor =
 
 export type Task = {
   key: string;
-  executor: User;
+  executor: UserDeprecated;
   color?: ItemColor;
-  customer: User | null;
+  customer: UserDeprecated | null;
   type: ItemType;
   startDate: Date;
   endDate: Date;

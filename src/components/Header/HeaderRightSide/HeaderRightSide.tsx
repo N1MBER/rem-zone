@@ -6,7 +6,7 @@ import { HeaderLogin, HeaderModule } from '@consta/uikit/Header';
 import { ContextMenu } from '@consta/uikit/ContextMenuCanary';
 import { cn } from '../../../__private__/utils/bem';
 import { ThemeName, themes } from '../../../types/theme';
-import { UserLogin } from '../../../types/user';
+import { User } from '../../../types/user';
 import { useFlag } from '@consta/uikit/useFlag';
 import { IconComponent } from '@consta/uikit/__internal__/src/icons/Icon/Icon';
 import { getDataOfTheme } from './helper';
@@ -23,7 +23,7 @@ import { useDispatch } from 'react-redux';
 type Props = {
   isMinified?: boolean;
   isLogged?: boolean;
-  user?: UserLogin;
+  user?: User;
   style?: CSSProperties;
 };
 

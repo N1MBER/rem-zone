@@ -5,13 +5,15 @@ import { SheduleHeader } from './SheduleHeader/SheduleHeader';
 import { cn } from '../../__private__/utils/bem';
 import './Shedule.scss';
 import { SheduleTimeLine } from './SheduleTimeLine/SheduleTimeLine';
-import { TimeTable } from '../../components/TimeTable/TimeTable';
-import { timeTableItems } from '../../components/TimeTable/__mocks__/mock.data';
+// import { timeTableItems } from '../../components/TimeTable/__mocks__/mock.data';
 import { Task } from '../../types/schedule';
 import { useFlag } from '@consta/uikit/useFlag';
-import { ScheduleTaskModal } from './ScheduleTaskModal/ScheduleTaskModal';
-import { getRandomColor } from './helper';
+import { CustomJob, jobsCreate } from './helper';
 import { toast } from '../../utils/toast/toast';
+import { BigCalendar } from '../../components/BigCalendar/BigCalendar';
+import { getJobs, addJob } from '../../utils/api/routes/jobs/jobs';
+import { CrudModal } from '../../common/CrudModal/CrudModal';
+import { AxiosPromise } from 'axios';
 
 const cnShedule = cn('Shedule');
 
@@ -22,9 +24,10 @@ export const Shedule = () => {
   const [currentDate, setCurrentDate] = useState<
     Date | [Date, Date] | undefined
   >();
-  const [tasks, setTasks] = useState<Task[]>(timeTableItems);
+  // const [tasks, setTasks] = useState<Task[]>(timeTableItems);
   const [visibleTask, setVisibleTask] = useState<Task | undefined>();
   const [showModal, setShowModal] = useFlag();
+  const [loading, setLoading] = useFlag();
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -32,52 +35,95 @@ export const Shedule = () => {
     setShowModal.on();
   };
 
-  const changeTask = (params: {
-    type: 'add' | 'remove' | 'update';
-    task: Partial<Task>;
-  }) => {
-    handleCloseModal();
-    const { type, task } = params;
-    const copyTasks = [...tasks];
-    if (type === 'add') {
-      toast.success({
-        title: task.type === 'service' ? 'Обслуживание' : 'Заказ',
-        message: `${
-          task.type === 'service' ? 'Обслуживание' : 'Заказ'
-        } успешно зарегестрировано`,
+  const getJobsList = () => {
+    const start =
+      (Array.isArray(currentDate)
+        ? currentDate[0]
+        : currentDate
+      )?.toISOString() ?? '';
+    const end =
+      (Array.isArray(currentDate)
+        ? currentDate[1]
+        : currentDate
+      )?.toISOString() ?? '';
+    setLoading.on();
+    getJobs({ offset: 0, limit: 100, start, end })
+      .then((res) => {
+        console.log(res);
+        setLoading.off();
+      })
+      .catch(() => {
+        setLoading.off();
+      })
+      .finally(() => {
+        setLoading.off();
       });
-      task.color = getRandomColor();
-      task.key = (tasks.length + 1).toString();
-      copyTasks.push(task as Task);
-    } else {
-      const index = copyTasks.indexOf(
-        copyTasks.filter((item) => item.key === task.key)[0]
-      );
-      copyTasks.splice(index, 1);
-      if (type === 'update') {
-        copyTasks.push(task as Task);
-        toast.warning({
-          title: task.type === 'service' ? 'Обслуживание' : 'Заказ',
-          message: `${
-            task.type === 'service' ? 'Обслуживание' : 'Заказ'
-          } успешно обновлено`,
-        });
-      } else {
-        toast.alert({
-          title: task.type === 'service' ? 'Обслуживание' : 'Заказ',
-          message: `${
-            task.type === 'service' ? 'Обслуживание' : 'Заказ'
-          } успешно удалено`,
-        });
-      }
-    }
-    setTasks(copyTasks);
   };
+
+  useEffect(() => {
+    getJobsList();
+  }, [currentDate]);
+
+  // const changeTask = (params: {
+  //   type: 'add' | 'remove' | 'update';
+  //   task: Partial<Task>;
+  // }) => {
+  //   handleCloseModal();
+  //   const { type, task } = params;
+  //   const copyTasks = [...tasks];
+  //   if (type === 'add') {
+  //     toast.success({
+  //       title: task.type === 'service' ? 'Обслуживание' : 'Заказ',
+  //       message: `${
+  //         task.type === 'service' ? 'Обслуживание' : 'Заказ'
+  //       } успешно зарегестрировано`,
+  //     });
+  //     task.color = getRandomColor();
+  //     task.key = (tasks.length + 1).toString();
+  //     copyTasks.push(task as Task);
+  //   } else {
+  //     const index = copyTasks.indexOf(
+  //       copyTasks.filter((item) => item.key === task.key)[0]
+  //     );
+  //     copyTasks.splice(index, 1);
+  //     if (type === 'update') {
+  //       copyTasks.push(task as Task);
+  //       toast.warning({
+  //         title: task.type === 'service' ? 'Обслуживание' : 'Заказ',
+  //         message: `${
+  //           task.type === 'service' ? 'Обслуживание' : 'Заказ'
+  //         } успешно обновлено`,
+  //       });
+  //     } else {
+  //       toast.alert({
+  //         title: task.type === 'service' ? 'Обслуживание' : 'Заказ',
+  //         message: `${
+  //           task.type === 'service' ? 'Обслуживание' : 'Заказ'
+  //         } успешно удалено`,
+  //       });
+  //     }
+  //   }
+  //   setTasks(copyTasks);
+  // };
 
   const handleCloseModal = () => {
     setShowModal.off();
     setVisibleTask(undefined);
   };
+
+  const createJob = (data: CustomJob) => {
+    const { description, favour, date } = data;
+    return addJob({
+      description,
+      favour,
+      started_at: date[0].toISOString(),
+      ended_at: date[1].toISOString(),
+    });
+  };
+
+  // const changeDate = (date: Date[] | { start: Date; end: Date }) => {
+  //   // if  ()
+  // }
 
   useEffect(() => {
     if (visibleTask) {
@@ -104,20 +150,28 @@ export const Shedule = () => {
         className={cnShedule('TimeLine')}
         onChangeDate={setCurrentDate}
       />
-      <TimeTable
-        type={viewMode}
-        items={tasks}
-        containerRef={containerRef}
-        onItemClick={({ item }) => setVisibleTask(item)}
-        date={Array.isArray(currentDate) ? currentDate[0] : currentDate}
+      <BigCalendar
+        mode={viewMode}
+        date={currentDate}
+        loading={loading}
         className={cnShedule('TimeTable')}
       />
-      <ScheduleTaskModal
-        isOpen={showModal}
+      <CrudModal
+        mode="create"
+        createFunc={
+          createJob as unknown as (data: CustomJob) => AxiosPromise<CustomJob>
+        }
+        title="Создание новой задачи"
         onClose={handleCloseModal}
-        task={visibleTask}
-        type={visibleTask ? 'update' : 'add'}
-        onSubmitTask={(value) => changeTask(value)}
+        isOpen={showModal}
+        items={jobsCreate}
+        successCallback={() => {
+          toast.success('Задача успешно создана');
+          setTimeout(() => document.location.reload(), 1000);
+        }}
+        errorCallback={() => {
+          toast.alert('Ну удалось создать задачу');
+        }}
       />
     </Card>
   );
