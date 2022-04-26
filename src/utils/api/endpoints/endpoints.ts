@@ -15,9 +15,9 @@ export const endpoints = {
     groups: '/users/groups/',
   },
   positions: {
-    positions: '/api/v1/positions/',
+    positions: '/users/staff/positions/',
   },
   worklog: {
-    worklog: '/api/v1/worklogs/',
+    worklog: '/users/staff/worklogs/',
   },
 };
