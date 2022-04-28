@@ -11,7 +11,7 @@ import { BigCalendarHeaderDay } from './BigCalendarHeader/BigCalendarHeaderDay/B
 import { Loader } from '@consta/uikit/Loader';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
-import { getWeek, getMonth } from '../../utils/date/date';
+import { getWeek, getMonth, compareDates } from '../../utils/date/date';
 import {
   BigCalendarEvent,
   BigCalendarResource,
@@ -117,12 +117,13 @@ export const BigCalendar = (props: Props) => {
 
   const resizeEvent = useCallback(
     ({ event, start, end }) => {
+      const allDay = !compareDates(start, end);
       setEvents((prev) => {
         const existing =
           prev.find((ev) => ev.id === event.id) ??
           ({} as BigCalendarEvent<Job>);
         const filtered = prev.filter((ev) => ev.id !== event.id);
-        const res = [...filtered, { ...existing, start, end }];
+        const res = [...filtered, { ...existing, start, end, allDay }];
         changeEvents?.(res, () => setEvents(prev));
         return changeEvents ? res : prev;
       });
@@ -131,12 +132,9 @@ export const BigCalendar = (props: Props) => {
   );
 
   const moveEvent = useCallback(
-    ({ event, start, end, isAllDay: droppedOnAllDaySlot = false }) => {
+    ({ event, start, end }) => {
       const copyEvent = { ...event } as BigCalendarEvent<Job>;
-      const { allDay } = copyEvent;
-      if (!allDay && droppedOnAllDaySlot) {
-        copyEvent.allDay = true;
-      }
+      const allDay = !compareDates(start, end);
 
       setEvents((prev) => {
         const existing =
@@ -153,7 +151,7 @@ export const BigCalendar = (props: Props) => {
 
   const haveAllDay = useMemo(() => {
     return !!events.find((el) => !!el.allDay);
-  }, [events]);
+  }, [events, mode]);
 
   return (
     <div className={cnBigCalendar({ loading, haveAllDay }, [className])}>

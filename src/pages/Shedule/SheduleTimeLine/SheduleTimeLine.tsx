@@ -64,9 +64,8 @@ export function SheduleTimeLine<TYPE extends ViewMode>(props: Props<TYPE>) {
         return true;
       return false;
     });
-    // console.log(activeItem, viewMode, items)
     setActive(activeItem);
-  }, [viewMode, currentDate, typeof currentDate]);
+  }, [viewMode, currentDate, typeof currentDate, items]);
 
   return (
     <div
