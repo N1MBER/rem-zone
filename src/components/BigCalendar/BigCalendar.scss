@@ -30,6 +30,47 @@
         border: none;
     }
 
+    &:not(.BigCalendar_haveAllDay){
+        & .rbc-allday-cell {
+            display: none;
+        }   
+    }
+
+    & .rbc-addons-dnd .rbc-addons-dnd-resize-ns-anchor {
+        z-index: 10;
+
+        &:first-child {
+            top: var(--space-2xs);
+        }
+
+        &:last-child {
+            bottom: var(--space-2xs);
+        }
+    }
+
+    & .rbc-addons-dnd .rbc-addons-dnd-resize-ew-anchor {
+        z-index: 10;
+        top: calc(50% - 5px);
+
+        &:first-child {
+            left: var(--space-3xs);
+        }
+
+        &:last-child {
+            right: var(--space-3xs);
+        }
+    }
+
+    & .rbc-event {
+        padding: 0;
+        border: none;
+        background: transparent;
+
+        &-label {
+            display: none;
+        }
+    }
+
     & * {
         font-family: var(--font-primary);
     }
@@ -43,8 +84,10 @@
         border: none;
     }
 
-    & .rbc-row-content {
-
+    & .rbc-events-container {
+        width: 100%;
+        box-sizing: border-box;
+        padding: var(--space-xs) 0;
     }
 
     & .rbc-date-cell {
@@ -90,7 +133,9 @@
 
     & .rbc-time {
         &-header {
-            height: 64px;
+            &, &-cell {
+                min-height: 64px;
+            }
         }
 
         &-gutter {
@@ -174,13 +219,17 @@
 
     & .rbc-month {
         &-header {
-            height: 64px;
+            min-height: 64px;
             min-width: 700px;
         }
 
         &-view {
             border: none;
             border-top: none;
+
+            // & .rbc-event {
+            //     width: calc(100% - 2 * var(--space-xs));
+            // }
 
             & .rbc-row {
                 min-width: 700px;
@@ -229,6 +278,10 @@
         }
     }
 
+    & .rbc-allday-cell {
+        border-bottom: 1px solid var(--color-control-bg-border-default);
+    }
+
     & .rbc-current-time-indicator {
         height: var(--space-3xs);
         background: var(--color-bg-normal);
@@ -245,7 +298,7 @@
     }
 
     & .rbc-header {
-        height: 64px;
+        min-height: 64px;
         padding-left: var(--space-xl);
         padding-right: var(--space-xl);
         padding-bottom: var(--space-2xs);

@@ -119,7 +119,12 @@ export const FavoursTable = (props: Props) => {
 
   return (
     <>
-      <BaseTable className={cnFavoursTable()} columns={columns} data={data} />
+      <BaseTable
+        stickyColumns={2}
+        className={cnFavoursTable()}
+        columns={columns}
+        data={data}
+      />
       {modalType === 'edit' ? (
         <CrudModal
           mode="edit"

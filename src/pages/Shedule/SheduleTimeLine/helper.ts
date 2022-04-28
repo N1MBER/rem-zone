@@ -54,5 +54,6 @@ export const getItems: GetItems = (mode, date) => {
       });
     }
   }
+  console.log(array);
   return array;
 };

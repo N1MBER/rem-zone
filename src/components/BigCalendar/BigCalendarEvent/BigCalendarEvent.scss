@@ -1,0 +1,78 @@
+@import "../../../assets/styles/mixins.scss";
+
+.BigCalendarEvent {
+    background: var(--event-background);
+    height: calc(100% - 2 * 0px);
+    width: calc(100% - 2 * var(--space-xs));
+    @include flex-start();
+    flex-direction: column;
+    padding: var(--space-xs);
+    margin:0 var(--space-xs);
+    box-sizing: border-box;
+    border-radius: var(--control-radius);
+    position: relative;
+    overflow-y: hidden;
+    cursor: move;
+
+    &-Container {
+        @include flex-start();
+        flex-direction: column;
+        overflow-y: hidden;
+    }
+
+    &_mode {
+        &_short {
+            padding-top: 0;
+            padding-bottom: 0;
+            justify-content: space-between;
+            flex-direction: row;
+            align-items: center;
+
+            & .BigCalendarEvent-Container {
+                height: 100%;
+                justify-content: space-between;
+                flex-direction: row;
+                align-items: center;
+            }
+
+
+            & .BigCalendarEvent-InfoButton {
+                position: relative;
+                bottom: 0;
+                right: 0;
+            }
+        }
+    }
+
+    &_type {
+        &_month {
+            width: 100%;
+            margin: 0;
+        }
+    }
+
+
+    & .Text, & .Button {
+        color: #FFF;
+    }
+
+    &-InfoButton {
+        position: absolute;
+        @include clear();
+        @include flex-center();
+        color: #FFF !important;
+        background: var(--event-background);
+        border-radius: 50%;
+        border: 1px solid #FFF;
+        width: var(--space-m);
+        height: var(--space-m);
+        cursor: pointer;
+        bottom: var(--space-xs);
+        right: var(--space-xs);
+        transition: opacity 0.3s;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+}

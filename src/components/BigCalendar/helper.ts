@@ -1,11 +1,12 @@
 import { Job } from '../../types/timetable';
 
 export type BigCalendarEvent<TYPE> = {
+  id: string;
   title: string;
   start: Date;
   end: Date;
   allDay?: boolean;
-  resource?: TYPE;
+  resource: TYPE;
   resourceId?: number | string;
 };
 
@@ -25,10 +26,12 @@ export const convertJobToEvent = (
 ): BigCalendarEvent<Job> => {
   const { started_at, ended_at, description } = item;
   return {
+    id: item.id,
     title: description,
     start: new Date(started_at),
     end: new Date(ended_at),
     resourceId: sortId,
+    resource: item,
   };
 };
 
