@@ -1,3 +1,4 @@
+import { compareDates } from '../../utils/date/date';
 import { Job } from '../../types/timetable';
 
 export type BigCalendarEvent<TYPE> = {
@@ -25,11 +26,15 @@ export const convertJobToEvent = (
   sortId?: number | string
 ): BigCalendarEvent<Job> => {
   const { started_at, ended_at, description } = item;
+  const start = new Date(started_at);
+  const end = new Date(ended_at);
+  const allDay = !compareDates(start, end);
   return {
     id: item.id,
     title: description,
-    start: new Date(started_at),
-    end: new Date(ended_at),
+    start,
+    end,
+    allDay,
     resourceId: sortId,
     resource: item,
   };

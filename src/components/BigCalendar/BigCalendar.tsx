@@ -1,5 +1,16 @@
-import React, { useMemo, useCallback, useState, useEffect } from 'react';
-import { Calendar, CalendarProps, momentLocalizer } from 'react-big-calendar';
+import React, {
+  useMemo,
+  useCallback,
+  useState,
+  useEffect,
+  useRef,
+} from 'react';
+import {
+  Calendar,
+  CalendarProps,
+  momentLocalizer,
+  SlotInfo,
+} from 'react-big-calendar';
 import moment from 'moment';
 import { cn } from '../../__private__/utils/bem';
 
@@ -30,8 +41,10 @@ const localizer = momentLocalizer(moment);
 
 const cnBigCalendar = cn('BigCalendar');
 
+type Range = { start: Date; end: Date };
+
 type ChangeDate = (
-  date: Date[] | { start: Date; end: Date },
+  date: Date[] | Range,
   view?: ViewMode | 'work_week' | 'agenda'
 ) => void;
 
@@ -50,6 +63,9 @@ type Props = {
   changeView?: (view: ViewMode) => void;
   changeDate?: (date: [Date, Date]) => void;
   loading?: boolean;
+  onCellClick?: (slot: SlotInfo) => void;
+  onCellSelect?: (range: Range) => void;
+  onEventClick?: (event: BigCalendarEvent<Job>) => void;
 };
 
 export const BigCalendar = (props: Props) => {
@@ -65,6 +81,9 @@ export const BigCalendar = (props: Props) => {
     changeView,
     changeEvents,
     changeDate,
+    onEventClick,
+    onCellClick,
+    onCellSelect,
   } = props;
 
   const [events, setEvents] = useState<BigCalendarEvent<Job>[]>([]);
@@ -153,6 +172,29 @@ export const BigCalendar = (props: Props) => {
     return !!events.find((el) => !!el.allDay);
   }, [events, mode]);
 
+  const clickRef = useRef<number>(0);
+
+  useEffect(() => {
+    return () => {
+      window.clearTimeout(clickRef?.current);
+    };
+  }, []);
+
+  const onSelectSlot = (slotInfo: SlotInfo) => {
+    clearTimeout(clickRef?.current);
+    clickRef.current = window.setTimeout(() => {
+      onCellClick?.(slotInfo);
+    }, 500);
+  };
+
+  const onSelecting = useCallback((range: Range): boolean | undefined => {
+    window.clearTimeout(clickRef?.current);
+    clickRef.current = window.setTimeout(() => {
+      onCellSelect?.(range);
+    }, 250);
+    return true;
+  }, []);
+
   return (
     <div className={cnBigCalendar({ loading, haveAllDay }, [className])}>
       {loading && (
@@ -171,7 +213,11 @@ export const BigCalendar = (props: Props) => {
         // @ts-ignore
         onEventResize={resizeEvent}
         onEventDrop={moveEvent}
+        selectable
         onNavigate={handleChangeDate}
+        onSelectEvent={(data) => onEventClick?.(data as BigCalendarEvent<Job>)}
+        onSelecting={onSelecting}
+        onSelectSlot={onSelectSlot}
         onView={(view) => changeView?.(view as ViewMode)}
         resourceIdAccessor={() => 'resourceId'}
         date={Array.isArray(date) ? date[0] : date}

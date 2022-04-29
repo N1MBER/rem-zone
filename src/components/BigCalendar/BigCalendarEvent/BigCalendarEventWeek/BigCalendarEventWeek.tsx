@@ -15,7 +15,7 @@ import '../BigCalendarEvent.scss';
 
 export const BigCalendarEventWeek = (props: EventProps<Event>) => {
   const {
-    event: { start: startProp, end: endProp, resource },
+    event: { start: startProp, end: endProp, resource, allDay },
   } = props;
   const { description, master = {} as User, status } = (resource ?? {}) as Job;
 
@@ -60,9 +60,9 @@ export const BigCalendarEventWeek = (props: EventProps<Event>) => {
           <Text weight="regular" size="xs" lineHeight="s">
             Время выполнения:{' '}
             <b>
-              {`${moment(startProp).format('HH:mm')} - ${moment(endProp).format(
-                'HH:mm'
-              )}`}
+              {`${moment(startProp).format(
+                allDay ? 'DD:MM HH:mm' : 'HH:mm'
+              )} - ${moment(endProp).format(allDay ? 'DD:MM HH:mm' : 'HH:mm')}`}
             </b>
           </Text>
         )}

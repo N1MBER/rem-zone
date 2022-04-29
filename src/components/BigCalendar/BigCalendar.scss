@@ -1,3 +1,4 @@
+@import '../../assets//styles/mixins.scss';
 @import 'react-big-calendar/lib/sass/styles';
 @import 'react-big-calendar/lib/addons/dragAndDrop/styles'; 
 
@@ -33,7 +34,11 @@
     &:not(.BigCalendar_haveAllDay){
         & .rbc-allday-cell {
             display: none;
-        }   
+        } 
+    }
+
+    & .rbc-event:focus {
+        outline: none;
     }
 
     & .rbc-addons-dnd .rbc-addons-dnd-resize-ns-anchor {
@@ -141,6 +146,17 @@
         &-gutter {
             width: 64px;
             background: var(--color-bg-stripe);
+
+            &::after{
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                z-index: -1;
+                height: 100%;
+                background: var(--color-bg-default);
+            }
 
             & * {
                 border: none;   
@@ -280,6 +296,40 @@
 
     & .rbc-allday-cell {
         border-bottom: 1px solid var(--color-control-bg-border-default);
+        position: relative;
+
+        &::after {
+            position: absolute;
+            top: var(--space-xs);
+            left: var(--space-xs);
+            content: 'Весь день';
+            font-size: var(--size-text-s);
+            color: var(--color-typo-ghost);
+            z-index: 20;
+        }
+
+        & .rbc-addons-dnd-row-body {
+            & > .rbc-row {
+                min-height: 0px;
+
+                & > .rbc-row-segment {
+                    height: 100px;
+                    @include flex-center();
+
+                    & .rbc-event-allday {
+                        & .rbc-addons-dnd-resizable {
+                            & > .rbc-addons-dnd-resize-ew-anchor:first-child {
+                                left: calc(var(--space-xs) + var(--space-3xs));
+                            }
+                
+                            & > .rbc-addons-dnd-resize-ew-anchor:last-child {
+                                right: calc(var(--space-xs) + var(--space-3xs));
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     & .rbc-current-time-indicator {
