@@ -31,6 +31,45 @@
         border: none;
     }
 
+    & .rbc-time-view-resources .rbc-time-header {
+        overflow: visible;
+    }
+
+    & .rbc-time-gutter, & .rbc-time-header-gutter {
+        position: sticky;
+        left: 0;
+        top: 0;
+        z-index: 20;
+
+        &::after{
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: -1;
+            height: 100%;
+            background: var(--color-bg-default);
+        }
+    }
+
+    & .rbc-time-header-gutter{
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 30;
+            height: 100%;
+            background: var(--color-bg-stripe);  
+        }
+
+        &::after {
+            z-index: 21;
+        }
+    }
+
     &:not(.BigCalendar_haveAllDay){
         & .rbc-allday-cell {
             display: none;
@@ -145,17 +184,9 @@
 
         &-gutter {
             width: 64px;
-            background: var(--color-bg-stripe);
-
-            &::after{
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                z-index: -1;
-                height: 100%;
-                background: var(--color-bg-default);
+            
+            & > * {
+                background: var(--color-bg-stripe);
             }
 
             & * {
@@ -305,7 +336,7 @@
             content: 'Весь день';
             font-size: var(--size-text-s);
             color: var(--color-typo-ghost);
-            z-index: 20;
+            z-index: 15;
         }
 
         & .rbc-addons-dnd-row-body {
