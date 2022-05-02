@@ -69,7 +69,6 @@ export const login = createAsyncThunk<unknown, LoginPayloadType>(
       .then(async (res) => {
         const accessExpireTime = 1;
         const refreshExpireTime = 3;
-        ('Ошибка сервера!');
         if (res.data) {
           const { access_token, refresh_token, user } = res.data;
           Cookies.set('access', access_token, { expires: accessExpireTime });
