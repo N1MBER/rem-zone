@@ -13,7 +13,7 @@ export const endpoints = {
   users: {
     staff: '/users/staff/',
     groups: '/users/groups/',
-    clients: '/users/clients',
+    clients: '/users/clients/',
   },
   positions: {
     positions: '/users/staff/positions/',
