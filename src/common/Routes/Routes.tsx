@@ -9,6 +9,7 @@ import { Favours } from '../../pages/Favours/Favours';
 import { Groups } from '../../pages/Groups/Groups';
 import { Positions } from '../../pages/Positions/Positions';
 import { Worklogs } from '../../pages/Worklogs/Worklogs';
+import { Clients } from '../../pages/Clients/Clients';
 import { UserType } from '../../types/user';
 import { RootState } from '../../store/reducers';
 import { useSelector } from 'react-redux';
@@ -37,6 +38,10 @@ const paths = (userType?: UserType): Path[] => {
       {
         path: '/staff',
         component: Staff,
+      },
+      {
+        path: '/clients',
+        component: Clients,
       },
       {
         path: '/timetable',
