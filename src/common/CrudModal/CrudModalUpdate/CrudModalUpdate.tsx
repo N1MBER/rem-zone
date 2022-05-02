@@ -118,7 +118,7 @@ export const CrudModalUpdate = <TYPE,>(props: CrudModalUpdateProps<TYPE>) => {
         );
       })}
       <div className={cnCrudModalUpdate('Buttons')}>
-        <Button label="Создать" onClick={handleClick} />
+        <Button label="Обновить" onClick={handleClick} />
         {onClose && <Button label="Отмена" view="ghost" onClick={onClose} />}
       </div>
     </div>
