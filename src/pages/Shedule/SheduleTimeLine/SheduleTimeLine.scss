@@ -2,9 +2,15 @@
 
 .SheduleTimeLine {
     max-width: var(--time-line-width);
+    @include flex-space-center();
 
-    & .Tabs {
+    & > *:last-child {
+        margin-left: var(--space-2xl);
+    }
+
+    &-Tabs {
         width: 100%;
+        max-width: calc(100% - 64px);
     }
 
     & .TabsTab {
