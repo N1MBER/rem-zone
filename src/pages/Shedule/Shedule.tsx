@@ -7,7 +7,7 @@ import './Shedule.scss';
 import { SheduleTimeLine } from './SheduleTimeLine/SheduleTimeLine';
 import { Task } from '../../types/schedule';
 import { useFlag } from '@consta/uikit/useFlag';
-import { CustomJob, jobsCreate } from './helper';
+import { CustomJob, getStartDate, jobsCreate } from './helper';
 import { toast } from '../../utils/toast/toast';
 import { BigCalendar } from '../../components/BigCalendar/BigCalendar';
 import { getJobs, addJob } from '../../utils/api/routes/jobs/jobs';
@@ -19,31 +19,11 @@ const cnShedule = cn('Shedule');
 
 const services = ['Сервис на Карповке', 'Сервис на Парнасе'];
 
-const mock: Job[] = [
-  {
-    description: 'Что-то',
-    ended_at: '2022-04-30T19:00:00+03:00',
-    favour: 2,
-    id: 'dfde4c6c-364e-4b64-8774-1112a4ad533e',
-    master: {
-      email: 'admin@ad.com',
-      first_name: '',
-      groups: [],
-      is_superuser: true,
-      last_name: '',
-      pk: '85fb7d7c-0e88-45d6-95f9-4d1f9c872010',
-      username: 'admin',
-    },
-    started_at: '2022-04-29T12:00:00+03:00',
-    status: 'Открыта',
-  },
-];
-
 export const Shedule = () => {
   const [viewMode, setViewMode] = useState<ViewMode>('week');
   const [currentDate, setCurrentDate] = useState<
     Date | [Date, Date] | undefined
-  >();
+  >(getStartDate('week'));
   const [tasks, setTasks] = useState<Job[]>();
   const [visibleTask, setVisibleTask] = useState<Task | undefined>();
   const [showModal, setShowModal] = useFlag();
@@ -185,7 +165,7 @@ export const Shedule = () => {
       <BigCalendar
         mode={viewMode}
         date={currentDate}
-        items={mock ?? tasks}
+        items={tasks}
         changeEvents={handleChangeEvents}
         changeView={setViewMode}
         loading={loading}

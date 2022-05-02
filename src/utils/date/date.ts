@@ -48,6 +48,15 @@ type ResponseMonth<TYPE> = TYPE extends false
       endMonth: Date;
     };
 
+export const resetDateTime = (date: Date, mode?: 'start' | 'end') => {
+  const copyDate = new Date(date.getTime());
+  copyDate.setHours(mode === 'end' ? 23 : 0);
+  copyDate.setMinutes(mode === 'end' ? 59 : 0);
+  copyDate.setSeconds(mode === 'end' ? 59 : 0);
+  copyDate.setMilliseconds(mode === 'end' ? 999 : 0);
+  return copyDate;
+};
+
 export function getWeek<TYPE extends boolean>(params: {
   date: Date;
   dateMode?: TYPE;
@@ -56,8 +65,10 @@ export function getWeek<TYPE extends boolean>(params: {
   const startOfWeek = moment(date).startOf('isoWeek');
   const endOfWeek = moment(date).endOf('isoWeek');
   return {
-    startWeek: dateMode ? startOfWeek.toDate() : startOfWeek,
-    endWeek: dateMode ? endOfWeek.toDate() : endOfWeek,
+    startWeek: dateMode
+      ? resetDateTime(startOfWeek.toDate(), 'start')
+      : startOfWeek,
+    endWeek: dateMode ? resetDateTime(endOfWeek.toDate(), 'end') : endOfWeek,
   } as ResponseWeek<TYPE>;
 }
 
@@ -69,7 +80,9 @@ export function getMonth<TYPE extends boolean>(params: {
   const startOfMonth = moment(date).startOf('month');
   const endOfMonth = moment(date).endOf('month');
   return {
-    startMonth: dateMode ? startOfMonth.toDate() : startOfMonth,
-    endMonth: dateMode ? endOfMonth.toDate() : endOfMonth,
+    startMonth: dateMode
+      ? resetDateTime(startOfMonth.toDate(), 'start')
+      : startOfMonth,
+    endMonth: dateMode ? resetDateTime(endOfMonth.toDate(), 'end') : endOfMonth,
   } as ResponseMonth<TYPE>;
 }
