@@ -66,3 +66,12 @@ export type Worklog = {
   timeworked: string;
   user: string;
 };
+
+export type Client = {
+  id: string;
+  first_name: string;
+  last_name: string;
+  patronomic: string;
+  phone_number: string;
+  created_at: string;
+};

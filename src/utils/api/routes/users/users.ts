@@ -1,4 +1,4 @@
-import { StaffGroup, Staff, StaffData } from '../../../../types/user';
+import { StaffGroup, Staff, StaffData, Client } from '../../../../types/user';
 import { AxiosPromise } from 'axios';
 import { instance } from '../..';
 import { endpoints } from '../../endpoints/endpoints';
@@ -62,4 +62,33 @@ export const getGroup = (id: string): AxiosPromise<StaffGroup> => {
 
 export const deleteGroup = (id: string): AxiosPromise => {
   return instance.delete(`${endpoints.users.groups}${id}/`);
+};
+
+// Clients
+
+export const getClients = (query: BaseListRequest): AxiosPromise<Client[]> => {
+  return instance.get(endpoints.users.clients, {
+    params: query,
+  });
+};
+
+export const addClient = (
+  data: Omit<Client, 'id' | 'created_at'>
+): AxiosPromise<Client> => {
+  return instance.post(endpoints.users.clients, { ...data });
+};
+
+export const updateClient = (
+  data: Omit<Client, 'id' | 'created_at'>,
+  id: string
+): AxiosPromise<Client> => {
+  return instance.put(`${endpoints.users.clients}${id}/`, { ...data });
+};
+
+export const getClient = (id: string): AxiosPromise<Client> => {
+  return instance.get(`${endpoints.users.clients}${id}/`);
+};
+
+export const deleteClient = (id: string): AxiosPromise => {
+  return instance.delete(`${endpoints.users.clients}${id}/`);
 };
