@@ -10,7 +10,7 @@ import { Worklogs } from '../../pages/Worklogs/Worklogs';
 import { Clients } from '../../pages/Clients/Clients';
 import { UserType } from '../../types/user';
 import { RootState } from '../../store/reducers';
-import { SkeletonPage } from '../SkeletonPage/SkeletonPage';
+import { SkeletonPage } from '../Skeleton/SkeletonPage/SkeletonPage';
 import { useSelector } from 'react-redux';
 
 const Analytic = React.lazy(() => import('../../pages/Analytic/Analytic'));

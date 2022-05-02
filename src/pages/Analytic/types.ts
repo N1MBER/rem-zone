@@ -4,6 +4,6 @@ import { DonutItem as ChartDonutItem } from '../../components/Charts/ChartDonut/
 import { Props as AnalyticInfo } from './AnalyticCard/AnalyticCard';
 
 export type AnalyticData = {
-  worklogData: ChartDonutItem[];
-  analytic: Required<AnalyticInfo>;
+  worklogData?: ChartDonutItem[] | boolean;
+  analytic?: Required<AnalyticInfo> | boolean;
 };

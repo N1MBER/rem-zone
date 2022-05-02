@@ -66,7 +66,9 @@ export const deleteGroup = (id: string): AxiosPromise => {
 
 // Clients
 
-export const getClients = (query: BaseListRequest): AxiosPromise<Client[]> => {
+export const getClients = (
+  query: BaseListRequest & { newest?: boolean }
+): AxiosPromise<BaseListResponse<Client>> => {
   return instance.get(endpoints.users.clients, {
     params: query,
   });

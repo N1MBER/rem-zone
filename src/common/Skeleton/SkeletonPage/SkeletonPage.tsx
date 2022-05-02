@@ -5,7 +5,7 @@ import {
   SkeletonCircle,
   SkeletonText,
 } from '@consta/uikit/Skeleton';
-import { cn } from '../../__private__/utils/bem';
+import { cn } from '../../../__private__/utils/bem';
 
 import './SkeletonPage.scss';
 

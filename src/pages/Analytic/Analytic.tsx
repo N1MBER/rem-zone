@@ -7,13 +7,17 @@ import { radarData } from '../../components/Charts/ChartRadar/__mocks__/mock.dat
 import { columnData } from '../../components/Charts/ChartColumn/__mocks__/mock.data';
 import { ChartColumn } from '../../components/Charts/ChartColumn/ChartColumn';
 import { Card } from '@consta/uikit/Card';
+import { AnalyticCard } from './AnalyticCard/AnalyticCard';
+import { useAnalytic } from './useAnalytic';
+import { SkeletonCard } from '../../common/Skeleton/SkeletonCard/SkeletonCard';
 
 import './Analytic.scss';
-import { AnalyticCard } from './AnalyticCard/AnalyticCard';
 
 const cnAnalytic = cn('Analytic');
 
 const Analytic = () => {
+  const { analytic } = useAnalytic();
+
   return (
     <main className={cnAnalytic()}>
       <Card verticalSpace="2xl" horizontalSpace="2xl">
@@ -23,7 +27,7 @@ const Analytic = () => {
           style={{ width: 245, height: 245 }}
         />
       </Card>
-      <AnalyticCard />
+      {analytic ? <AnalyticCard /> : <SkeletonCard />}
       <Card verticalSpace="2xl" horizontalSpace="2xl">
         <ChartRadar
           title="Отработанные часы за месяц"
