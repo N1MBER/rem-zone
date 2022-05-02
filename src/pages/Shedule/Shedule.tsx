@@ -19,7 +19,7 @@ const cnShedule = cn('Shedule');
 
 const services = ['Сервис на Карповке', 'Сервис на Парнасе'];
 
-export const Shedule = () => {
+const Shedule = () => {
   const [viewMode, setViewMode] = useState<ViewMode>('week');
   const [currentDate, setCurrentDate] = useState<
     Date | [Date, Date] | undefined
@@ -189,3 +189,5 @@ export const Shedule = () => {
     </Card>
   );
 };
+
+export default Shedule;

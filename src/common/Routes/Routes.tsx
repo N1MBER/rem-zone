@@ -1,9 +1,7 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, Suspense } from 'react';
 import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import { Auth } from '../../pages/Auth/Auth';
-import { Analytic } from '../../pages/Analytic/Analytic';
 import { PageLayout } from '../Layouts/PageLayout/PageLayout';
-import { Shedule } from '../../pages/Shedule/Shedule';
 import { Staff } from '../../pages/Staff/Staff';
 import { Favours } from '../../pages/Favours/Favours';
 import { Groups } from '../../pages/Groups/Groups';
@@ -12,7 +10,11 @@ import { Worklogs } from '../../pages/Worklogs/Worklogs';
 import { Clients } from '../../pages/Clients/Clients';
 import { UserType } from '../../types/user';
 import { RootState } from '../../store/reducers';
+import { SkeletonPage } from '../SkeletonPage/SkeletonPage';
 import { useSelector } from 'react-redux';
+
+const Analytic = React.lazy(() => import('../../pages/Analytic/Analytic'));
+const Shedule = React.lazy(() => import('../../pages/Shedule/Shedule'));
 
 type Props = {
   isAdmin?: boolean;
@@ -122,9 +124,11 @@ export const Routes = (props: Props) => {
         {paths(userType).map((route, index) => {
           const Component = route.component;
           return (
-            <Route path={route.path} key={`Route-${index}`} exact>
-              <Component />
-            </Route>
+            <Suspense fallback={<SkeletonPage />}>
+              <Route path={route.path} key={`Route-${index}`} exact>
+                <Component />
+              </Route>
+            </Suspense>
           );
         })}
         <Route strict path="/">

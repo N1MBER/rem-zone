@@ -13,7 +13,7 @@ import { AnalyticCard } from './AnalyticCard/AnalyticCard';
 
 const cnAnalytic = cn('Analytic');
 
-export const Analytic = () => {
+const Analytic = () => {
   return (
     <main className={cnAnalytic()}>
       <Card verticalSpace="2xl" horizontalSpace="2xl">
@@ -47,3 +47,5 @@ export const Analytic = () => {
     </main>
   );
 };
+
+export default Analytic;
