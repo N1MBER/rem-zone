@@ -77,7 +77,7 @@ export const BigCalendar = (props: Props) => {
     date,
     onChangeDate,
     loading,
-    items = [],
+    items,
     changeView,
     changeEvents,
     changeDate,
@@ -104,15 +104,17 @@ export const BigCalendar = (props: Props) => {
   }, [maxDate]);
 
   useEffect(() => {
-    const elements = getUniqueJobGroup(items);
-    let eventsArr: BigCalendarEvent<Job>[] = [];
-    const resourcesArr: BigCalendarResource[] = [];
-    elements.forEach((el) => {
-      eventsArr = events.concat(el.items);
-      resourcesArr.push(el.group);
-    });
-    setEvents(eventsArr);
-    setResources(resourcesArr);
+    if (Array.isArray(items)) {
+      const elements = getUniqueJobGroup(items);
+      let eventsArr: BigCalendarEvent<Job>[] = [];
+      const resourcesArr: BigCalendarResource[] = [];
+      elements.forEach((el) => {
+        eventsArr = events.concat(el.items);
+        resourcesArr.push(el.group);
+      });
+      setEvents(eventsArr);
+      setResources(resourcesArr);
+    }
   }, [items]);
 
   const eventPropGetter = useCallback(
