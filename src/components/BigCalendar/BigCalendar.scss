@@ -324,6 +324,10 @@
         &-header * {
             text-transform: capitalize;
         }
+
+        &-time-gutter, &-time-header-gutter {
+            border: none;
+        }
     }
 
     & .rbc-allday-cell {

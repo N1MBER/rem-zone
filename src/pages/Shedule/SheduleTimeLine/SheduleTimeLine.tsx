@@ -21,6 +21,7 @@ type Props<TYPE extends ViewMode> = {
   currentDate?: Date;
   className?: string;
   containerRef?: React.RefObject<HTMLDivElement>;
+  onChangeActive?: (dates: ViewDate<TYPE>) => void;
 };
 
 const cnSheduleTimeLine = cn('SheduleTimeLine');
@@ -32,6 +33,7 @@ export function SheduleTimeLine<TYPE extends ViewMode>(props: Props<TYPE>) {
     currentDate,
     className,
     containerRef,
+    onChangeActive,
   } = props;
 
   const items = useMemo(() => {
@@ -73,8 +75,14 @@ export function SheduleTimeLine<TYPE extends ViewMode>(props: Props<TYPE>) {
         return true;
       return false;
     });
+    active?.label !== activeItem?.label &&
+      onChangeActive?.(activeItem?.date as ViewDate<TYPE>);
     setActive(activeItem);
   }, [viewMode, currentDate, typeof currentDate, items]);
+
+  // useEffect(() => {
+  //   active && onChangeDate?.(active.date as ViewDate<TYPE>);
+  // }, [active]);
 
   return (
     <div

@@ -35,22 +35,18 @@ export const Shedule = () => {
     setShowModal.on();
   };
 
-  const getJobsList = () => {
+  const getJobsList = (date?: Date | [Date, Date]) => {
+    const targetDate = date ?? new Date();
     const start =
-      (Array.isArray(currentDate)
-        ? currentDate[0]
-        : currentDate
-      )?.toISOString() ?? '';
+      (Array.isArray(targetDate) ? targetDate[0] : targetDate)?.toISOString() ??
+      '';
     const end =
-      (Array.isArray(currentDate)
-        ? currentDate[1]
-        : currentDate
-      )?.toISOString() ?? '';
+      (Array.isArray(targetDate) ? targetDate[1] : targetDate)?.toISOString() ??
+      '';
     setLoading.on();
     getJobs({ offset: 0, limit: 200, start, end })
       .then((res) => {
         setTasks(res.data.results);
-        console.log(res);
         setLoading.off();
       })
       .catch(() => {
@@ -63,7 +59,7 @@ export const Shedule = () => {
 
   useEffect(() => {
     getJobsList();
-  }, [currentDate]);
+  }, []);
 
   // const changeTask = (params: {
   //   type: 'add' | 'remove' | 'update';
@@ -126,10 +122,7 @@ export const Shedule = () => {
   //   // if  ()
   // }
 
-  const handleChangeEvents = (
-    events: BigCalendarEvent<Job>[]
-    // errorCallback?: () => void
-  ) => {
+  const handleChangeEvents = (events: BigCalendarEvent<Job>[]) => {
     setTasks(
       events
         .filter((item) => item.resource)
@@ -161,6 +154,10 @@ export const Shedule = () => {
         currentDate={Array.isArray(currentDate) ? currentDate[0] : currentDate}
         className={cnShedule('TimeLine')}
         onChangeDate={setCurrentDate}
+        onChangeActive={(dates) => {
+          setCurrentDate(dates);
+          getJobsList(dates);
+        }}
       />
       <BigCalendar
         mode={viewMode}
