@@ -36,6 +36,9 @@ export const BigCalendarEventDay = (props: EventProps<Event>) => {
       if (minutesEnd - minutesStart === 90) {
         return 'medium';
       }
+      if (minutesEnd - minutesStart < 30) {
+        return 'small';
+      }
       return 'full';
     }
     return 'full';
@@ -52,7 +55,7 @@ export const BigCalendarEventDay = (props: EventProps<Event>) => {
         <Text size="s" lineHeight="s" weight="regular">
           {description}
         </Text>
-        {mode !== 'short' && (
+        {mode !== 'short' && mode !== 'small' && (
           <Text weight="regular" size="xs" lineHeight="s">
             Исполнитель:{' '}
             <b>
