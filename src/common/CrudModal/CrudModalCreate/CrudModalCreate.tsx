@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AxiosPromise } from 'axios';
-import { ItemRecord, InputType } from '../types';
+import { ItemRecord, InputType, DefaultValue } from '../types';
 import { cn } from '../../../__private__/utils/bem';
 import { Button } from '@consta/uikit/Button';
 import { TextField, TextFieldPropValue } from '@consta/uikit/TextField';
@@ -15,6 +15,7 @@ import './CrudModalCreate.scss';
 type CrudModalCreateProps<TYPE = Record<string, unknown | undefined>> = {
   createFunc: (data: TYPE) => AxiosPromise<TYPE>;
   items: ItemRecord<TYPE, InputType>[];
+  defaultValues?: DefaultValue<TYPE>[];
   onClose?: () => void;
   successCallback?: (data: unknown) => void;
   errorCallback?: (data: unknown) => void;
@@ -23,7 +24,14 @@ type CrudModalCreateProps<TYPE = Record<string, unknown | undefined>> = {
 const cnCrudModalCreate = cn('CrudModalCreate');
 
 export const CrudModalCreate = <TYPE,>(props: CrudModalCreateProps<TYPE>) => {
-  const { createFunc, items, onClose, successCallback, errorCallback } = props;
+  const {
+    createFunc,
+    defaultValues,
+    items,
+    onClose,
+    successCallback,
+    errorCallback,
+  } = props;
   const [data, setData] = useState<Record<string, unknown>>({});
 
   const handleClick = () => {
@@ -40,6 +48,16 @@ export const CrudModalCreate = <TYPE,>(props: CrudModalCreateProps<TYPE>) => {
         errorCallback?.(e);
       });
   };
+
+  useEffect(() => {
+    const obj: Record<string, unknown> = {};
+    if (defaultValues) {
+      defaultValues.forEach((item) => {
+        obj[item.key as string] = item.value;
+      });
+      setData({ ...data, ...obj });
+    }
+  }, [defaultValues]);
 
   const handleChange = (value: unknown, key: string) => {
     setData({

@@ -28,6 +28,11 @@ export type ItemRecord<ITEM, TYPE> = {
     }
   : {});
 
+export type DefaultValue<ITEM> = {
+  key: keyof ITEM;
+  value: ITEM[keyof ITEM];
+};
+
 export type CrudModalProps<
   MODE extends ModalCrudType,
   TYPE = Record<string, unknown | undefined>
@@ -44,6 +49,7 @@ export type CrudModalProps<
   itemId?: string;
   successCallback?: (data: unknown) => void;
   errorCallback?: (data: unknown) => void;
+  defaultValues?: DefaultValue<TYPE>[];
 } & (MODE extends 'view'
   ? {
       viewFunc: (id: string) => AxiosPromise<TYPE>;

@@ -27,6 +27,7 @@ export const CrudModal = <TYPE,>(
     itemId,
     successCallback,
     errorCallback,
+    defaultValues,
   } = props;
 
   const getContent = () => {
@@ -45,6 +46,7 @@ export const CrudModal = <TYPE,>(
       return (
         <CrudModalCreate
           items={items}
+          defaultValues={defaultValues}
           createFunc={
             createFunc as CrudModalProps<'create', TYPE>['createFunc']
           }
@@ -59,6 +61,7 @@ export const CrudModal = <TYPE,>(
         items={items}
         element={element as TYPE}
         onClose={onClose}
+        defaultValues={defaultValues}
         updateFunc={updateFunc as CrudModalProps<'edit', TYPE>['updateFunc']}
         itemId={itemId as string}
         successCallback={successCallback}
