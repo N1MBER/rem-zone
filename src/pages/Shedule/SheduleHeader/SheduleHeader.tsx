@@ -51,7 +51,7 @@ export const SheduleHeader = (props: Props) => {
         Параметры отображения
       </Text>
       <div className={cnSheduleHeader('Filters', { short: !servicePlace })}>
-        <div className={cnSheduleHeader('Controls')}>
+        <div className={cnSheduleHeader('Controls', { full: !!servicePlace })}>
           {servicePlace && (
             <Select
               size="xs"

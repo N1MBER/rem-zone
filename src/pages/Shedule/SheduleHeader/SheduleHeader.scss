@@ -12,8 +12,12 @@
         margin-top: var(--space-xs);
         @include flex-space-center();
 
+        &_full {
+            justify-content: space-between;
+        }
+
         &_short {
-            justify-content: flex-start;
+            justify-content: flex-end;
         }
     }
 

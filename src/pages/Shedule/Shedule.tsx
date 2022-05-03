@@ -23,8 +23,6 @@ import { resetDateTime } from '../../utils/date/date';
 
 const cnShedule = cn('Shedule');
 
-const services = ['Сервис на Карповке', 'Сервис на Парнасе'];
-
 const Shedule = () => {
   const [viewMode, setViewMode] = useState<ViewMode>('month');
   const [currentDate, setCurrentDate] = useState<
@@ -147,7 +145,6 @@ const Shedule = () => {
         viewMode={viewMode}
         changeViewMode={setViewMode}
         onAddNewTask={addTask}
-        servicePlace={services}
       />
       <SheduleTimeLine
         viewMode={viewMode}
