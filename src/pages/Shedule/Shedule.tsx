@@ -163,6 +163,7 @@ const Shedule = () => {
         resources={resources}
         changeEvent={handleChangeEvent}
         changeView={setViewMode}
+        onCellClick={addTask}
         loading={loading}
         changeDate={setCurrentDate}
         className={cnShedule('TimeTable')}
