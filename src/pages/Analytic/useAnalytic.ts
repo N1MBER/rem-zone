@@ -2,13 +2,21 @@ import { useEffect, useMemo, useState } from 'react';
 import { AnalyticData } from './types';
 import { getClients } from '../../utils/api/routes/users/users';
 import { Props as AnalyticInfo } from './AnalyticCard/AnalyticCard';
-import { getWorklogsAnalytic } from '../../utils/api/routes/analytic/analytic';
+import {
+  getJobsAnalytic,
+  getWorklogsAnalytic,
+} from '../../utils/api/routes/analytic/analytic';
 import { AnalyticWorklog } from '../../utils/api/routes/analytic/types';
 import { DonutItem as ChartDonutItem } from '../../components/Charts/ChartDonut/ChartDonut';
 
 const checkAnalytic = (data: AnalyticInfo): boolean => {
-  const { hours, newClients } = data;
-  return Boolean(hours && newClients);
+  const { hours, newClients, activeTask, completeTask } = data;
+  return (
+    typeof hours !== 'undefined' &&
+    typeof newClients !== 'undefined' &&
+    typeof activeTask !== 'undefined' &&
+    typeof completeTask !== 'undefined'
+  );
 };
 
 const convertWorklogToDonutData = (
@@ -36,6 +44,9 @@ export const useAnalytic = (): AnalyticData => {
   const [newClients, setNewClients] = useState<number | undefined>();
   const [analyticWorklog, setAnalyticWorklog] = useState<
     ChartDonutItem[] | undefined
+  >();
+  const [jobs, setJobs] = useState<
+    { active: number; completed: number } | undefined
   >();
 
   const getNewClients = () => {
@@ -77,17 +88,48 @@ export const useAnalytic = (): AnalyticData => {
       });
   };
 
+  const getJobs = () => {
+    getJobsAnalytic({ limit: 20, offset: 0 })
+      .then(({ data }) => {
+        if (Array.isArray(data)) {
+          const active = data
+            .filter(
+              (item) => item.status === 'Открыта' || item.status === 'В работе'
+            )
+            .map((el) => el.count)
+            .reduce((sum, item) => {
+              return sum + item;
+            });
+          const completed = data
+            .filter((item) => item.status === 'Выполнена')
+            .map((el) => el.count)
+            .reduce((sum, item) => {
+              return sum + item;
+            });
+          setJobs({ active, completed });
+        } else {
+          setJobs({ active: 0, completed: 0 });
+        }
+      })
+      .catch(() => {
+        setJobs({ active: 0, completed: 0 });
+      });
+  };
+
   useEffect(() => {
     getNewClients();
     getWorkTime();
+    getJobs();
   }, []);
 
   const analyticData: AnalyticInfo = useMemo(() => {
     return {
       newClients,
       hours,
+      activeTask: jobs?.active,
+      completeTask: jobs?.completed,
     };
-  }, [newClients, hours]);
+  }, [newClients, hours, jobs]);
 
   return {
     worklogData: analyticWorklog || false,
