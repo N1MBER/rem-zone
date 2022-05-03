@@ -33,6 +33,7 @@ const Shedule = () => {
   const [visibleTask, setVisibleTask] = useState<Task | undefined>();
   const [showModal, setShowModal] = useFlag();
   const [loading, setLoading] = useFlag();
+  const [defaultDate, setDefaultDate] = useState<[Date, Date] | undefined>();
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -163,7 +164,16 @@ const Shedule = () => {
         resources={resources}
         changeEvent={handleChangeEvent}
         changeView={setViewMode}
-        onCellClick={addTask}
+        onCellClick={(data) => {
+          addTask();
+          const date = new Date(data.slots[0].getTime());
+          date.setHours(date.getHours() + 1);
+          setDefaultDate([data.slots[0], date]);
+        }}
+        onCellSelect={(data) => {
+          addTask();
+          setDefaultDate([data.start, data.end]);
+        }}
         loading={loading}
         changeDate={setCurrentDate}
         className={cnShedule('TimeTable')}
@@ -177,6 +187,16 @@ const Shedule = () => {
         onClose={handleCloseModal}
         isOpen={showModal}
         items={jobsCreate}
+        defaultValues={
+          defaultDate
+            ? [
+                {
+                  key: 'date',
+                  value: defaultDate,
+                },
+              ]
+            : []
+        }
         successCallback={() => {
           toast.success('Задача успешно создана');
           setTimeout(() => document.location.reload(), 1000);
