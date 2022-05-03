@@ -65,13 +65,13 @@ export const staffEdit = (
   position: string[]
 ): Array<ItemRecord<StaffData, InputType>> => [
   {
-    key: 'first_name',
-    label: 'Имя',
+    key: 'last_name',
+    label: 'Фамилия',
     type: 'text',
   },
   {
-    key: 'last_name',
-    label: 'Фамилия',
+    key: 'first_name',
+    label: 'Имя',
     type: 'text',
   },
   {

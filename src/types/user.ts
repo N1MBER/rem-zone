@@ -64,7 +64,7 @@ export type StaffData = {
 export type Worklog = {
   id: string;
   timeworked: string;
-  user: string;
+  owner: User;
 };
 
 export type Client = {

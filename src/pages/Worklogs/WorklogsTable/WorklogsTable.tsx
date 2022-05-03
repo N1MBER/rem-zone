@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Worklog, Staff } from '../../../types/user';
+import { Worklog, User } from '../../../types/user';
 import { TableColumn } from '@consta/uikit/Table';
 import { Button } from '@consta/uikit/Button';
 import { IconDocFilled } from '@consta/uikit/IconDocFilled';
@@ -17,7 +17,6 @@ import { ModalCrudType } from '../../../types/setings';
 import { useFlag } from '@consta/uikit/useFlag';
 import { CrudModal } from '../../../common/CrudModal/CrudModal';
 import { worklogCreate, worklogView } from '../helper';
-import { getStaff } from '../../../utils/api/routes/users/users';
 
 type Props = {
   data: Worklog[];
@@ -31,7 +30,6 @@ export const WorklogsTable = (props: Props) => {
   const [modalType, setModalType] = useState<ModalCrudType | undefined>();
   const [showModal, setShowModal] = useFlag();
   const [worklog, setWorklog] = useState<Worklog | undefined>();
-  const [staff, setStaff] = useState<Staff | undefined>();
 
   const deleteWorklog = (id: string) => {
     deleteWorklogFunc(id).then((res) => {
@@ -54,8 +52,9 @@ export const WorklogsTable = (props: Props) => {
       },
     },
     {
-      title: 'ID  сотрудника',
-      accessor: 'user',
+      title: 'Cотрудник',
+      accessor: 'owner',
+      renderCell: (row) => `${row.owner.last_name} ${row.owner.first_name[0]}.`,
     },
     {
       title: '',
@@ -65,9 +64,6 @@ export const WorklogsTable = (props: Props) => {
           setModalType(type);
           setWorklog(row);
           setShowModal.on();
-          getStaff(row.user).then((res) => {
-            setStaff(res.data);
-          });
         };
         return (
           <div className={cnWorklogsTable('Controls')}>
@@ -113,10 +109,7 @@ export const WorklogsTable = (props: Props) => {
           updateFunc={updateWorklog}
           items={worklogCreate}
           element={{
-            user:
-              `${staff?.last_name} ${staff?.first_name[0]}.${staff?.patronomic[0]}.` ??
-              worklog?.user ??
-              '',
+            owner: worklog?.owner ?? ({} as User),
             timeworked: worklog?.timeworked ?? '',
           }}
           title="Изменение рабочего времени"
