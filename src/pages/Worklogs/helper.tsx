@@ -10,7 +10,7 @@ export const worklogCreate: Array<ItemRecord<Omit<Worklog, 'id'>, InputType>> =
       type: 'text',
     },
     {
-      key: 'user',
+      key: 'owner',
       label: 'Сотрудник',
       type: 'text',
     },
@@ -32,8 +32,11 @@ export const worklogView: Array<ItemRecord<Worklog, InputType>> = [
     },
   },
   {
-    key: 'user',
+    key: 'owner',
     label: 'Сотрудник',
     type: 'text',
+    renderValue: (item) => (
+      <>{`${item.owner.last_name} ${item.owner.first_name[0]}.`}</>
+    ),
   },
 ];

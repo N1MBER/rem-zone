@@ -39,15 +39,18 @@ export const staffItem: Array<ItemRecord<Staff, InputType>> = [
     key: 'position',
     label: 'Должность',
     type: 'select',
-    renderValue: (item) => (
-      <Badge
-        size="s"
-        label={item.position.description}
-        status={
-          item.position.name === 'master-receiver' ? 'success' : 'warning'
-        }
-      />
-    ),
+    renderValue: (item) =>
+      item.position ? (
+        <Badge
+          size="s"
+          label={item.position.description}
+          status={
+            item.position.name === 'master-receiver' ? 'success' : 'warning'
+          }
+        />
+      ) : (
+        <>???</>
+      ),
   },
   {
     key: 'salary',
@@ -62,13 +65,13 @@ export const staffEdit = (
   position: string[]
 ): Array<ItemRecord<StaffData, InputType>> => [
   {
-    key: 'first_name',
-    label: 'Имя',
+    key: 'last_name',
+    label: 'Фамилия',
     type: 'text',
   },
   {
-    key: 'last_name',
-    label: 'Фамилия',
+    key: 'first_name',
+    label: 'Имя',
     type: 'text',
   },
   {

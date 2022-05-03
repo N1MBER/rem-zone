@@ -1,0 +1,16 @@
+@import '../../../assets/styles/mixins.scss';
+
+.SkeletonCard {
+    &-Container {
+        margin-top: var(--space-m);
+        width: 100%;
+        @include flex-space-center();
+        min-height: 240px;
+
+        & > .Skeleton {
+            min-width: 50%;
+            min-height: 240px;
+            margin-right: var(--space-2xl);
+        }
+    }
+}

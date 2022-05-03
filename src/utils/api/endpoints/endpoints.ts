@@ -27,4 +27,7 @@ export const endpoints = {
   favours: {
     favours: '/api/v1/favours/',
   },
+  analytic: {
+    worklogs: '/api/v1/analytics/worklogs/',
+  },
 };

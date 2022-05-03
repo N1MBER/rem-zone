@@ -14,9 +14,10 @@ import {
   IconPropView,
 } from '@consta/uikit/__internal__/src/icons/Icon/Icon';
 
-type Props = {
+export type Props = {
   hours?: number;
-  serviceCount?: number;
+  activeTask?: number;
+  completeTask?: number;
   newClients?: number;
   sparesCount?: number;
   orderCount?: number;
@@ -35,9 +36,9 @@ const cnAnalyticCard = cn('AnalyticCard');
 export const AnalyticCard = (props: Props) => {
   const {
     hours = 0,
-    serviceCount = 0,
+    activeTask = 0,
+    completeTask = 0,
     newClients = 0,
-    sparesCount = 0,
     orderCount = 0,
     total = 0,
   } = props;
@@ -51,14 +52,14 @@ export const AnalyticCard = (props: Props) => {
     },
     {
       icon: IconProcessing,
-      label: 'Количество заказов на ремонт',
-      value: serviceCount,
+      label: 'Количество активных задач',
+      value: activeTask,
       color: 'brand',
     },
     {
       icon: IconRuler,
-      label: 'Количество заказов на запчасти',
-      value: sparesCount,
+      label: 'Количество выполненых задач',
+      value: completeTask,
       color: 'warning',
     },
     {

@@ -1,0 +1,33 @@
+@import '../../../assets/styles/mixins.scss';
+
+.SkeletonPage {
+    @include flex-start();
+    width: 100%;
+    flex-direction: column;
+    width: calc(100% - var(--space-4xl));
+    max-width: calc(100% - var(--space-4xl));
+    height: 100%;
+    background: var(--color-bg-default);
+    margin: var(--space-4xl);
+    overflow-x: hidden;
+
+    & > *:not(:last-child) {
+        margin-bottom: var(--space-m);
+    }
+
+    &-Container {
+        @include flex-space-center();
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    &-Element {
+        & > *:first-child {
+            min-width: 160px;
+        }
+        @include flex-center();
+        & > *:not(:last-child) {
+            margin-right: var(--space-xs);
+        }
+    }
+}
