@@ -14,6 +14,7 @@ import { getJobs, addJob } from '../../utils/api/routes/jobs/jobs';
 import { CrudModal } from '../../common/CrudModal/CrudModal';
 import { AxiosPromise } from 'axios';
 import { BigCalendarEvent } from '../../components/BigCalendar/helper';
+import { resetDateTime } from '../../utils/date/date';
 
 const cnShedule = cn('Shedule');
 
@@ -38,11 +39,14 @@ const Shedule = () => {
   const getJobsList = (date?: Date | [Date, Date]) => {
     const targetDate = date ?? new Date();
     const start =
-      (Array.isArray(targetDate) ? targetDate[0] : targetDate)?.toISOString() ??
-      '';
+      resetDateTime(
+        Array.isArray(targetDate) ? targetDate[0] : targetDate
+      )?.toISOString() ?? '';
     const end =
-      (Array.isArray(targetDate) ? targetDate[1] : targetDate)?.toISOString() ??
-      '';
+      resetDateTime(
+        Array.isArray(targetDate) ? targetDate[1] : targetDate,
+        'end'
+      )?.toISOString() ?? '';
     setLoading.on();
     getJobs({ offset: 0, limit: 200, start, end })
       .then((res) => {
@@ -58,7 +62,7 @@ const Shedule = () => {
   };
 
   useEffect(() => {
-    getJobsList();
+    getJobsList(currentDate);
   }, []);
 
   // const changeTask = (params: {
