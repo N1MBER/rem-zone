@@ -78,6 +78,12 @@
         outline: none;
     }
 
+    & .rbc-event.rbc-selected {
+        & .BigCalendarEvent {
+            border: 1px solid var(--color-control-bg-border-focus);
+        }
+    }
+
     & .rbc-addons-dnd .rbc-addons-dnd-resize-ns-anchor {
         z-index: 10;
 
@@ -307,6 +313,10 @@
         }
     }
 
+    & .rbc-show-more {
+        color: var(--color-typo-secondary);
+    }
+
     & .rbc {
         &-toolbar {
             display: none;
@@ -397,5 +407,36 @@
         font-size: var(--size-text-m);
         line-height: var(--line-height-text-s);
         color: var(--color-typo-secondary);
+    }
+}
+
+.rbc-overlay {
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    border: none;
+    border-radius: 4px;
+
+    & > *:not(:last-child) {
+        margin-bottom: 6px;
+    }
+
+    &-header {
+        font-size: 16px;
+        text-transform: capitalize;
+    }
+
+    & .rbc-event {
+        max-height: 48px;
+        font-size: 14px;
+        border-radius: 4px;
+        background-color: rgb(0, 120, 210);
+
+        & .BigCalendarEvent {
+            cursor: pointer;
+            --space-m: 16px;
+
+            // &-InfoButton {
+            //     display: none;
+            // }
+        }
     }
 }

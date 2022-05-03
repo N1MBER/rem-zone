@@ -17,7 +17,7 @@
     &-Container {
         @include flex-start();
         flex-direction: column;
-        overflow-y: hidden;
+        overflow: hidden;
     }
 
     &_mode {
@@ -64,8 +64,11 @@
         background: var(--event-background);
         border-radius: 50%;
         border: 1px solid #FFF;
-        width: var(--space-m);
-        height: var(--space-m);
+        max-width: var(--space-m);
+        min-width: var(--space-m);
+        max-height: var(--space-m);
+        min-height: var(--space-m);
+
         cursor: pointer;
         bottom: var(--space-xs);
         right: var(--space-xs);

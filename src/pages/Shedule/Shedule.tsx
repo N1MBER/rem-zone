@@ -26,10 +26,10 @@ const cnShedule = cn('Shedule');
 const services = ['Сервис на Карповке', 'Сервис на Парнасе'];
 
 const Shedule = () => {
-  const [viewMode, setViewMode] = useState<ViewMode>('week');
+  const [viewMode, setViewMode] = useState<ViewMode>('month');
   const [currentDate, setCurrentDate] = useState<
     Date | [Date, Date] | undefined
-  >(getStartDate('week'));
+  >(getStartDate('month'));
   const [tasks, setTasks] = useState<BigCalendarEvent<Job>[]>();
   const [resources, setResources] = useState<BigCalendarResource[]>();
   const [visibleTask, setVisibleTask] = useState<Task | undefined>();

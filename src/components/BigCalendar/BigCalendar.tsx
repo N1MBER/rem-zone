@@ -109,8 +109,7 @@ export const BigCalendar = (props: Props) => {
   };
 
   const resizeEvent = useCallback(
-    ({ event, start, end, allDay: allDayProp }) => {
-      console.log(start, end, event, allDayProp);
+    ({ event, start, end }) => {
       const allDay = !compareDates(start, end);
       const copyEvent = { ...event } as BigCalendarEvent<Job>;
       copyEvent.start = start;
@@ -122,8 +121,7 @@ export const BigCalendar = (props: Props) => {
   );
 
   const moveEvent = useCallback(
-    ({ event, start, end, allDay: allDayProp }) => {
-      console.log(start, end, event, allDayProp);
+    ({ event, start, end }) => {
       const allDay = !compareDates(start, end);
       const copyEvent = { ...event } as BigCalendarEvent<Job>;
       copyEvent.start = start;
@@ -180,6 +178,7 @@ export const BigCalendar = (props: Props) => {
         onEventResize={resizeEvent}
         onEventDrop={moveEvent}
         selectable
+        popup
         onNavigate={handleChangeDate}
         onSelectEvent={(data) => onEventClick?.(data as BigCalendarEvent<Job>)}
         onSelecting={onSelecting}
