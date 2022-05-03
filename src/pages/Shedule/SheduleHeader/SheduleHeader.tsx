@@ -47,9 +47,11 @@ export const SheduleHeader = (props: Props) => {
           onClick={onAddNewTask}
         />
       </div>
-      <Text view="primary" size="xs" align="left" lineHeight="m">
-        Параметры отображения
-      </Text>
+      {servicePlace && (
+        <Text view="primary" size="xs" align="left" lineHeight="m">
+          Параметры отображения
+        </Text>
+      )}
       <div className={cnSheduleHeader('Filters', { short: !servicePlace })}>
         <div className={cnSheduleHeader('Controls', { full: !!servicePlace })}>
           {servicePlace && (
