@@ -15,7 +15,7 @@ type GetItems = <TYPE extends ViewMode>(
 
 const listSize = {
   day: 30,
-  week: 10,
+  week: 12,
   month: 12,
 };
 
@@ -23,8 +23,10 @@ export const getItems: GetItems = (mode, date) => {
   const listLength = listSize[mode];
   const currentDate = date ?? new Date();
 
+  const initIndex = mode === 'month' ? 0 : -2;
+
   const array: ReturnType<GetItems> = [];
-  for (let index = 0; index < listLength; index++) {
+  for (let index = initIndex; index < listLength + initIndex; index++) {
     if (mode === 'day') {
       const newDate = new Date(currentDate.getTime());
       newDate.setDate(currentDate.getDate() + index);
