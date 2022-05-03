@@ -4,3 +4,8 @@ export type AnalyticWorklog = {
   patronomic: string;
   total_worklogs: string;
 };
+
+export type AnalyticJob = {
+  status: string;
+  count: number;
+};

@@ -29,5 +29,6 @@ export const endpoints = {
   },
   analytic: {
     worklogs: '/api/v1/analytics/worklogs/',
+    jobs: '/api/v1/analytics/jobs/',
   },
 };
