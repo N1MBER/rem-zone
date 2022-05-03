@@ -11,7 +11,7 @@
     box-sizing: border-box;
     border-radius: var(--control-radius);
     position: relative;
-    overflow-y: hidden;
+    overflow: hidden;
     cursor: move;
 
     &-Container {

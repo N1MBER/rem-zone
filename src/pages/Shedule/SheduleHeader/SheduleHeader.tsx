@@ -32,8 +32,8 @@ export const SheduleHeader = (props: Props) => {
     <div className={cnSheduleHeader()}>
       <div className={cnSheduleHeader('Title')}>
         <Text
-          size="xl"
           align="left"
+          size="3xl"
           lineHeight="m"
           view="primary"
           weight="bold"
