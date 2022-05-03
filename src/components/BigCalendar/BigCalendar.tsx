@@ -7,8 +7,6 @@ import {
 } from 'react-big-calendar';
 import moment from 'moment';
 import { cn } from '../../__private__/utils/bem';
-
-import './BigCalendar.scss';
 import { Job, ViewMode } from '../../types/timetable';
 import { BigCalendarHeaderWeek } from './BigCalendarHeader/BigCalendarHeaderWeek/BigCalendarHeaderWeek';
 import { BigCalendarHeaderMonth } from './BigCalendarHeader/BigCalendarHeaderMonth/BigCalendarHeaderMonth';
@@ -21,6 +19,9 @@ import { BigCalendarEvent, BigCalendarResource } from './helper';
 import { BigCalendarEventWeek } from './BigCalendarEvent/BigCalendarEventWeek/BigCalendarEventWeek';
 import { BigCalendarEventDay } from './BigCalendarEvent/BigCalendarEventDay/BigCalendarEventDay';
 import { BigCalendarEventMonth } from './BigCalendarEvent/BigCalendarEventMonth/BigCalendarEventMonth';
+import { useFlag } from '@consta/uikit/useFlag';
+
+import './BigCalendar.scss';
 
 const DnDCalendar = withDragAndDrop(
   Calendar as React.ComponentType<CalendarProps<object, object>>
@@ -74,6 +75,8 @@ export const BigCalendar = (props: Props) => {
     onCellClick,
     onCellSelect,
   } = props;
+
+  const [showPopup, setShowPopup] = useFlag();
 
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -177,6 +180,9 @@ export const BigCalendar = (props: Props) => {
           <Loader size="m" />
         </div>
       )}
+      {showPopup && (
+        <div onClick={setShowPopup.off} className={cnBigCalendar('Overlay')} />
+      )}
       <DnDCalendar
         className={cnBigCalendar('Container')}
         localizer={localizer}
@@ -189,6 +195,7 @@ export const BigCalendar = (props: Props) => {
         onEventResize={resizeEvent}
         onEventDrop={moveEvent}
         selectable
+        onShowMore={setShowPopup.on}
         popup
         onNavigate={handleChangeDate}
         onSelectEvent={(data) => onEventClick?.(data as BigCalendarEvent<Job>)}
