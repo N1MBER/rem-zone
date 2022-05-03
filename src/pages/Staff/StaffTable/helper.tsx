@@ -39,15 +39,18 @@ export const staffItem: Array<ItemRecord<Staff, InputType>> = [
     key: 'position',
     label: 'Должность',
     type: 'select',
-    renderValue: (item) => (
-      <Badge
-        size="s"
-        label={item.position.description}
-        status={
-          item.position.name === 'master-receiver' ? 'success' : 'warning'
-        }
-      />
-    ),
+    renderValue: (item) =>
+      item.position ? (
+        <Badge
+          size="s"
+          label={item.position.description}
+          status={
+            item.position.name === 'master-receiver' ? 'success' : 'warning'
+          }
+        />
+      ) : (
+        <>???</>
+      ),
   },
   {
     key: 'salary',

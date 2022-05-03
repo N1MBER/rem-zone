@@ -2,7 +2,6 @@ import React from 'react';
 import { cn } from '../../__private__/utils/bem';
 import { ChartDonut } from '../../components/Charts/ChartDonut/ChartDonut';
 import { ChartRadar } from '../../components/Charts/ChartRadar/ChartRadar';
-import { donutData } from '../../components/Charts/ChartDonut/__mocks__/mock.data';
 import { radarData } from '../../components/Charts/ChartRadar/__mocks__/mock.data';
 import { columnData } from '../../components/Charts/ChartColumn/__mocks__/mock.data';
 import { ChartColumn } from '../../components/Charts/ChartColumn/ChartColumn';
@@ -16,18 +15,27 @@ import './Analytic.scss';
 const cnAnalytic = cn('Analytic');
 
 const Analytic = () => {
-  const { analytic } = useAnalytic();
+  const { worklogData, analytic } = useAnalytic();
 
   return (
     <main className={cnAnalytic()}>
-      <Card verticalSpace="2xl" horizontalSpace="2xl">
-        <ChartDonut
-          title="Отработанные часы за месяц"
-          items={donutData}
-          style={{ width: 245, height: 245 }}
-        />
-      </Card>
-      {analytic ? <AnalyticCard /> : <SkeletonCard />}
+      {Array.isArray(worklogData) ? (
+        <Card verticalSpace="2xl" horizontalSpace="2xl">
+          <ChartDonut
+            title="Отработанные часы за месяц"
+            items={worklogData}
+            style={{ width: 245, height: 245 }}
+          />
+        </Card>
+      ) : (
+        <SkeletonCard />
+      )}
+
+      {typeof analytic !== 'boolean' ? (
+        <AnalyticCard {...analytic} />
+      ) : (
+        <SkeletonCard />
+      )}
       <Card verticalSpace="2xl" horizontalSpace="2xl">
         <ChartRadar
           title="Отработанные часы за месяц"
