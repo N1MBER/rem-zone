@@ -1,4 +1,4 @@
-@import '../../assets//styles/mixins.scss';
+@import '../../assets/styles/mixins.scss';
 @import 'react-big-calendar/lib/sass/styles';
 @import 'react-big-calendar/lib/addons/dragAndDrop/styles'; 
 
@@ -38,10 +38,7 @@
 
     & .rbc-time-gutter, & .rbc-time-header-gutter {
         position: relative;
-        // left: 0;
-        // top: 0;
-        // z-index: 20;
-
+       
         &::after{
             content: '';
             position: absolute;
@@ -176,6 +173,14 @@
         }
     }
 
+    &_mode {
+        &_week {
+            .rbc-time-header {
+                min-width: 1184px;
+            }
+        }
+    }
+
     & .rbc-time {
         &-header {
             &, &-cell {
@@ -209,7 +214,6 @@
         }
 
         &-header {
-            min-width: 1184px;
             & .rbc-header,
             & .rbc-day-bg,
             & .rbc-row {
@@ -274,10 +278,6 @@
         &-view {
             border: none;
             border-top: none;
-
-            // & .rbc-event {
-            //     width: calc(100% - 2 * var(--space-xs));
-            // }
 
             & .rbc-row {
                 min-width: 700px;

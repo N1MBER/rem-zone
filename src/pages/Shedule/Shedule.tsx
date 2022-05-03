@@ -10,10 +10,15 @@ import { useFlag } from '@consta/uikit/useFlag';
 import { CustomJob, getStartDate, jobsCreate } from './helper';
 import { toast } from '../../utils/toast/toast';
 import { BigCalendar } from '../../components/BigCalendar/BigCalendar';
-import { getJobs, addJob } from '../../utils/api/routes/jobs/jobs';
+import { getJobs, addJob, updateJob } from '../../utils/api/routes/jobs/jobs';
 import { CrudModal } from '../../common/CrudModal/CrudModal';
 import { AxiosPromise } from 'axios';
-import { BigCalendarEvent } from '../../components/BigCalendar/helper';
+import {
+  BigCalendarEvent,
+  BigCalendarResource,
+  getUniqueJobGroup,
+  convertJobToEvent,
+} from '../../components/BigCalendar/helper';
 import { resetDateTime } from '../../utils/date/date';
 
 const cnShedule = cn('Shedule');
@@ -25,7 +30,8 @@ const Shedule = () => {
   const [currentDate, setCurrentDate] = useState<
     Date | [Date, Date] | undefined
   >(getStartDate('week'));
-  const [tasks, setTasks] = useState<Job[]>();
+  const [tasks, setTasks] = useState<BigCalendarEvent<Job>[]>();
+  const [resources, setResources] = useState<BigCalendarResource[]>();
   const [visibleTask, setVisibleTask] = useState<Task | undefined>();
   const [showModal, setShowModal] = useFlag();
   const [loading, setLoading] = useFlag();
@@ -50,62 +56,43 @@ const Shedule = () => {
     setLoading.on();
     getJobs({ offset: 0, limit: 200, start, end })
       .then((res) => {
-        setTasks(res.data.results);
+        const { results } = res.data;
+        const elements = getUniqueJobGroup(results);
+        let eventsArr: BigCalendarEvent<Job>[] = [];
+        const resourcesArr: BigCalendarResource[] = [];
+        elements.forEach((el) => {
+          eventsArr = eventsArr.concat(el.items);
+          resourcesArr.push(el.group);
+        });
+        setTasks(eventsArr);
+        setResources(resourcesArr);
         setLoading.off();
       })
       .catch(() => {
         setLoading.off();
+        setTasks([]);
+        setResources([]);
       })
       .finally(() => {
         setLoading.off();
       });
   };
 
+  const changeEvent = (event: BigCalendarEvent<Job>) => {
+    const prevJob = tasks?.find((el) => el.id === event.resource.id);
+    if (tasks && prevJob) {
+      const copyTasks = [...tasks];
+      copyTasks.splice(copyTasks.indexOf(prevJob), 1);
+      copyTasks.push(event);
+      setTasks(copyTasks);
+    } else {
+      setTasks([event]);
+    }
+  };
+
   useEffect(() => {
     getJobsList(currentDate);
   }, []);
-
-  // const changeTask = (params: {
-  //   type: 'add' | 'remove' | 'update';
-  //   task: Partial<Task>;
-  // }) => {
-  //   handleCloseModal();
-  //   const { type, task } = params;
-  //   const copyTasks = [...tasks];
-  //   if (type === 'add') {
-  //     toast.success({
-  //       title: task.type === 'service' ? 'Обслуживание' : 'Заказ',
-  //       message: `${
-  //         task.type === 'service' ? 'Обслуживание' : 'Заказ'
-  //       } успешно зарегестрировано`,
-  //     });
-  //     task.color = getRandomColor();
-  //     task.key = (tasks.length + 1).toString();
-  //     copyTasks.push(task as Task);
-  //   } else {
-  //     const index = copyTasks.indexOf(
-  //       copyTasks.filter((item) => item.key === task.key)[0]
-  //     );
-  //     copyTasks.splice(index, 1);
-  //     if (type === 'update') {
-  //       copyTasks.push(task as Task);
-  //       toast.warning({
-  //         title: task.type === 'service' ? 'Обслуживание' : 'Заказ',
-  //         message: `${
-  //           task.type === 'service' ? 'Обслуживание' : 'Заказ'
-  //         } успешно обновлено`,
-  //       });
-  //     } else {
-  //       toast.alert({
-  //         title: task.type === 'service' ? 'Обслуживание' : 'Заказ',
-  //         message: `${
-  //           task.type === 'service' ? 'Обслуживание' : 'Заказ'
-  //         } успешно удалено`,
-  //       });
-  //     }
-  //   }
-  //   setTasks(copyTasks);
-  // };
 
   const handleCloseModal = () => {
     setShowModal.off();
@@ -122,16 +109,25 @@ const Shedule = () => {
     });
   };
 
-  // const changeDate = (date: Date[] | { start: Date; end: Date }) => {
-  //   // if  ()
-  // }
-
-  const handleChangeEvents = (events: BigCalendarEvent<Job>[]) => {
-    setTasks(
-      events
-        .filter((item) => item.resource)
-        .map((item) => item.resource) as Job[]
-    );
+  const handleChangeEvent = (event: BigCalendarEvent<Job>) => {
+    const job: Omit<Job, 'id' | 'master' | 'status'> = {
+      description: event.resource.description,
+      started_at: event.start.toISOString(),
+      ended_at: event.end.toISOString(),
+      favour: event.resource.favour,
+    };
+    setLoading.on();
+    changeEvent(event);
+    updateJob(job, event.resource.id)
+      .then((res) => {
+        const newEvent = convertJobToEvent(res.data);
+        changeEvent(newEvent);
+        setLoading.off();
+      })
+      .catch(() => {
+        changeEvent(convertJobToEvent(event.resource));
+        setLoading.off();
+      });
   };
 
   useEffect(() => {
@@ -167,7 +163,8 @@ const Shedule = () => {
         mode={viewMode}
         date={currentDate}
         items={tasks}
-        changeEvents={handleChangeEvents}
+        resources={resources}
+        changeEvent={handleChangeEvent}
         changeView={setViewMode}
         loading={loading}
         changeDate={setCurrentDate}

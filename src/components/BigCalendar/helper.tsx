@@ -16,8 +16,8 @@ export type BigCalendarEvent<TYPE> = {
 };
 
 export type BigCalendarResource = {
-  resourceId: number | string;
-  resourceTitle: string;
+  id: number | string;
+  title: string;
 };
 
 type JobGroup = {
@@ -77,7 +77,7 @@ export const getUniqueJobGroup = (items: Job[]): JobGroup[] => {
       } else {
         object[item.master?.pk] = {
           items: [convertJobToEvent(item, item.master?.pk)],
-          title: item.master?.last_name,
+          title: item.master?.last_name !== '' ? item.master?.last_name : '???',
         };
       }
     } else if (object.none) {
@@ -93,8 +93,8 @@ export const getUniqueJobGroup = (items: Job[]): JobGroup[] => {
     array.push({
       items: object[key].items,
       group: {
-        resourceId: key,
-        resourceTitle: object[key].title,
+        id: key,
+        title: object[key].title,
       },
     });
   });

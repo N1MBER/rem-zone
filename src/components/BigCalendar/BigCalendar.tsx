@@ -1,10 +1,4 @@
-import React, {
-  useMemo,
-  useCallback,
-  useState,
-  useEffect,
-  useRef,
-} from 'react';
+import React, { useMemo, useCallback, useEffect, useRef } from 'react';
 import {
   Calendar,
   CalendarProps,
@@ -23,11 +17,7 @@ import { Loader } from '@consta/uikit/Loader';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import { getWeek, getMonth, compareDates } from '../../utils/date/date';
-import {
-  BigCalendarEvent,
-  BigCalendarResource,
-  getUniqueJobGroup,
-} from './helper';
+import { BigCalendarEvent, BigCalendarResource } from './helper';
 import { BigCalendarEventWeek } from './BigCalendarEvent/BigCalendarEventWeek/BigCalendarEventWeek';
 import { BigCalendarEventDay } from './BigCalendarEvent/BigCalendarEventDay/BigCalendarEventDay';
 import { BigCalendarEventMonth } from './BigCalendarEvent/BigCalendarEventMonth/BigCalendarEventMonth';
@@ -51,18 +41,16 @@ type ChangeDate = (
 type Props = {
   className?: string;
   mode?: ViewMode;
-  changeEvents?: (
-    newEvents: BigCalendarEvent<Job>[],
-    errorCallback: () => void
-  ) => void;
+  changeEvent?: (newEvents: BigCalendarEvent<Job>) => void;
   date?: Date | [Date, Date];
   onChangeDate?: ChangeDate;
-  items?: Job[];
+  items?: BigCalendarEvent<Job>[];
   minDate?: Date;
   maxDate?: Date;
   changeView?: (view: ViewMode) => void;
   changeDate?: (date: [Date, Date]) => void;
   loading?: boolean;
+  resources?: BigCalendarResource[];
   onCellClick?: (slot: SlotInfo) => void;
   onCellSelect?: (range: Range) => void;
   onEventClick?: (event: BigCalendarEvent<Job>) => void;
@@ -77,17 +65,15 @@ export const BigCalendar = (props: Props) => {
     date,
     onChangeDate,
     loading,
+    resources,
     items,
     changeView,
-    changeEvents,
+    changeEvent,
     changeDate,
     onEventClick,
     onCellClick,
     onCellSelect,
   } = props;
-
-  const [events, setEvents] = useState<BigCalendarEvent<Job>[]>([]);
-  const [resources, setResources] = useState<BigCalendarResource[]>([]);
 
   const min = useMemo(() => {
     const date = new Date();
@@ -102,20 +88,6 @@ export const BigCalendar = (props: Props) => {
     date.setMinutes(0);
     return maxDate ?? date;
   }, [maxDate]);
-
-  useEffect(() => {
-    if (Array.isArray(items)) {
-      const elements = getUniqueJobGroup(items);
-      let eventsArr: BigCalendarEvent<Job>[] = [];
-      const resourcesArr: BigCalendarResource[] = [];
-      elements.forEach((el) => {
-        eventsArr = events.concat(el.items);
-        resourcesArr.push(el.group);
-      });
-      setEvents(eventsArr);
-      setResources(resourcesArr);
-    }
-  }, [items]);
 
   const eventPropGetter = useCallback(
     (event) => ({
@@ -137,42 +109,34 @@ export const BigCalendar = (props: Props) => {
   };
 
   const resizeEvent = useCallback(
-    ({ event, start, end }) => {
+    ({ event, start, end, allDay: allDayProp }) => {
+      console.log(start, end, event, allDayProp);
       const allDay = !compareDates(start, end);
-      setEvents((prev) => {
-        const existing =
-          prev.find((ev) => ev.id === event.id) ??
-          ({} as BigCalendarEvent<Job>);
-        const filtered = prev.filter((ev) => ev.id !== event.id);
-        const res = [...filtered, { ...existing, start, end, allDay }];
-        changeEvents?.(res, () => setEvents(prev));
-        return changeEvents ? res : prev;
-      });
+      const copyEvent = { ...event } as BigCalendarEvent<Job>;
+      copyEvent.start = start;
+      copyEvent.end = end;
+      copyEvent.allDay = allDay;
+      changeEvent?.(copyEvent);
     },
-    [changeEvents, setEvents]
+    [changeEvent]
   );
 
   const moveEvent = useCallback(
-    ({ event, start, end }) => {
-      const copyEvent = { ...event } as BigCalendarEvent<Job>;
+    ({ event, start, end, allDay: allDayProp }) => {
+      console.log(start, end, event, allDayProp);
       const allDay = !compareDates(start, end);
-
-      setEvents((prev) => {
-        const existing =
-          prev.find((ev) => ev.id === copyEvent.id) ??
-          ({} as BigCalendarEvent<Job>);
-        const filtered = prev.filter((ev) => ev.id !== copyEvent.id);
-        const res = [...filtered, { ...existing, start, end, allDay }];
-        changeEvents?.(res, () => setEvents(prev));
-        return changeEvents ? res : prev;
-      });
+      const copyEvent = { ...event } as BigCalendarEvent<Job>;
+      copyEvent.start = start;
+      copyEvent.end = end;
+      copyEvent.allDay = allDay;
+      changeEvent?.(copyEvent);
     },
-    [changeEvents, setEvents]
+    [changeEvent]
   );
 
   const haveAllDay = useMemo(() => {
-    return !!events.find((el) => !!el.allDay);
-  }, [events, mode]);
+    return !!items?.find((el) => !!el.allDay);
+  }, [items, mode]);
 
   const clickRef = useRef<number>(0);
 
@@ -198,7 +162,7 @@ export const BigCalendar = (props: Props) => {
   }, []);
 
   return (
-    <div className={cnBigCalendar({ loading, haveAllDay }, [className])}>
+    <div className={cnBigCalendar({ mode, loading, haveAllDay }, [className])}>
       {loading && (
         <div className={cnBigCalendar('Loader')}>
           <Loader size="m" />
@@ -207,7 +171,7 @@ export const BigCalendar = (props: Props) => {
       <DnDCalendar
         className={cnBigCalendar('Container')}
         localizer={localizer}
-        events={events}
+        events={items}
         resources={mode === 'day' ? resources : undefined}
         onRangeChange={onChangeDate}
         eventPropGetter={eventPropGetter}
@@ -221,7 +185,12 @@ export const BigCalendar = (props: Props) => {
         onSelecting={onSelecting}
         onSelectSlot={onSelectSlot}
         onView={(view) => changeView?.(view as ViewMode)}
-        resourceIdAccessor={() => 'resourceId'}
+        // Проблема с типами, так как передавая accessor функцией работать не будет
+        // @ts-ignore
+        resourceIdAccessor="id"
+        // Проблема с типами, так как передавая accessor функцией работать не будет
+        // @ts-ignore
+        resourceTitleAccessor="title"
         date={Array.isArray(date) ? date[0] : date}
         components={{
           week: {
