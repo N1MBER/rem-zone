@@ -1,0 +1,11 @@
+.BigCalendarModal {
+    min-width: 480px;
+
+    &-Container  {
+        margin-top: var(--space-m);
+
+        & > *:not(:last-child) {
+            margin-bottom: var(--space-m);
+        }
+    }
+}

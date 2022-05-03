@@ -10,6 +10,8 @@ import { CrudModalProps } from '../../../common/CrudModal/types';
 import { Job } from '../../../types/timetable';
 import { CustomJob } from '../../../pages/Shedule/helper';
 
+import './BigCalendarModal.scss';
+
 const cnBigCalendarModal = cn('BigCalendarModal');
 
 type ChoiceItem = {
@@ -60,6 +62,7 @@ export const BigCalendarModal = (props: BigCalendarModalProps) => {
       onClose={onClose}
       withCloseButton
       isOpen={isOpen}
+      title=" "
       lockBackground
     >
       <div className={cnBigCalendarModal('Container')}>

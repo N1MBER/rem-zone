@@ -38,7 +38,7 @@ export const jobView: Array<ItemRecord<Job, InputType>> = [
   },
   {
     key: 'master',
-    label: 'ID',
+    label: 'Исполнитель',
     type: 'text',
     renderValue: ({ master }) =>
       master.last_name ? (

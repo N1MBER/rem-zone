@@ -111,6 +111,7 @@ export const CrudModalUpdate = <TYPE,>(props: CrudModalUpdateProps<TYPE>) => {
             label={(label ?? key).toString()}
             placeholder={(label ?? key).toString()}
             size="m"
+            labelPosition="top"
             style={{ zIndex: 10000 }}
             onChange={({ value }) => handleChange(value, key.toString())}
             value={data[key as string] as DatePickerPropValue<DATE_TYPE>}
