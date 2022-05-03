@@ -10,14 +10,19 @@ import {
 import { IconInfo } from '@consta/uikit/IconInfo';
 import moment from 'moment';
 import { compareDates } from '../../../../utils/date/date';
+import { useFlag } from '@consta/uikit/useFlag';
+import { BigCalendarModal } from '../../BigCalendarModal/BigCalendarModal';
 
 import '../BigCalendarEvent.scss';
+import { BigCalendarEvent } from '../../helper';
 
 export const BigCalendarEventWeek = (props: EventProps<Event>) => {
   const {
     event: { start: startProp, end: endProp, resource, allDay },
   } = props;
   const { description, master = {} as User, status } = (resource ?? {}) as Job;
+
+  const [showModal, setShowModal] = useFlag();
 
   const mode = useMemo(() => {
     const start = startProp ?? new Date();
@@ -68,6 +73,7 @@ export const BigCalendarEventWeek = (props: EventProps<Event>) => {
         )}
       </div>
       <button
+        onClick={setShowModal.on}
         style={{
           ['--event-background' as string]: convertStatusToColor(status),
         }}
@@ -76,6 +82,11 @@ export const BigCalendarEventWeek = (props: EventProps<Event>) => {
       >
         <IconInfo size="xs" />
       </button>
+      <BigCalendarModal
+        isOpen={showModal}
+        onClose={setShowModal.off}
+        item={props.event as BigCalendarEvent<Job>}
+      />
     </div>
   );
 };

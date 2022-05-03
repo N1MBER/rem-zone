@@ -7,6 +7,9 @@ import {
   convertStatusToColor,
 } from '../../BigCalendarHeader/helper';
 import { IconInfo } from '@consta/uikit/IconInfo';
+import { useFlag } from '@consta/uikit/useFlag';
+import { BigCalendarModal } from '../../BigCalendarModal/BigCalendarModal';
+import { BigCalendarEvent } from '../../helper';
 
 import '../BigCalendarEvent.scss';
 
@@ -15,6 +18,8 @@ export const BigCalendarEventMonth = (props: EventProps<Event>) => {
     event: { resource },
   } = props;
   const { description, status } = (resource ?? {}) as Job;
+
+  const [showModal, setShowModal] = useFlag();
 
   return (
     <div
@@ -29,6 +34,7 @@ export const BigCalendarEventMonth = (props: EventProps<Event>) => {
         </Text>
       </div>
       <button
+        onClick={setShowModal.on}
         style={{
           ['--event-background' as string]: convertStatusToColor(status),
         }}
@@ -37,6 +43,11 @@ export const BigCalendarEventMonth = (props: EventProps<Event>) => {
       >
         <IconInfo size="xs" />
       </button>
+      <BigCalendarModal
+        isOpen={showModal}
+        onClose={setShowModal.off}
+        item={props.event as BigCalendarEvent<Job>}
+      />
     </div>
   );
 };
