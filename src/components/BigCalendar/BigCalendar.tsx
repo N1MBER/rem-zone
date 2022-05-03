@@ -75,6 +75,8 @@ export const BigCalendar = (props: Props) => {
     onCellSelect,
   } = props;
 
+  const rootRef = useRef<HTMLDivElement>(null);
+
   const min = useMemo(() => {
     const date = new Date();
     date.setHours(8);
@@ -97,6 +99,12 @@ export const BigCalendar = (props: Props) => {
     }),
     []
   );
+
+  useEffect(() => {
+    if (rootRef.current) {
+      rootRef.current.scrollTo(0, 0);
+    }
+  }, [mode, date]);
 
   const handleChangeDate = (date: Date) => {
     if (mode !== 'month') {
@@ -160,7 +168,10 @@ export const BigCalendar = (props: Props) => {
   }, []);
 
   return (
-    <div className={cnBigCalendar({ mode, loading, haveAllDay }, [className])}>
+    <div
+      className={cnBigCalendar({ mode, loading, haveAllDay }, [className])}
+      ref={rootRef}
+    >
       {loading && (
         <div className={cnBigCalendar('Loader')}>
           <Loader size="m" />
