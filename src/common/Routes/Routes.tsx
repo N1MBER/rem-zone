@@ -124,8 +124,8 @@ export const Routes = (props: Props) => {
         {paths(userType).map((route, index) => {
           const Component = route.component;
           return (
-            <Suspense fallback={<SkeletonPage />}>
-              <Route path={route.path} key={`Route-${index}`} exact>
+            <Suspense key={`Route-${index}`} fallback={<SkeletonPage />}>
+              <Route path={route.path} exact>
                 <Component />
               </Route>
             </Suspense>
