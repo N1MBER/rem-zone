@@ -1,4 +1,4 @@
-import React, { CSSProperties, useContext, useRef } from 'react';
+import React, { CSSProperties, useContext, useMemo, useRef } from 'react';
 
 import { ThemeToggler } from '@consta/uikit/ThemeToggler';
 import { HeaderLogin, HeaderModule } from '@consta/uikit/Header';
@@ -11,6 +11,7 @@ import { IconComponent } from '@consta/uikit/__internal__/src/icons/Icon/Icon';
 import { getDataOfTheme } from './helper';
 import { ThemeContext } from '../../App';
 import { IconExit } from '@consta/uikit/IconExit';
+import { IconLock } from '@consta/uikit/IconLock';
 import { HeaderCalendar } from './HeaderCalendar/HeaderCalendar';
 import { useHistory } from 'react-router-dom';
 import { logout as logoutFunc } from '../../../utils/api/routes/auth/auth';
@@ -19,6 +20,7 @@ import { useDispatch } from 'react-redux';
 
 import './HeaderRightSide.scss';
 import { HeaderNotifications } from './HeaderNotifications/HeaderNotifications';
+import { ChangePasswordModal } from '../ChangePasswordModal/ChangePasswordModal';
 
 type Props = {
   isMinified?: boolean;
@@ -40,6 +42,7 @@ export const HeaderRightSide = (props: Props) => {
   const { user, isLogged, isMinified, style } = props;
 
   const [showContextMenu, { on, off }] = useFlag(false);
+  const [showModal, setShowModal] = useFlag();
 
   const loginRef = useRef<HTMLButtonElement>(null);
 
@@ -53,13 +56,23 @@ export const HeaderRightSide = (props: Props) => {
     await logoutFunc();
   };
 
-  const menuItems: Item[] = [
-    {
-      name: 'Выход',
-      icon: IconExit,
-      onClick: logout,
-    },
-  ];
+  const menuItems: Item[] = useMemo(() => {
+    const arr: Item[] = [
+      {
+        name: 'Выход',
+        icon: IconExit,
+        onClick: logout,
+      },
+    ];
+    if (user?.is_superuser) {
+      arr.unshift({
+        name: 'Сменить пароль',
+        icon: IconLock,
+        onClick: setShowModal.on,
+      });
+    }
+    return arr;
+  }, [user]);
 
   const handleClick = () => {
     if (showContextMenu) {
@@ -128,6 +141,7 @@ export const HeaderRightSide = (props: Props) => {
         getItemOnClick={(item) => item.onClick}
         onItemClick={({ item }) => onContextMenuClick(item)}
       />
+      <ChangePasswordModal isOpen={showModal} onClose={setShowModal.off} />
     </>
   );
 };

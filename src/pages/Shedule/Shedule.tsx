@@ -27,10 +27,10 @@ import './Shedule.scss';
 const cnShedule = cn('Shedule');
 
 const Shedule = () => {
-  const [viewMode, setViewMode] = useState<ViewMode>('month');
+  const [viewMode, setViewMode] = useState<ViewMode>('week');
   const [currentDate, setCurrentDate] = useState<
     Date | [Date, Date] | undefined
-  >(getStartDate('month'));
+  >(getStartDate('week'));
   const [tasks, setTasks] = useState<BigCalendarEvent<Job>[]>();
   const [resources, setResources] = useState<BigCalendarResource[]>();
   const [visibleTask, setVisibleTask] = useState<Task | undefined>();

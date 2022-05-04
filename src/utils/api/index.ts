@@ -6,7 +6,7 @@ import { refreshToken as refreshTokenRequest } from './routes/auth/auth';
 export const logoutAction = () => {
   Cookies.remove('refresh');
   Cookies.remove('access');
-  window.location.href = '/auth';
+  // window.location.href = '/auth';
 };
 
 export const instance = Axios.create({
