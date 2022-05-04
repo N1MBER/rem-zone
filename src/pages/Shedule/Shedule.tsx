@@ -26,6 +26,13 @@ import './Shedule.scss';
 
 const cnShedule = cn('Shedule');
 
+const getDate = (date: Date | [Date, Date], mode?: 'start' | 'end'): Date => {
+  if (Array.isArray(date)) {
+    return date[mode !== 'end' ? 0 : 1];
+  }
+  return date;
+};
+
 const Shedule = () => {
   const [viewMode, setViewMode] = useState<ViewMode>('week');
   const [currentDate, setCurrentDate] = useState<
@@ -39,6 +46,8 @@ const Shedule = () => {
   const [defaultDate, setDefaultDate] = useState<[Date, Date] | undefined>();
 
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const mounted = useRef<boolean>(true);
 
   const addTask = () => {
     setShowModal.on();
@@ -71,15 +80,9 @@ const Shedule = () => {
 
   const getJobsList = (date?: Date | [Date, Date]) => {
     const targetDate = date ?? new Date();
-    const start =
-      resetDateTime(
-        Array.isArray(targetDate) ? targetDate[0] : targetDate
-      )?.toISOString() ?? '';
+    const start = resetDateTime(getDate(targetDate))?.toISOString() ?? '';
     const end =
-      resetDateTime(
-        Array.isArray(targetDate) ? targetDate[1] : targetDate,
-        'end'
-      )?.toISOString() ?? '';
+      resetDateTime(getDate(targetDate, 'end'), 'end')?.toISOString() ?? '';
     setLoading.on();
     getJobs({ offset: 0, limit: 200, start, end })
       .then((res) => {
@@ -91,19 +94,29 @@ const Shedule = () => {
           eventsArr = eventsArr.concat(el.items);
           resourcesArr.push(el.group);
         });
-        setTasks(eventsArr);
-        setResources(resourcesArr);
-        setLoading.off();
+        if (mounted.current) {
+          setTasks(eventsArr);
+          setResources(resourcesArr);
+        }
       })
       .catch(() => {
-        setLoading.off();
-        setTasks([]);
-        setResources([]);
+        if (mounted.current) {
+          setTasks([]);
+          setResources([]);
+        }
       })
       .finally(() => {
         setLoading.off();
       });
   };
+
+  useEffect(() => {
+    getJobsList(currentDate);
+
+    return () => {
+      mounted.current = false;
+    };
+  }, [currentDate]);
 
   const changeEvent = (event: BigCalendarEvent<Job>) => {
     const prevJob = tasks?.find((el) => el.id === event.resource.id);
@@ -176,10 +189,7 @@ const Shedule = () => {
         currentDate={Array.isArray(currentDate) ? currentDate[0] : currentDate}
         className={cnShedule('TimeLine')}
         onChangeDate={setCurrentDate}
-        onChangeActive={(dates) => {
-          setCurrentDate(dates);
-          getJobsList(dates);
-        }}
+        onChangeActive={setCurrentDate}
       />
       <BigCalendar
         mode={viewMode}

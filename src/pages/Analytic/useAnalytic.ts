@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { AnalyticData } from './types';
 import { getClients } from '../../utils/api/routes/users/users';
 import { Props as AnalyticInfo } from './AnalyticCard/AnalyticCard';
@@ -49,13 +49,19 @@ export const useAnalytic = (): AnalyticData => {
     { active: number; completed: number } | undefined
   >();
 
+  const mounted = useRef<boolean>(true);
+
   const getNewClients = () => {
     getClients({ newest: true, limit: 20, offset: 0 })
       .then((res) => {
-        setNewClients(res.data.count);
+        if (mounted.current) {
+          setNewClients(res.data.count);
+        }
       })
       .catch(() => {
-        setNewClients(0);
+        if (mounted.current) {
+          setNewClients(0);
+        }
       });
   };
 
@@ -78,13 +84,17 @@ export const useAnalytic = (): AnalyticData => {
               }
               return copyItem;
             });
-          setHours(totalTime);
-          setAnalyticWorklog(sorted);
+          if (mounted.current) {
+            setHours(totalTime);
+            setAnalyticWorklog(sorted);
+          }
         }
       })
       .catch(() => {
-        setAnalyticWorklog([]);
-        setHours(0);
+        if (mounted.current) {
+          setAnalyticWorklog([]);
+          setHours(0);
+        }
       });
   };
 
@@ -106,13 +116,17 @@ export const useAnalytic = (): AnalyticData => {
             .reduce((sum, item) => {
               return sum + item;
             });
-          setJobs({ active, completed });
-        } else {
+          if (mounted.current) {
+            setJobs({ active, completed });
+          }
+        } else if (mounted.current) {
           setJobs({ active: 0, completed: 0 });
         }
       })
       .catch(() => {
-        setJobs({ active: 0, completed: 0 });
+        if (mounted.current) {
+          setJobs({ active: 0, completed: 0 });
+        }
       });
   };
 
@@ -120,6 +134,10 @@ export const useAnalytic = (): AnalyticData => {
     getNewClients();
     getWorkTime();
     getJobs();
+
+    return () => {
+      mounted.current = false;
+    };
   }, []);
 
   const analyticData: AnalyticInfo = useMemo(() => {
