@@ -17,7 +17,7 @@ function CarouselRender(props: CarouselProps, ref: React.Ref<HTMLDivElement>) {
   const {
     items,
     onItemClick,
-    renderItem = CarouselItem,
+    renderItem,
     emptyItemsText = 'Хм, кажется, картинка не загрузилась.',
     getItemKey,
     getItemLabel,
@@ -121,7 +121,7 @@ function CarouselRender(props: CarouselProps, ref: React.Ref<HTMLDivElement>) {
                 }}
                 onClick={(e) => handleClick(e, item)}
               >
-                {renderItem?.(item)}
+                {renderItem ? renderItem?.(item) : <CarouselItem {...item} />}
               </div>
             );
           })
