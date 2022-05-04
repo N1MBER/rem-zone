@@ -80,10 +80,6 @@ export function SheduleTimeLine<TYPE extends ViewMode>(props: Props<TYPE>) {
     setActive(activeItem);
   }, [viewMode, currentDate, typeof currentDate, items]);
 
-  // useEffect(() => {
-  //   active && onChangeDate?.(active.date as ViewDate<TYPE>);
-  // }, [active]);
-
   return (
     <div
       style={{

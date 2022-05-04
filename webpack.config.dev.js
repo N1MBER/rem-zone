@@ -76,10 +76,6 @@ module.exports = {
         test: /\.json$/,
         use: ['json-loader'],
       },
-      // {
-      //   test: /\.(ttf|woff|woff2|eot)$/,
-      //   use: ['file-loader'],
-      // },
       {
         test: /\.(sc|sa|c)ss$/i,
         use: ['style-loader', 'css-loader', 'sass-loader'],

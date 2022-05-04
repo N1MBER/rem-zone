@@ -42,7 +42,7 @@ export const refreshToken = (
     {
       headers: {
         'Content-Type': 'application/json',
-        // Authorization: undefined,
+        Authorization: undefined,
       },
     }
   );

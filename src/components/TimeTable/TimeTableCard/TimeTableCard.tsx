@@ -23,8 +23,6 @@ export const TimeTableCard = (props: TimeTableCardProps) => {
     endTimeRef,
     getCardPosition,
     onCardInfoClick,
-    // startDate,
-    // endDate,
   } = props;
 
   const cardRef = useRef<HTMLDivElement>(null);
@@ -32,15 +30,6 @@ export const TimeTableCard = (props: TimeTableCardProps) => {
   const [sizes, setSizes] = useState<ResultSize>(
     getCardPosition({ startTimeRef, endTimeRef, offsetY, offsetX })
   );
-
-  // useEffect(() => {
-  //   if (endDate.getHours() - startDate.getHours() === 1) {
-  //     startTimeRef?.current?.offsetHeight = cardRef.current?.offsetHeight;
-  //   }
-  //   return () => {
-  //     startTimeRef?.current?.style.height = undefined;
-  //   };
-  // }, [startTimeRef, endTimeRef]);
 
   useEffect(() => {
     setSizes(getCardPosition({ startTimeRef, endTimeRef, offsetY, offsetX }));

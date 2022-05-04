@@ -89,7 +89,6 @@
       "ignorePropertyModificationsFor": ["state", "socket", "button"]
     }],
     "consistent-return": "off",
-    // "no-unused-expressions": "off",
     "react/no-array-index-key": "off",
     "no-shadow": "off",
     "@typescript-eslint/no-shadow":  "off",
