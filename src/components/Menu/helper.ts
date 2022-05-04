@@ -5,6 +5,12 @@ import { IconUser } from '@consta/uikit/IconUser';
 import { IconFunnel } from '@consta/uikit/IconFunnel';
 import { IconTable } from '@consta/uikit/IconTable';
 import { UserType } from '../../types/user';
+import { resetDateTime } from '../../utils/date/date';
+
+const date = resetDateTime(new Date(), 'start');
+
+const defaultTablePageParams = '?page=1&limit=20';
+const defaultSheduleParams = `?mode=week&date=${date.toISOString()}`;
 
 export const getMenuLinks = (userType?: UserType): LinkType[] => {
   if (userType !== 'master-executor') {
@@ -17,40 +23,40 @@ export const getMenuLinks = (userType?: UserType): LinkType[] => {
       {
         label: 'Клиенты',
         icon: IconWorld,
-        link: '/clients',
+        link: `/clients${defaultTablePageParams}`,
       },
       {
         label: 'Сотрудники',
         icon: IconUser,
-        link: '/staff',
+        link: `/staff${defaultTablePageParams}`,
         subMenu: [
           {
             label: 'Сотрудники',
-            link: '/staff',
+            link: `/staff${defaultTablePageParams}`,
           },
           {
             label: 'Группы',
-            link: '/staff/groups',
+            link: `/staff/groups${defaultTablePageParams}`,
           },
           {
             label: 'Должности',
-            link: '/staff/positions',
+            link: `/staff/positions${defaultTablePageParams}`,
           },
           {
             label: 'Время работы',
-            link: '/staff/worklogs',
+            link: `/staff/worklogs${defaultTablePageParams}`,
           },
         ],
       },
       {
         label: 'Услуги',
         icon: IconFunnel,
-        link: '/favours',
+        link: `/favours${defaultTablePageParams}`,
       },
       {
         label: 'Расписание',
         icon: IconTable,
-        link: '/timetable',
+        link: `/timetable${defaultSheduleParams}`,
       },
     ];
   }
@@ -58,18 +64,18 @@ export const getMenuLinks = (userType?: UserType): LinkType[] => {
     {
       label: 'Сотрудники',
       icon: IconUser,
-      link: '/staff/worklogs',
+      link: `/staff/worklogs${defaultTablePageParams}`,
       subMenu: [
         {
           label: 'Время работы',
-          link: '/staff/worklogs',
+          link: `/staff/worklogs${defaultTablePageParams}`,
         },
       ],
     },
     {
       label: 'Расписание',
       icon: IconTable,
-      link: '/timetable',
+      link: `/timetable${defaultSheduleParams}`,
     },
   ];
 };
