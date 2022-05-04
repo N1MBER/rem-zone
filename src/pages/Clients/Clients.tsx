@@ -43,7 +43,7 @@ export const Clients = () => {
           setTimeout(() => document.location.reload(), 1000);
         }}
         errorCallback={() => {
-          toast.alert('Ну удалось создать клиента');
+          toast.alert('Не удалось создать клиента');
         }}
       />
     </>

@@ -143,7 +143,7 @@ export const FavoursTable = (props: Props) => {
             setTimeout(() => document.location.reload(), 1000);
           }}
           errorCallback={() => {
-            toast.alert('Ну удалось обновить данные услуги');
+            toast.alert('Не удалось обновить данные услуги');
           }}
         />
       ) : (

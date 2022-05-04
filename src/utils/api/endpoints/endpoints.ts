@@ -12,6 +12,7 @@ export const endpoints = {
   },
   users: {
     staff: '/users/staff/',
+    changePassword: (id: string) => `/users/staff/${id}/change_password/`,
     groups: '/users/groups/',
     clients: '/users/clients/',
   },

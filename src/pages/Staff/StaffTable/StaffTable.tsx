@@ -3,6 +3,7 @@ import { TableColumn } from '@consta/uikit/Table';
 import { Button } from '@consta/uikit/Button';
 import { Badge } from '@consta/uikit/Badge';
 import { IconDocFilled } from '@consta/uikit/IconDocFilled';
+import { IconLock } from '@consta/uikit/IconLock';
 import { IconEdit } from '@consta/uikit/IconEdit';
 import { IconTrash } from '@consta/uikit/IconTrash';
 import { Staff, StaffData } from '../../../types/user';
@@ -12,6 +13,7 @@ import {
   getStaff,
   getGroups,
   updateStaff,
+  chanheStaffPassword,
 } from '../../../utils/api/routes/users/users';
 import { toast } from '../../../utils/toast/toast';
 import { useFlag } from '@consta/uikit/useFlag';
@@ -40,6 +42,7 @@ export const StaffTable = (props: Props) => {
   const [modalType, setModalType] = useState<ModalCrudType | undefined>();
   const [showModal, setShowModal] = useFlag();
   const [staff, setStaff] = useState<Staff | undefined>();
+  const [showChangePassword, setShowChangePassword] = useFlag();
 
   const deleteStaff = (id: string) => {
     deleteStaffFunc(id).then((res) => {
@@ -171,6 +174,18 @@ export const StaffTable = (props: Props) => {
               iconLeft={IconEdit}
             />
             <Button
+              form="brick"
+              size="xs"
+              view="secondary"
+              onlyIcon
+              iconLeft={IconLock}
+              title="Изменить пароль"
+              onClick={() => {
+                setStaff(row);
+                setShowChangePassword.on();
+              }}
+            />
+            <Button
               form="brickDefault"
               size="xs"
               view="secondary"
@@ -214,7 +229,7 @@ export const StaffTable = (props: Props) => {
             setTimeout(() => document.location.reload(), 1000);
           }}
           errorCallback={() => {
-            toast.alert('Ну удалось обновить данные сотрудника');
+            toast.alert('Не удалось обновить данные сотрудника');
           }}
         />
       ) : (
@@ -231,6 +246,30 @@ export const StaffTable = (props: Props) => {
           isOpen={showModal}
         />
       )}
+      <CrudModal
+        mode="edit"
+        updateFunc={chanheStaffPassword}
+        items={[
+          {
+            key: 'password',
+            type: 'text',
+            label: 'Новый пароль',
+          },
+        ]}
+        element={{
+          password: '',
+        }}
+        title="Изменение пароля сотрудника"
+        onClose={setShowChangePassword.off}
+        itemId={staff?.id ?? ''}
+        isOpen={showChangePassword}
+        successCallback={() => {
+          toast.success('Пароль успешно обновлен');
+        }}
+        errorCallback={() => {
+          toast.alert('Не удалось обновить пароль');
+        }}
+      />
     </>
   );
 };

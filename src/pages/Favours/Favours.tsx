@@ -43,7 +43,7 @@ export const Favours = () => {
           setTimeout(() => document.location.reload(), 1000);
         }}
         errorCallback={() => {
-          toast.alert('Ну удалось создать услугу');
+          toast.alert('Не удалось создать услугу');
         }}
       />
     </>

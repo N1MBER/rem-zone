@@ -148,7 +148,7 @@ export const Staff = () => {
           setTimeout(() => document.location.reload(), 1000);
         }}
         errorCallback={() => {
-          toast.alert('Ну удалось создать сотрудника');
+          toast.alert('Не удалось создать сотрудника');
         }}
       />
     </>

@@ -64,6 +64,13 @@ export const deleteGroup = (id: string): AxiosPromise => {
   return instance.delete(`${endpoints.users.groups}${id}/`);
 };
 
+export const chanheStaffPassword = (
+  data: { password: string },
+  id: string
+): AxiosPromise<{ password: string }> => {
+  return instance.post(endpoints.users.changePassword(id), { ...data });
+};
+
 // Clients
 
 export const getClients = (

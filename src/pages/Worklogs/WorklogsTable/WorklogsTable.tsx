@@ -124,7 +124,7 @@ export const WorklogsTable = (props: Props) => {
             setTimeout(() => document.location.reload(), 1000);
           }}
           errorCallback={() => {
-            toast.alert('Ну удалось обновить данные рабочего времени');
+            toast.alert('Не удалось обновить данные рабочего времени');
           }}
         />
       ) : (

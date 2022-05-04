@@ -46,7 +46,7 @@ export const Positions = () => {
           setTimeout(() => document.location.reload(), 1000);
         }}
         errorCallback={() => {
-          toast.alert('Ну удалось создать должность');
+          toast.alert('Не удалось создать должность');
         }}
       />
     </>

@@ -226,7 +226,7 @@ const Shedule = () => {
           setTimeout(() => document.location.reload(), 1000);
         }}
         errorCallback={() => {
-          toast.alert('Ну удалось создать задачу');
+          toast.alert('Не удалось создать задачу');
         }}
       />
     </Card>

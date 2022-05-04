@@ -152,7 +152,7 @@ export const ClientsTable = (props: Props) => {
             setTimeout(() => document.location.reload(), 1000);
           }}
           errorCallback={() => {
-            toast.alert('Ну удалось обновить данные клиента');
+            toast.alert('Не удалось обновить данные клиента');
           }}
         />
       ) : (

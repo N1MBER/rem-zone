@@ -85,11 +85,6 @@ export const staffEdit = (
     type: 'email',
   },
   {
-    key: 'password',
-    label: 'Пароль',
-    type: 'text',
-  },
-  {
     key: 'username',
     label: 'Логин',
     type: 'text',

@@ -134,7 +134,7 @@ export const PositionsTable = (props: Props) => {
             setTimeout(() => document.location.reload(), 1000);
           }}
           errorCallback={() => {
-            toast.alert('Ну удалось обновить данные должности');
+            toast.alert('Не удалось обновить данные должности');
           }}
         />
       ) : (

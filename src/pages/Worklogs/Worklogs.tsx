@@ -46,7 +46,7 @@ export const Worklogs = () => {
           setTimeout(() => document.location.reload(), 1000);
         }}
         errorCallback={() => {
-          toast.alert('Ну удалось зафиксировать время');
+          toast.alert('Не удалось зафиксировать время');
         }}
       />
     </>
