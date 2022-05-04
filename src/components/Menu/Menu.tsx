@@ -7,7 +7,7 @@ import { ThemeContext } from '../App';
 import { useLocation } from 'react-router-dom';
 import { RootState } from '../../store/reducers';
 import { useSelector } from 'react-redux';
-import { convertGroupToString } from '../../utils';
+import { userTypes } from '../../utils';
 
 import './Menu.scss';
 
@@ -60,7 +60,7 @@ export const Menu = (props: Props) => {
             view="secondary"
             className={cnMenu('Position')}
           >
-            {convertGroupToString(user?.groups?.[0])}
+            {userTypes[userType ?? 'master-executor']}
           </Text>
         </div>
       </div>

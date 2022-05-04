@@ -51,6 +51,12 @@ export const convertGroupToString = (group?: Group): string => {
   return 'Администратор';
 };
 
+export const userTypes = {
+  admin: 'Администратор',
+  'master-reciever': 'Мастер приемщик',
+  'master-executor': 'Исполнитель',
+};
+
 function isObject(object: unknown) {
   return object != null && typeof object === 'object';
 }

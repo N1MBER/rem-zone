@@ -90,13 +90,13 @@ export const login = createAsyncThunk<unknown, LoginPayloadType>(
               }
             });
           };
-
+          console.log(user);
           user && dispatch(setProfile(user));
           if (user) {
             if (user.is_superuser) {
               dispatch(setUserType('admin'));
               additionalRequest();
-            } else if (user.groups[0].id === 1) {
+            } else if (user.groups[0]?.id === 1) {
               dispatch(setUserType('master-reciever'));
               additionalRequest();
             } else {
@@ -176,9 +176,7 @@ export const changePassword = createAsyncThunk<
     payload;
   try {
     const response = await changePasswordFunc({ new_password1, new_password2 });
-    if (response?.status === 204) {
-      successCallback && successCallback();
-    }
+    successCallback?.();
     return response.data;
   } catch (err: any) {
     if (errorCallback) {

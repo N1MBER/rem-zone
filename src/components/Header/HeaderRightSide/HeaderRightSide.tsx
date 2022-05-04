@@ -64,7 +64,7 @@ export const HeaderRightSide = (props: Props) => {
         onClick: logout,
       },
     ];
-    if (user?.is_superuser) {
+    if (!user?.is_superuser) {
       arr.unshift({
         name: 'Сменить пароль',
         icon: IconLock,
