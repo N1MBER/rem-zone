@@ -10,7 +10,7 @@ import { resetDateTime } from '../../utils/date/date';
 const date = resetDateTime(new Date(), 'start');
 
 const defaultTablePageParams = '?page=1&limit=20';
-const defaultSheduleParams = `?mode=week&date=${date.toISOString()}`;
+const defaultSheduleParams = `?mode=week&date=${date.getTime()}`;
 
 export const getMenuLinks = (userType?: UserType): LinkType[] => {
   if (userType !== 'master-executor') {

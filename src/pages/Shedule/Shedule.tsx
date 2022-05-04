@@ -19,6 +19,8 @@ import {
   convertJobToEvent,
 } from '../../components/BigCalendar/helper';
 import { resetDateTime } from '../../utils/date/date';
+import { useHistory, useLocation } from 'react-router-dom';
+import { getQueryData, convertDataToQuery } from '../../utils';
 
 import './Shedule.scss';
 
@@ -41,6 +43,31 @@ const Shedule = () => {
   const addTask = () => {
     setShowModal.on();
   };
+
+  const { search } = useLocation();
+  const history = useHistory();
+
+  useEffect(() => {
+    const data = getQueryData<{ mode: ViewMode; date: string }>(search);
+    if (data?.mode && viewMode !== data.mode) {
+      setViewMode(data.mode);
+    }
+    if (data?.mode && data.date) {
+      setCurrentDate(getStartDate(data.mode, new Date(Number(data.date))));
+    }
+  }, []);
+
+  useEffect(() => {
+    const query = convertDataToQuery({
+      mode: viewMode,
+      date: Array.isArray(currentDate)
+        ? currentDate[0].getTime()
+        : currentDate?.getTime(),
+    });
+    history.push({
+      search: query,
+    });
+  }, [currentDate, viewMode]);
 
   const getJobsList = (date?: Date | [Date, Date]) => {
     const targetDate = date ?? new Date();
