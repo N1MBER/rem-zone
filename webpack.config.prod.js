@@ -92,6 +92,7 @@ module.exports = (env) => {
       new HtmlWebpackPlugin({
         template: './public/index.html',
         favicon: './public/favicon.svg',
+        manifest: './public/manifest.json'
       }),
       new CopyPlugin({
         patterns: [
