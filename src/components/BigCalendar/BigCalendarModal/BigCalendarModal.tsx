@@ -9,6 +9,8 @@ import { getJob, updateJob } from '../../../utils/api/routes/jobs/jobs';
 import { CrudModalProps } from '../../../common/CrudModal/types';
 import { Job } from '../../../types/timetable';
 import { CustomJob } from '../../../pages/Shedule/helper';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/reducers';
 
 import './BigCalendarModal.scss';
 
@@ -17,18 +19,8 @@ const cnBigCalendarModal = cn('BigCalendarModal');
 type ChoiceItem = {
   label: string;
   type: 'edit' | 'view';
+  disabled?: boolean;
 };
-
-const choiceItems: ChoiceItem[] = [
-  {
-    label: 'Просмотр',
-    type: 'view',
-  },
-  {
-    label: 'Изменение',
-    type: 'edit',
-  },
-];
 
 const convertJob = (job: Job): CustomJob => {
   return {
@@ -40,6 +32,20 @@ const convertJob = (job: Job): CustomJob => {
 
 export const BigCalendarModal = (props: BigCalendarModalProps) => {
   const { isOpen, onClose, item } = props;
+
+  const { userType } = useSelector((store: RootState) => store.user);
+
+  const choiceItems: ChoiceItem[] = [
+    {
+      label: 'Просмотр',
+      type: 'view',
+    },
+    {
+      label: 'Изменение',
+      type: 'edit',
+      disabled: userType === 'master-executor',
+    },
+  ];
 
   const [type, setType] = useState<ChoiceItem>(choiceItems[0]);
 
@@ -75,6 +81,7 @@ export const BigCalendarModal = (props: BigCalendarModalProps) => {
           name="ChoiceGroupType"
           width="full"
           value={type}
+          getDisabled={(item) => item.disabled}
           getLabel={(item) => item.label}
         />
         {type.type === 'edit' ? (

@@ -25,12 +25,17 @@ export const AuthForm: React.FC = () => {
       login({
         ...data,
         setLoading,
-        successCallback: (data) =>
-          history.push(
-            data?.groups && data?.groups.length > 0 && data?.groups[0].id === 2
-              ? '/timetable'
-              : '/analytic'
-          ),
+        successCallback: (data) => {
+          let flag = false;
+          if (data?.is_superuser) {
+            flag = false;
+          } else if (data?.groups[0]?.id === 1) {
+            flag = false;
+          } else {
+            flag = true;
+          }
+          history.push(flag ? '/timetable' : '/analytic');
+        },
         errorCallback: (message) => {
           setErrorMessage(message);
           toast.alert(message);
