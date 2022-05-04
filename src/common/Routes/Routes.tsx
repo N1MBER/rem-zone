@@ -2,12 +2,6 @@ import React, { useMemo, Suspense } from 'react';
 import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import { Auth } from '../../pages/Auth/Auth';
 import { PageLayout } from '../Layouts/PageLayout/PageLayout';
-import { Staff } from '../../pages/Staff/Staff';
-import { Favours } from '../../pages/Favours/Favours';
-import { Groups } from '../../pages/Groups/Groups';
-import { Positions } from '../../pages/Positions/Positions';
-import { Worklogs } from '../../pages/Worklogs/Worklogs';
-import { Clients } from '../../pages/Clients/Clients';
 import { UserType } from '../../types/user';
 import { RootState } from '../../store/reducers';
 import { SkeletonPage } from '../Skeleton/SkeletonPage/SkeletonPage';
@@ -15,6 +9,12 @@ import { useSelector } from 'react-redux';
 
 const Analytic = React.lazy(() => import('../../pages/Analytic/Analytic'));
 const Shedule = React.lazy(() => import('../../pages/Shedule/Shedule'));
+const Clients = React.lazy(() => import('../../pages/Clients/Clients'));
+const Worklogs = React.lazy(() => import('../../pages/Worklogs/Worklogs'));
+const Positions = React.lazy(() => import('../../pages/Positions/Positions'));
+const Groups = React.lazy(() => import('../../pages/Groups/Groups'));
+const Favours = React.lazy(() => import('../../pages/Favours/Favours'));
+const Staff = React.lazy(() => import('../../pages/Staff/Staff'));
 
 type Props = {
   isAdmin?: boolean;

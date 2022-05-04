@@ -90,7 +90,6 @@ export const login = createAsyncThunk<unknown, LoginPayloadType>(
               }
             });
           };
-          console.log(user);
           user && dispatch(setProfile(user));
           if (user) {
             if (user.is_superuser) {

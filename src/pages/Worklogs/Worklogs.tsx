@@ -52,3 +52,5 @@ export const Worklogs = () => {
     </>
   );
 };
+
+export default Worklogs;

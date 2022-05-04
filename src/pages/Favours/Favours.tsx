@@ -49,3 +49,5 @@ export const Favours = () => {
     </>
   );
 };
+
+export default Favours;

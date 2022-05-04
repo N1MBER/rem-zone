@@ -154,3 +154,5 @@ export const Staff = () => {
     </>
   );
 };
+
+export default Staff;

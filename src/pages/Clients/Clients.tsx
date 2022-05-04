@@ -12,7 +12,7 @@ import { ClientsTable } from './ClientsTable/ClientsTable';
 
 const cnClients = cn('Clients');
 
-export const Clients = () => {
+const Clients = () => {
   const [open, setOpen] = useFlag();
 
   return (
@@ -49,3 +49,5 @@ export const Clients = () => {
     </>
   );
 };
+
+export default Clients;
