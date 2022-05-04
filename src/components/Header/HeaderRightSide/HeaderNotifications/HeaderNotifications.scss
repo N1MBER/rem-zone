@@ -1,0 +1,23 @@
+@import '../../../../assets/styles/mixins.scss';
+
+.HeaderNotifications {
+    background: var(--color-bg-default);
+    min-height: 100px;
+    box-shadow: var(--shadow-layer);
+    border-radius: var(--control-radius);
+    min-width: 300px;
+    max-width: 300px;
+    
+    @include flex-center();
+
+    &-List {
+        max-height: 60vh;
+        overflow-x: hidden;
+        width: 100%;
+        overflow-y: auto;
+    }
+
+    &-Arrow {
+        color: var(--color-bg-default);
+    }
+}

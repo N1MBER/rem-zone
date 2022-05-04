@@ -1,6 +1,5 @@
 import React, { CSSProperties, useContext, useRef } from 'react';
-import { IconCards } from '@consta/uikit/IconCards';
-import { Button } from '@consta/uikit/Button';
+
 import { ThemeToggler } from '@consta/uikit/ThemeToggler';
 import { HeaderLogin, HeaderModule } from '@consta/uikit/Header';
 import { ContextMenu } from '@consta/uikit/ContextMenuCanary';
@@ -12,13 +11,14 @@ import { IconComponent } from '@consta/uikit/__internal__/src/icons/Icon/Icon';
 import { getDataOfTheme } from './helper';
 import { ThemeContext } from '../../App';
 import { IconExit } from '@consta/uikit/IconExit';
-
-import './HeaderRightSide.scss';
 import { HeaderCalendar } from './HeaderCalendar/HeaderCalendar';
 import { useHistory } from 'react-router-dom';
 import { logout as logoutFunc } from '../../../utils/api/routes/auth/auth';
 import { logout as logoutStore } from '../../../store/reducers/user/user';
 import { useDispatch } from 'react-redux';
+
+import './HeaderRightSide.scss';
+import { HeaderNotifications } from './HeaderNotifications/HeaderNotifications';
 
 type Props = {
   isMinified?: boolean;
@@ -95,13 +95,7 @@ export const HeaderRightSide = (props: Props) => {
         />
       </HeaderModule>
       <HeaderModule indent="s">
-        <Button
-          onlyIcon
-          iconLeft={IconCards}
-          view="clear"
-          size="s"
-          onClick={handleClick}
-        />
+        <HeaderNotifications />
       </HeaderModule>
       <HeaderModule indent="s">
         <HeaderLogin
