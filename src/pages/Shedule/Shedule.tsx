@@ -3,7 +3,6 @@ import { Card } from '@consta/uikit/Card';
 import { Job, ViewMode } from '../../types/timetable';
 import { SheduleHeader } from './SheduleHeader/SheduleHeader';
 import { cn } from '../../__private__/utils/bem';
-import './Shedule.scss';
 import { SheduleTimeLine } from './SheduleTimeLine/SheduleTimeLine';
 import { Task } from '../../types/schedule';
 import { useFlag } from '@consta/uikit/useFlag';
@@ -20,6 +19,8 @@ import {
   convertJobToEvent,
 } from '../../components/BigCalendar/helper';
 import { resetDateTime } from '../../utils/date/date';
+
+import './Shedule.scss';
 
 const cnShedule = cn('Shedule');
 
@@ -88,10 +89,6 @@ const Shedule = () => {
       setTasks([event]);
     }
   };
-
-  useEffect(() => {
-    getJobsList(currentDate);
-  }, []);
 
   const handleCloseModal = () => {
     setShowModal.off();
