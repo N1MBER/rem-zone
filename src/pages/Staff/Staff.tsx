@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useFlag } from '@consta/uikit/useFlag';
 import { cn } from '../../__private__/utils/bem';
 import { addStaff, getStaffs } from '../../utils/api/routes/users/users';
 import { StaffTable } from './StaffTable/StaffTable';
-import { useHistory, useLocation } from 'react-router-dom';
-import { convertDataToQuery, getQueryData } from '../../utils';
 import { TablePage } from '../../common/BaseComponents/TablePage/TablePage';
 import { Text } from '@consta/uikit/Text';
 import { TextField } from '@consta/uikit/TextField';
@@ -30,34 +28,14 @@ export type StaffQueries = {
   limit?: number;
 };
 
-type FilterData = StaffQueries & { page?: number };
-
 export const Staff = () => {
   const [filterData, setFilterData] = useState<StaffQueries>({});
   const [data, setData] = useState<StaffQueries>({});
   const [open, setOpen] = useFlag();
 
-  const { search } = useLocation();
-  const history = useHistory();
-
   const { groups, positions } = useSelector(
     (store: RootState) => store.settings
   );
-
-  useEffect(() => {
-    const data = getQueryData<FilterData>(search);
-    if (data) {
-      const { page, ...other } = data;
-      setFilterData({ ...other });
-    }
-  }, []);
-
-  useEffect(() => {
-    const query = convertDataToQuery(filterData);
-    history.push({
-      search: query,
-    });
-  }, [filterData]);
 
   const setValue: (
     key: keyof StaffQueries,

@@ -47,11 +47,11 @@ export const TablePage = <TYPE,>(props: TablePageProps<TYPE>) => {
   }, []);
 
   useEffect(() => {
-    const query = convertDataToQuery({ ...(queries ?? {}), page, limit });
+    const query = convertDataToQuery({ page, limit });
     history.push({
       search: query,
     });
-  }, [queries, page, limit]);
+  }, [page, limit]);
 
   return (
     <div className={cnTablePage('Container', [className])}>
