@@ -5,6 +5,7 @@ import { PaginationProps, PaginationState } from './types';
 import { usePrevious } from '../../hooks/usePrevious/usePrevious';
 import { useDebounce } from '../../hooks/useDebounce/useDebounce';
 import { cn } from '../../__private__/utils/bem';
+import { deepEqual } from '../../utils';
 
 import './Pagination.scss';
 
@@ -50,13 +51,14 @@ const PaginationRender = <
     className,
   } = props;
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(Number(defaultPage ?? 1));
   const [initialLoading, setInitialLoading] = useState(false);
   const [state, setState] = useState<PaginationState<TYPE>>({
     count: 0,
     data: [],
   });
   const previousPage = usePrevious(page);
+  const previousQueries = usePrevious(queries);
 
   useEffect(() => {
     typeof defaultPage === 'number' && setPage(defaultPage);
@@ -65,37 +67,43 @@ const PaginationRender = <
   const debouncedQueries = useDebounce(queries, 300);
 
   useEffect(() => {
-    setPage(1);
+    if (queries && previousQueries && !deepEqual(previousQueries, queries)) {
+      setPage(1);
+    }
   }, [queries, rerenderAfterActionTrigger]);
 
   useEffect(() => {
     if (onStartCallback) onStartCallback();
 
-    page === 1 && setInitialLoading(true);
+    if (!previousPage || page === previousPage) {
+      page === 1 && setInitialLoading(true);
 
-    const params = (
-      queries
-        ? { offset: (page - 1) * limit, limit, ...queries }
-        : { offset: (page - 1) * limit, limit }
-    ) as U;
+      const params = (
+        queries
+          ? { offset: (page - 1) * limit, limit, ...queries }
+          : { offset: (page - 1) * limit, limit }
+      ) as U;
 
-    getList?.(params)
-      .then((res) => {
-        getCount?.(Array.isArray(res.data) ? res.data.length : res.data.count);
-        setState((prev) => {
-          const array = Array.isArray(res.data) ? res.data : res.data.results;
-          return {
-            count: Array.isArray(res.data) ? res.data.length : res.data.count,
-            data: page === previousPage ? array : [...prev.data, ...array],
-          };
+      getList?.(params)
+        .then((res) => {
+          getCount?.(
+            Array.isArray(res.data) ? res.data.length : res.data.count
+          );
+          setState((prev) => {
+            const array = Array.isArray(res.data) ? res.data : res.data.results;
+            return {
+              count: Array.isArray(res.data) ? res.data.length : res.data.count,
+              data: page === previousPage ? array : [...prev.data, ...array],
+            };
+          });
+        })
+        .catch((err) => {
+          errorCallback && errorCallback(err);
+        })
+        .finally(() => {
+          page === 1 && setInitialLoading(false);
         });
-      })
-      .catch((err) => {
-        errorCallback && errorCallback(err);
-      })
-      .finally(() => {
-        page === 1 && setInitialLoading(false);
-      });
+    }
   }, [page, debouncedQueries, limit]);
 
   useEffect(() => {
