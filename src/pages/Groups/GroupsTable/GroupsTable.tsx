@@ -56,7 +56,9 @@ export const GroupsTable = (props: Props) => {
     },
     {
       title: '',
-      accessor: 'id',
+      // Необходимо из-за ошибки с ключами
+      // @ts-ignore
+      accessor: 'buttons',
       renderCell: (row) => {
         const onClick = (type: 'edit' | 'view') => {
           setModalType(type);
@@ -119,7 +121,7 @@ export const GroupsTable = (props: Props) => {
             setTimeout(() => document.location.reload(), 1000);
           }}
           errorCallback={() => {
-            toast.alert('Не удалось обновить данные группы');
+            toast.alert('Ну удалось обновить данные группы');
           }}
         />
       ) : (

@@ -74,7 +74,7 @@ const PaginationRender = <
 
   useEffect(() => {
     if (onStartCallback) onStartCallback();
-
+    let mounted = true;
     if (!previousPage || page === previousPage) {
       page === 1 && setInitialLoading(true);
 
@@ -86,24 +86,33 @@ const PaginationRender = <
 
       getList?.(params)
         .then((res) => {
-          getCount?.(
-            Array.isArray(res.data) ? res.data.length : res.data.count
-          );
-          setState((prev) => {
-            const array = Array.isArray(res.data) ? res.data : res.data.results;
-            return {
-              count: Array.isArray(res.data) ? res.data.length : res.data.count,
-              data: page === previousPage ? array : [...prev.data, ...array],
-            };
-          });
+          if (mounted) {
+            getCount?.(
+              Array.isArray(res.data) ? res.data.length : res.data.count
+            );
+            setState((prev) => {
+              const array = Array.isArray(res.data)
+                ? res.data
+                : res.data.results;
+              return {
+                count: Array.isArray(res.data)
+                  ? res.data.length
+                  : res.data.count,
+                data: page === previousPage ? array : [...prev.data, ...array],
+              };
+            });
+          }
         })
         .catch((err) => {
-          errorCallback && errorCallback(err);
+          mounted && errorCallback && errorCallback(err);
         })
         .finally(() => {
-          page === 1 && setInitialLoading(false);
+          mounted && page === 1 && setInitialLoading(false);
         });
     }
+    return () => {
+      mounted = false;
+    };
   }, [page, debouncedQueries, limit]);
 
   useEffect(() => {

@@ -59,6 +59,7 @@ export const FavoursTable = (props: Props) => {
     {
       title: 'ID',
       accessor: 'id',
+      renderCell: (row) => row.id,
     },
     {
       title: 'Название',
@@ -75,7 +76,9 @@ export const FavoursTable = (props: Props) => {
     },
     {
       title: '',
-      accessor: 'id',
+      // Необходимо из-за ошибки с ключами
+      // @ts-ignore
+      accessor: 'buttons',
       renderCell: (row) => {
         const onClick = (type: 'edit' | 'view') => {
           setModalType(type);

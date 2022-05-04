@@ -115,7 +115,7 @@ export const MenuLinks: React.FC<Props> = (props) => {
   const location = useLocation();
 
   const refs = useRefs<HTMLAnchorElement>(links.length);
-  const containerRef = useRef<HTMLUListElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const size = useComponentSize(containerRef);
 
@@ -141,7 +141,7 @@ export const MenuLinks: React.FC<Props> = (props) => {
   }, [location.pathname, location.search, size.height]);
 
   return (
-    <ul className={cnMenuLinks(null, [className])} ref={containerRef}>
+    <div className={cnMenuLinks(null, [className])} ref={containerRef}>
       {links.map((link, index) => (
         <Menu
           key={cnMenuLinks(`Link-${index}`)}
@@ -156,6 +156,6 @@ export const MenuLinks: React.FC<Props> = (props) => {
           ['--menu-line-left' as string]: `${linePosition < 0 ? -5 : 0}px`,
         }}
       />
-    </ul>
+    </div>
   );
 };
