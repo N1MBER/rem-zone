@@ -50,7 +50,9 @@ const Menu = (props: {
   const location = useLocation();
 
   useEffect(() => {
-    setActive[location.pathname.includes(link.link) ? 'on' : 'off']();
+    setActive[
+      location.pathname.includes(link.link.split('?')[0]) ? 'on' : 'off'
+    ]();
   }, [location.pathname]);
 
   return (
@@ -93,7 +95,8 @@ const Menu = (props: {
                 key={`${cnMenuLinks()}-${item.link}`}
                 to={item.link}
                 className={cnMenuLinks('SubMenu-Item', {
-                  active: location.pathname.split('?')[0] === item.link,
+                  active:
+                    location.pathname.split('?')[0] === item.link.split('?')[0],
                 })}
               >
                 <Text align="left" weight="bold" lineHeight="m" size="m">
