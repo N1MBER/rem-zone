@@ -51,7 +51,7 @@ export const AutoTable = (props: Props) => {
   const deleteVehicle = (id: string) => {
     deleteCarFunc(id).then((res) => {
       if (res.status === 204) {
-        toast.success('Клиент успешно удален');
+        toast.success('Автомобиль успешно удален');
         setTimeout(() => document.location.reload(), 1000);
       } else {
         toast.alert(res.data.detail);
@@ -63,7 +63,7 @@ export const AutoTable = (props: Props) => {
     {
       title: 'Модель автомобиля',
       accessor: 'model',
-      renderCell: ({ model }) => `${model.name} ${model.brand.name}`,
+      renderCell: ({ model }) => `${model.brand} ${model.name}`,
     },
     {
       title: 'VIN',
@@ -80,6 +80,10 @@ export const AutoTable = (props: Props) => {
     {
       title: 'Объем двигателя л.',
       accessor: 'engine_size',
+    },
+    {
+      title: 'Пробег км',
+      accessor: 'mileage',
     },
     {
       title: 'Дата регистрации',
@@ -145,7 +149,7 @@ export const AutoTable = (props: Props) => {
           updateFunc={updateCar}
           items={autoUpdate}
           element={convertAuto(auto)}
-          title="Изменение данных клиента"
+          title="Изменение данных автомобиля"
           onClose={() => {
             setModalType(undefined);
             setShowModal.off();
@@ -157,7 +161,7 @@ export const AutoTable = (props: Props) => {
             setTimeout(() => document.location.reload(), 1000);
           }}
           errorCallback={() => {
-            toast.alert('Не удалось обновить данные клиента');
+            toast.alert('Не удалось обновить данные автомобиля');
           }}
         />
       ) : (
@@ -165,7 +169,7 @@ export const AutoTable = (props: Props) => {
           mode="view"
           viewFunc={getCar}
           items={autoView}
-          title="Просмотр данных клиента"
+          title="Просмотр данных автомобиля"
           onClose={() => {
             setModalType(undefined);
             setShowModal.off();

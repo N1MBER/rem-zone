@@ -90,7 +90,7 @@ export const autoView: Array<ItemRecord<Auto, InputType>> = [
     key: 'model',
     label: 'Автомобиль',
     type: 'text',
-    renderValue: ({ model }) => <>{`${model.brand.name} ${model.name}`}</>,
+    renderValue: ({ model }) => <>{`${model.brand} ${model.name}`}</>,
   },
   {
     key: 'vin',
@@ -128,7 +128,9 @@ export const autoView: Array<ItemRecord<Auto, InputType>> = [
     type: 'number',
     renderValue: (row) => (
       <a
-        href={`https://google.com/search?q=${row.model.brand.name}+цвет+${row.color_code}`}
+        target="_blank"
+        href={`https://google.com/search?q=${row.model.brand}+цвет+${row.color_code}`}
+        rel="noreferrer"
       >
         {row.color_code}
       </a>

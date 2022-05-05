@@ -19,7 +19,7 @@ const Auto = () => {
     <>
       <TablePage
         className={cnAuto()}
-        title="Клиенты"
+        title="Автомобили"
         apiFunction={getCars}
         tableComponent={AutoTable}
         titleButton={
