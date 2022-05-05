@@ -78,8 +78,17 @@ export const CrudModalUpdate = <TYPE,>(props: CrudModalUpdateProps<TYPE>) => {
   return (
     <div className={cnCrudModalUpdate()}>
       {items.map((item, index) => {
-        const { key, label, type, list, multiple, getItemLabel, getItemKey } =
-          item;
+        const {
+          key,
+          label,
+          type,
+          list,
+          multiple,
+          getItemLabel,
+          getItemKey,
+          explanation,
+          icon,
+        } = item;
         const defaultGetter = () => '';
         if (type === 'email' || type === 'number' || type === 'text') {
           return (
@@ -89,6 +98,8 @@ export const CrudModalUpdate = <TYPE,>(props: CrudModalUpdateProps<TYPE>) => {
               label={(label ?? key).toString()}
               placeholder={(label ?? key).toString()}
               size="m"
+              leftSide={icon}
+              rightSide={explanation}
               value={data[key as string] as TextFieldPropValue}
               type={type}
               onChange={({ value }) => handleChange(value, key.toString())}
