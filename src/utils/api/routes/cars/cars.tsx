@@ -15,11 +15,14 @@ export const getCars = (
   });
 };
 
-export const addCar = (data: CreateAuto): AxiosPromise<Auto> => {
+export const addCar = (data: CreateAuto): AxiosPromise<CreateAuto> => {
   return instance.post(endpoints.cars.cars, { ...data });
 };
 
-export const updateCar = (data: UpdateAuto, id: string): AxiosPromise<Auto> => {
+export const updateCar = (
+  data: UpdateAuto,
+  id: string
+): AxiosPromise<UpdateAuto> => {
   return instance.put(`${endpoints.cars.cars}${id}/`, { ...data });
 };
 

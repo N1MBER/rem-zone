@@ -19,7 +19,7 @@ export type Auto = {
   mileage: number;
   color_code: number;
   plate_number: string;
-  release_date: Date;
+  release_date: string;
   power: number;
   engine_size: number;
 };

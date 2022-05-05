@@ -2,6 +2,7 @@ import React from 'react';
 import { ItemRecord, InputType } from '../../common/CrudModal/types';
 import { Auto } from '../../types/auto';
 import moment from 'moment';
+
 import { CreateAuto, UpdateAuto } from '../../utils/api/routes/cars/types';
 
 export const autoCreate: Array<ItemRecord<CreateAuto, InputType>> = [
