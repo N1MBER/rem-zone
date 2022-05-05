@@ -9,7 +9,7 @@ export const modelUpdate: Array<ItemRecord<Omit<CarModel, 'id'>, InputType>> = [
   },
   {
     key: 'brand',
-    label: 'Иарка',
+    label: 'Марка',
     type: 'text',
   },
 ];
@@ -27,7 +27,7 @@ export const modelView: Array<ItemRecord<CarModel, InputType>> = [
   },
   {
     key: 'brand',
-    label: 'Иарка',
+    label: 'Марка',
     type: 'text',
   },
 ];

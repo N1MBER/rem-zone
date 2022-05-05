@@ -33,6 +33,7 @@ export const getMenuLinks = (userType?: UserType): LinkType[] => {
         subMenu: [
           { label: 'Автомобили', link: `/auto${defaultTablePageParams}` },
           { label: 'Марки', link: `/auto/brands${defaultTablePageParams}` },
+          { label: 'Модели', link: `/auto/models${defaultTablePageParams}` },
         ],
       },
       {
@@ -88,6 +89,8 @@ export const getMenuLinks = (userType?: UserType): LinkType[] => {
       link: `/auto${defaultTablePageParams}`,
       subMenu: [
         { label: 'Автомобили', link: `/auto${defaultTablePageParams}` },
+        { label: 'Марки', link: `/auto/brands${defaultTablePageParams}` },
+        { label: 'Модели', link: `/auto/models${defaultTablePageParams}` },
       ],
     },
     {
