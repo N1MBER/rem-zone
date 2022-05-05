@@ -3,6 +3,7 @@ import { AxiosPromise } from 'axios';
 import { instance } from '../..';
 import { endpoints } from '../../endpoints/endpoints';
 import { BaseListRequest, BaseListResponse } from '../../types';
+import { Auto } from '../../../../types/auto';
 
 // Staff
 
@@ -100,4 +101,33 @@ export const getClient = (id: string): AxiosPromise<Client> => {
 
 export const deleteClient = (id: string): AxiosPromise => {
   return instance.delete(`${endpoints.users.clients}${id}/`);
+};
+
+// Vehicle
+
+export const getVehicles = (
+  query: BaseListRequest & { newest?: boolean }
+): AxiosPromise<BaseListResponse<Auto>> => {
+  return instance.get(endpoints.users.auto, {
+    params: query,
+  });
+};
+
+export const addVehicle = (data: Omit<Auto, 'id'>): AxiosPromise<Auto> => {
+  return instance.post(endpoints.users.auto, { ...data });
+};
+
+export const updateVehicle = (
+  data: Omit<Auto, 'id'>,
+  id: string
+): AxiosPromise<Auto> => {
+  return instance.put(`${endpoints.users.auto}${id}/`, { ...data });
+};
+
+export const getVehicle = (id: string): AxiosPromise<Auto> => {
+  return instance.get(`${endpoints.users.auto}${id}/`);
+};
+
+export const deleteVehicle = (id: string): AxiosPromise => {
+  return instance.delete(`${endpoints.users.auto}${id}/`);
 };

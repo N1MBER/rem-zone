@@ -15,6 +15,7 @@ export const endpoints = {
     changePassword: (id: string) => `/users/staff/${id}/change_password/`,
     groups: '/users/groups/',
     clients: '/users/clients/',
+    auto: '/users/auto/',
   },
   positions: {
     positions: '/users/staff/positions/',
