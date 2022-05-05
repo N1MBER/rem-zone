@@ -15,7 +15,6 @@ export const endpoints = {
     changePassword: (id: string) => `/users/staff/${id}/change_password/`,
     groups: '/users/groups/',
     clients: '/users/clients/',
-    auto: '/users/auto/',
   },
   positions: {
     positions: '/users/staff/positions/',
@@ -32,5 +31,10 @@ export const endpoints = {
   analytic: {
     worklogs: '/api/v1/analytics/worklogs/',
     jobs: '/api/v1/analytics/jobs/',
+  },
+  cars: {
+    cars: '/api/v1/cars/',
+    model: '/api/v1/cars/models/',
+    brand: '/api/v1/cars/brands/',
   },
 };
