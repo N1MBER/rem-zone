@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFlag } from '@consta/uikit/useFlag';
 import { cn } from '../../__private__/utils/bem';
 import { addStaff, getStaffs } from '../../utils/api/routes/users/users';
@@ -12,10 +12,12 @@ import { IconAdd } from '@consta/uikit/IconAdd';
 import { IconRevert } from '@consta/uikit/IconRevert';
 import { IconSearch } from '@consta/uikit/IconSearch';
 import { RootState } from '../../store/reducers';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CrudModal } from '../../common/CrudModal/CrudModal';
 import { staffEdit } from './StaffTable/helper';
 import { toast } from '../../utils/toast/toast';
+import { getPositions } from '../../utils/api/routes/positions/positions';
+import { setPositions } from '../../store/reducers/settings/settings';
 
 import './Staff.scss';
 
@@ -36,6 +38,8 @@ export const Staff = () => {
     (store: RootState) => store.settings
   );
 
+  const dispatch = useDispatch();
+
   const setValue: (
     key: keyof StaffQueries,
     value: StaffQueries[keyof StaffQueries]
@@ -50,6 +54,16 @@ export const Staff = () => {
     setFilterData({});
     setData({});
   };
+
+  const getPosition = () => {
+    getPositions({ offset: 0, limit: 100 }).then((res) => {
+      dispatch(setPositions(res.data));
+    });
+  };
+
+  useEffect(() => {
+    getPosition();
+  }, []);
 
   const items = staffEdit(
     groups.map((el) => el.name ?? ''),
