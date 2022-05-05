@@ -44,7 +44,7 @@ export const getBrands = (
   });
 };
 
-export const addBrand = (data: Omit<Brand, 'id'>): AxiosPromise<CreateAuto> => {
+export const addBrand = (data: Omit<Brand, 'id'>): AxiosPromise<Brand> => {
   return instance.post(endpoints.cars.brand, { ...data });
 };
 
