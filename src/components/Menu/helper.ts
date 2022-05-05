@@ -30,6 +30,10 @@ export const getMenuLinks = (userType?: UserType): LinkType[] => {
         label: 'Автомобили',
         icon: IconRUS,
         link: `/auto${defaultTablePageParams}`,
+        subMenu: [
+          { label: 'Автомобили', link: `/auto${defaultTablePageParams}` },
+          { label: 'Марки', link: `/auto/brands${defaultTablePageParams}` },
+        ],
       },
       {
         label: 'Сотрудники',
@@ -76,6 +80,14 @@ export const getMenuLinks = (userType?: UserType): LinkType[] => {
           label: 'Время работы',
           link: `/staff/worklogs${defaultTablePageParams}`,
         },
+      ],
+    },
+    {
+      label: 'Автомобили',
+      icon: IconRUS,
+      link: `/auto${defaultTablePageParams}`,
+      subMenu: [
+        { label: 'Автомобили', link: `/auto${defaultTablePageParams}` },
       ],
     },
     {
