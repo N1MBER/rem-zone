@@ -15,6 +15,7 @@ const Positions = React.lazy(() => import('../../pages/Positions/Positions'));
 const Groups = React.lazy(() => import('../../pages/Groups/Groups'));
 const Favours = React.lazy(() => import('../../pages/Favours/Favours'));
 const Staff = React.lazy(() => import('../../pages/Staff/Staff'));
+const Auto = React.lazy(() => import('../../pages/Auto/Auto'));
 
 type Props = {
   isAdmin?: boolean;
@@ -64,6 +65,10 @@ const paths = (userType?: UserType): Path[] => {
       {
         path: '/favours',
         component: Favours,
+      },
+      {
+        path: '/auto',
+        component: Auto,
       },
     ];
   }
