@@ -1,3 +1,4 @@
+import { IconComponent } from '@consta/uikit/Icon';
 import { AxiosPromise } from 'axios';
 
 import { ModalCrudType } from '../../types/setings';
@@ -15,6 +16,8 @@ export type ItemRecord<ITEM, TYPE> = {
   key: keyof ITEM;
   type: TYPE;
   label?: string;
+  explanation?: string;
+  icon?: IconComponent;
   renderValue?: (item: ITEM) => React.ReactElement;
   list?: ITEM[keyof ITEM][];
   multiple?: boolean;
