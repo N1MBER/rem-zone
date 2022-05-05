@@ -18,6 +18,7 @@ import { staffEdit } from './StaffTable/helper';
 import { toast } from '../../utils/toast/toast';
 import { getPositions } from '../../utils/api/routes/positions/positions';
 import { setPositions } from '../../store/reducers/settings/settings';
+import { getErrorMessage } from '../../utils';
 
 import './Staff.scss';
 
@@ -162,8 +163,9 @@ export const Staff = () => {
           toast.success('Сотрудник успешно создан');
           setTimeout(() => document.location.reload(), 1000);
         }}
-        errorCallback={() => {
-          toast.alert('Не удалось создать сотрудника');
+        errorCallback={(error) => {
+          const message = getErrorMessage(error);
+          toast.alert(message ?? 'Не удалось создать сотрудника');
         }}
       />
     </>

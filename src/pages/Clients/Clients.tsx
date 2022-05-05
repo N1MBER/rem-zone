@@ -13,6 +13,7 @@ import { Text } from '@consta/uikit/Text';
 import { TextField } from '@consta/uikit/TextField';
 import { IconRevert } from '@consta/uikit/IconRevert';
 import { IconSearch } from '@consta/uikit/IconSearch';
+import { getErrorMessage } from '../../utils';
 
 const cnClients = cn('Clients');
 
@@ -122,8 +123,9 @@ const Clients = () => {
           toast.success('Клиент успешно создан');
           setTimeout(() => document.location.reload(), 1000);
         }}
-        errorCallback={() => {
-          toast.alert('Не удалось создать клиента');
+        errorCallback={(error) => {
+          const message = getErrorMessage(error);
+          toast.alert(message ?? 'Не удалось создать клиента');
         }}
       />
     </>

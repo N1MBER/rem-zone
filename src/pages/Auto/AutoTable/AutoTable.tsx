@@ -19,6 +19,7 @@ import { autoUpdate, autoView } from '../helper';
 import { Auto } from '../../../types/auto';
 import moment from 'moment';
 import { UpdateAuto } from '../../../utils/api/routes/cars/types';
+import { getErrorMessage } from '../../../utils';
 
 import './AutoTable.scss';
 
@@ -160,8 +161,9 @@ export const AutoTable = (props: Props) => {
             toast.success('Данные успешно обновились');
             setTimeout(() => document.location.reload(), 1000);
           }}
-          errorCallback={() => {
-            toast.alert('Не удалось обновить данные автомобиля');
+          errorCallback={(error) => {
+            const message = getErrorMessage(error);
+            toast.alert(message ?? 'Не удалось обновить данные автомобиля');
           }}
         />
       ) : (

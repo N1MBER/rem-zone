@@ -17,6 +17,7 @@ import { ModalCrudType } from '../../../types/setings';
 import { useFlag } from '@consta/uikit/useFlag';
 import { CrudModal } from '../../../common/CrudModal/CrudModal';
 import { positionCreate, positionView } from '../helper';
+import { getErrorMessage } from '../../../utils';
 
 import './PositionsTable.scss';
 
@@ -133,8 +134,9 @@ export const PositionsTable = (props: Props) => {
             toast.success('Данные успешно обновились');
             setTimeout(() => document.location.reload(), 1000);
           }}
-          errorCallback={() => {
-            toast.alert('Не удалось обновить данные должности');
+          errorCallback={(error) => {
+            const message = getErrorMessage(error);
+            toast.alert(message ?? 'Не удалось обновить данные должности');
           }}
         />
       ) : (

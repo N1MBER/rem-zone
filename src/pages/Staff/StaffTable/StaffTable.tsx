@@ -28,6 +28,7 @@ import {
   setPositions,
 } from '../../../store/reducers/settings/settings';
 import { ModalCrudType } from '../../../types/setings';
+import { getErrorMessage } from '../../../utils';
 
 import './StaffTable.scss';
 
@@ -228,8 +229,9 @@ export const StaffTable = (props: Props) => {
             toast.success('Данные успешно обновились');
             setTimeout(() => document.location.reload(), 1000);
           }}
-          errorCallback={() => {
-            toast.alert('Не удалось обновить данные сотрудника');
+          errorCallback={(error) => {
+            const message = getErrorMessage(error);
+            toast.alert(message ?? 'Не удалось обновить данные сотрудника');
           }}
         />
       ) : (

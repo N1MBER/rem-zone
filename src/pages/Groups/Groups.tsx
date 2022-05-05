@@ -9,6 +9,7 @@ import { CrudModal } from '../../common/CrudModal/CrudModal';
 import { toast } from '../../utils/toast/toast';
 import { cn } from '../../__private__/utils/bem';
 import { groupCreate } from './helper';
+import { getErrorMessage } from '../../utils';
 
 const cnGroups = cn('Groups');
 
@@ -42,8 +43,9 @@ export const Groups = () => {
           toast.success('Группа успешно создана');
           setTimeout(() => document.location.reload(), 1000);
         }}
-        errorCallback={() => {
-          toast.alert('Не удалось создать группу');
+        errorCallback={(error) => {
+          const message = getErrorMessage(error);
+          toast.alert(message ?? 'Не удалось создать группу');
         }}
       />
     </>

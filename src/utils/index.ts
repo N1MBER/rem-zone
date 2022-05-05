@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import { Group } from '../types/user';
 
 export const generateRandomValue = (maxLimit = 10) => {
@@ -86,4 +87,20 @@ export const deepEqual = (
     }
   }
   return true;
+};
+
+export const getErrorMessage = (error: any): string | undefined => {
+  const errObj = error as AxiosResponse;
+  const { data } = errObj;
+  if (typeof data === 'string' || typeof data === 'number') {
+    return data.toString();
+  }
+  if (typeof data === 'object') {
+    const message: string[] = [];
+    Object.keys(data).forEach((key) => {
+      message.push(data[key].toString());
+    });
+    return Object.keys(data).length === 0 ? undefined : message.join('. ');
+  }
+  return undefined;
 };

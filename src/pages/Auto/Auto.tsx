@@ -9,6 +9,7 @@ import { cn } from '../../__private__/utils/bem';
 import { autoCreate } from './helper';
 import { addCar, getCars } from '../../utils/api/routes/cars/cars';
 import { AutoTable } from './AutoTable/AutoTable';
+import { getErrorMessage } from '../../utils';
 
 const cnAuto = cn('Auto');
 
@@ -42,8 +43,9 @@ const Auto = () => {
           toast.success('Автомобиль успешно создан');
           setTimeout(() => document.location.reload(), 1000);
         }}
-        errorCallback={() => {
-          toast.alert('Не удалось создать автомобиль');
+        errorCallback={(error) => {
+          const message = getErrorMessage(error);
+          toast.alert(message ?? 'Не удалось создать автомобиль');
         }}
       />
     </>

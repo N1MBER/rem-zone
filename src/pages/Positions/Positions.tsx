@@ -12,6 +12,7 @@ import {
   getPositions,
   addPosition,
 } from '../../utils/api/routes/positions/positions';
+import { getErrorMessage } from '../../utils';
 
 const cnPositions = cn('Positions');
 
@@ -45,8 +46,9 @@ export const Positions = () => {
           toast.success('Должность успешно создана');
           setTimeout(() => document.location.reload(), 1000);
         }}
-        errorCallback={() => {
-          toast.alert('Не удалось создать должность');
+        errorCallback={(error) => {
+          const message = getErrorMessage(error);
+          toast.alert(message ?? 'Не удалось создать должность');
         }}
       />
     </>

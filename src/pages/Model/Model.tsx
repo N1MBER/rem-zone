@@ -9,6 +9,7 @@ import { cn } from '../../__private__/utils/bem';
 import { modelUpdate } from './helper';
 import { addModel, getModels } from '../../utils/api/routes/cars/cars';
 import { ModelTable } from './ModelTable/ModelTable';
+import { getErrorMessage } from '../../utils';
 
 const cnModel = cn('Model');
 
@@ -42,8 +43,9 @@ const Model = () => {
           toast.success('Модель успешно создан');
           setTimeout(() => document.location.reload(), 1000);
         }}
-        errorCallback={() => {
-          toast.alert('Не удалось создать модель');
+        errorCallback={(error) => {
+          const message = getErrorMessage(error);
+          toast.alert(message ?? 'Не удалось создать модель');
         }}
       />
     </>

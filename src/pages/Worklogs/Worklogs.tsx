@@ -12,6 +12,7 @@ import {
   getWorklogs,
   addWorklog,
 } from '../../utils/api/routes/worklogs/worklogs';
+import { getErrorMessage } from '../../utils';
 
 const cnWorklogs = cn('cnWorklogs');
 
@@ -45,8 +46,9 @@ export const Worklogs = () => {
           toast.success('Время работы зафиксирована');
           setTimeout(() => document.location.reload(), 1000);
         }}
-        errorCallback={() => {
-          toast.alert('Не удалось зафиксировать время');
+        errorCallback={(error) => {
+          const message = getErrorMessage(error);
+          toast.alert(message ?? 'Не удалось зафиксировать время');
         }}
       />
     </>

@@ -9,6 +9,7 @@ import { cn } from '../../__private__/utils/bem';
 import { brandsUpdate } from './helper';
 import { addBrand, getBrands } from '../../utils/api/routes/cars/cars';
 import { BrandTable } from './BrandTable/BrandTable';
+import { getErrorMessage } from '../../utils';
 
 const cnBrands = cn('Brands');
 
@@ -42,8 +43,9 @@ const Brands = () => {
           toast.success('Марка успешно создан');
           setTimeout(() => document.location.reload(), 1000);
         }}
-        errorCallback={() => {
-          toast.alert('Не удалось создать марку');
+        errorCallback={(error) => {
+          const message = getErrorMessage(error);
+          toast.alert(message ?? 'Не удалось создать марку');
         }}
       />
     </>

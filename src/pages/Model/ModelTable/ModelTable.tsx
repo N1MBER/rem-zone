@@ -17,6 +17,7 @@ import { useFlag } from '@consta/uikit/useFlag';
 import { CrudModal } from '../../../common/CrudModal/CrudModal';
 import { modelUpdate, modelView } from '../helper';
 import { CarModel } from '../../../types/auto';
+import { getErrorMessage } from '../../../utils';
 
 import './ModelTable.scss';
 
@@ -122,8 +123,9 @@ export const ModelTable = (props: Props) => {
             toast.success('Данные успешно обновились');
             setTimeout(() => document.location.reload(), 1000);
           }}
-          errorCallback={() => {
-            toast.alert('Не удалось обновить данные марки');
+          errorCallback={(error) => {
+            const message = getErrorMessage(error);
+            toast.alert(message ?? 'Не удалось обновить данные марки');
           }}
         />
       ) : (
