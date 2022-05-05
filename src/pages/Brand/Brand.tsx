@@ -10,11 +10,15 @@ import { brandsUpdate } from './helper';
 import { addBrand, getBrands } from '../../utils/api/routes/cars/cars';
 import { BrandTable } from './BrandTable/BrandTable';
 import { getErrorMessage } from '../../utils';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/reducers';
 
 const cnBrands = cn('Brands');
 
 const Brands = () => {
   const [open, setOpen] = useFlag();
+
+  const { userType } = useSelector((store: RootState) => store.user);
 
   return (
     <>
@@ -24,30 +28,34 @@ const Brands = () => {
         apiFunction={getBrands}
         tableComponent={BrandTable}
         titleButton={
-          <Button
-            label="Добавить марку"
-            size="s"
-            iconLeft={IconAdd}
-            onClick={setOpen.on}
-          />
+          userType !== 'master-executor' ? (
+            <Button
+              label="Добавить марку"
+              size="s"
+              iconLeft={IconAdd}
+              onClick={setOpen.on}
+            />
+          ) : undefined
         }
       />
-      <CrudModal
-        mode="create"
-        createFunc={addBrand}
-        title="Создание новой марки"
-        onClose={setOpen.off}
-        isOpen={open}
-        items={brandsUpdate}
-        successCallback={() => {
-          toast.success('Марка успешно создан');
-          setTimeout(() => document.location.reload(), 1000);
-        }}
-        errorCallback={(error) => {
-          const message = getErrorMessage(error);
-          toast.alert(message ?? 'Не удалось создать марку');
-        }}
-      />
+      {userType !== 'master-executor' && (
+        <CrudModal
+          mode="create"
+          createFunc={addBrand}
+          title="Создание новой марки"
+          onClose={setOpen.off}
+          isOpen={open}
+          items={brandsUpdate}
+          successCallback={() => {
+            toast.success('Марка успешно создан');
+            setTimeout(() => document.location.reload(), 1000);
+          }}
+          errorCallback={(error) => {
+            const message = getErrorMessage(error);
+            toast.alert(message ?? 'Не удалось создать марку');
+          }}
+        />
+      )}
     </>
   );
 };

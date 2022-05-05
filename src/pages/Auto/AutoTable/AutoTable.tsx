@@ -20,6 +20,8 @@ import { Auto } from '../../../types/auto';
 import moment from 'moment';
 import { UpdateAuto } from '../../../utils/api/routes/cars/types';
 import { getErrorMessage } from '../../../utils';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/reducers';
 
 import './AutoTable.scss';
 
@@ -44,6 +46,8 @@ const convertAuto = (auto: Auto | undefined): UpdateAuto | undefined =>
 
 export const AutoTable = (props: Props) => {
   const { data } = props;
+
+  const { userType } = useSelector((store: RootState) => store.user);
 
   const [modalType, setModalType] = useState<ModalCrudType | undefined>();
   const [showModal, setShowModal] = useFlag();
@@ -110,26 +114,30 @@ export const AutoTable = (props: Props) => {
               view="secondary"
               onClick={() => onClick('view')}
               iconLeft={IconDocFilled}
-              form="defaultBrick"
+              form={userType !== 'master-executor' ? 'defaultBrick' : 'default'}
             />
-            <Button
-              form="brick"
-              size="xs"
-              view="secondary"
-              title="Изменить"
-              onlyIcon
-              onClick={() => onClick('edit')}
-              iconLeft={IconEdit}
-            />
-            <Button
-              form="brickDefault"
-              size="xs"
-              view="secondary"
-              title="Удалить"
-              onlyIcon
-              onClick={() => deleteVehicle(row.id)}
-              iconLeft={IconTrash}
-            />
+            {userType !== 'master-executor' && (
+              <>
+                <Button
+                  form="brick"
+                  size="xs"
+                  view="secondary"
+                  title="Изменить"
+                  onlyIcon
+                  onClick={() => onClick('edit')}
+                  iconLeft={IconEdit}
+                />
+                <Button
+                  form="brickDefault"
+                  size="xs"
+                  view="secondary"
+                  title="Удалить"
+                  onlyIcon
+                  onClick={() => deleteVehicle(row.id)}
+                  iconLeft={IconTrash}
+                />
+              </>
+            )}
           </div>
         );
       },
@@ -144,41 +152,45 @@ export const AutoTable = (props: Props) => {
         columns={columns}
         data={data}
       />
-      {modalType === 'edit' ? (
-        <CrudModal
-          mode="edit"
-          updateFunc={updateCar}
-          items={autoUpdate}
-          element={convertAuto(auto)}
-          title="Изменение данных автомобиля"
-          onClose={() => {
-            setModalType(undefined);
-            setShowModal.off();
-          }}
-          itemId={auto?.id ?? ''}
-          isOpen={showModal}
-          successCallback={() => {
-            toast.success('Данные успешно обновились');
-            setTimeout(() => document.location.reload(), 1000);
-          }}
-          errorCallback={(error) => {
-            const message = getErrorMessage(error);
-            toast.alert(message ?? 'Не удалось обновить данные автомобиля');
-          }}
-        />
-      ) : (
-        <CrudModal
-          mode="view"
-          viewFunc={getCar}
-          items={autoView}
-          title="Просмотр данных автомобиля"
-          onClose={() => {
-            setModalType(undefined);
-            setShowModal.off();
-          }}
-          itemId={auto?.id ?? ''}
-          isOpen={showModal}
-        />
+      {userType !== 'master-executor' && (
+        <>
+          {modalType === 'edit' ? (
+            <CrudModal
+              mode="edit"
+              updateFunc={updateCar}
+              items={autoUpdate}
+              element={convertAuto(auto)}
+              title="Изменение данных автомобиля"
+              onClose={() => {
+                setModalType(undefined);
+                setShowModal.off();
+              }}
+              itemId={auto?.id ?? ''}
+              isOpen={showModal}
+              successCallback={() => {
+                toast.success('Данные успешно обновились');
+                setTimeout(() => document.location.reload(), 1000);
+              }}
+              errorCallback={(error) => {
+                const message = getErrorMessage(error);
+                toast.alert(message ?? 'Не удалось обновить данные автомобиля');
+              }}
+            />
+          ) : (
+            <CrudModal
+              mode="view"
+              viewFunc={getCar}
+              items={autoView}
+              title="Просмотр данных автомобиля"
+              onClose={() => {
+                setModalType(undefined);
+                setShowModal.off();
+              }}
+              itemId={auto?.id ?? ''}
+              isOpen={showModal}
+            />
+          )}
+        </>
       )}
     </>
   );

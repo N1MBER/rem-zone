@@ -18,6 +18,8 @@ import { CrudModal } from '../../../common/CrudModal/CrudModal';
 import { brandsUpdate, brandsView } from '../helper';
 import { Brand } from '../../../types/auto';
 import { getErrorMessage } from '../../../utils';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/reducers';
 
 import './BrandTable.scss';
 
@@ -33,6 +35,8 @@ export const BrandTable = (props: Props) => {
   const [modalType, setModalType] = useState<ModalCrudType | undefined>();
   const [showModal, setShowModal] = useFlag();
   const [brand, setBrand] = useState<Brand | undefined>();
+
+  const { userType } = useSelector((store: RootState) => store.user);
 
   const deleteVehicle = (id: string) => {
     deleteBrandFunc(id).then((res) => {
@@ -68,26 +72,30 @@ export const BrandTable = (props: Props) => {
               view="secondary"
               onClick={() => onClick('view')}
               iconLeft={IconDocFilled}
-              form="defaultBrick"
+              form={userType !== 'master-executor' ? 'defaultBrick' : 'default'}
             />
-            <Button
-              form="brick"
-              size="xs"
-              view="secondary"
-              title="Изменить"
-              onlyIcon
-              onClick={() => onClick('edit')}
-              iconLeft={IconEdit}
-            />
-            <Button
-              form="brickDefault"
-              size="xs"
-              view="secondary"
-              title="Удалить"
-              onlyIcon
-              onClick={() => deleteVehicle(row.id)}
-              iconLeft={IconTrash}
-            />
+            {userType !== 'master-executor' && (
+              <>
+                <Button
+                  form="brick"
+                  size="xs"
+                  view="secondary"
+                  title="Изменить"
+                  onlyIcon
+                  onClick={() => onClick('edit')}
+                  iconLeft={IconEdit}
+                />
+                <Button
+                  form="brickDefault"
+                  size="xs"
+                  view="secondary"
+                  title="Удалить"
+                  onlyIcon
+                  onClick={() => deleteVehicle(row.id)}
+                  iconLeft={IconTrash}
+                />{' '}
+              </>
+            )}
           </div>
         );
       },
@@ -102,41 +110,45 @@ export const BrandTable = (props: Props) => {
         columns={columns}
         data={data}
       />
-      {modalType === 'edit' ? (
-        <CrudModal
-          mode="edit"
-          updateFunc={updateBrand}
-          items={brandsUpdate}
-          element={brand ? { name: brand.name } : undefined}
-          title="Изменение данных марки"
-          onClose={() => {
-            setModalType(undefined);
-            setShowModal.off();
-          }}
-          itemId={brand?.id ?? ''}
-          isOpen={showModal}
-          successCallback={() => {
-            toast.success('Данные успешно обновились');
-            setTimeout(() => document.location.reload(), 1000);
-          }}
-          errorCallback={(error) => {
-            const message = getErrorMessage(error);
-            toast.alert(message ?? 'Не удалось обновить данные марки');
-          }}
-        />
-      ) : (
-        <CrudModal
-          mode="view"
-          viewFunc={getBrand}
-          items={brandsView}
-          title="Просмотр данных марки"
-          onClose={() => {
-            setModalType(undefined);
-            setShowModal.off();
-          }}
-          itemId={brand?.id ?? ''}
-          isOpen={showModal}
-        />
+      {userType !== 'master-executor' && (
+        <>
+          {modalType === 'edit' ? (
+            <CrudModal
+              mode="edit"
+              updateFunc={updateBrand}
+              items={brandsUpdate}
+              element={brand ? { name: brand.name } : undefined}
+              title="Изменение данных марки"
+              onClose={() => {
+                setModalType(undefined);
+                setShowModal.off();
+              }}
+              itemId={brand?.id ?? ''}
+              isOpen={showModal}
+              successCallback={() => {
+                toast.success('Данные успешно обновились');
+                setTimeout(() => document.location.reload(), 1000);
+              }}
+              errorCallback={(error) => {
+                const message = getErrorMessage(error);
+                toast.alert(message ?? 'Не удалось обновить данные марки');
+              }}
+            />
+          ) : (
+            <CrudModal
+              mode="view"
+              viewFunc={getBrand}
+              items={brandsView}
+              title="Просмотр данных марки"
+              onClose={() => {
+                setModalType(undefined);
+                setShowModal.off();
+              }}
+              itemId={brand?.id ?? ''}
+              isOpen={showModal}
+            />
+          )}
+        </>
       )}
     </>
   );
