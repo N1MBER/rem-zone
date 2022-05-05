@@ -25,7 +25,6 @@ export type StaffQueries = {
   email?: string;
   name?: string;
   position?: string;
-  limit?: number;
 };
 
 export const Staff = () => {
@@ -85,7 +84,7 @@ export const Staff = () => {
                   size="s"
                   value={filterData.name}
                   onChange={({ value }) => setValue('name', value?.toString())}
-                  placeholder="Ф.И.О."
+                  placeholder="Ф.И.О"
                 />
                 <TextField
                   className={cnStaff('Input')}
@@ -124,16 +123,18 @@ export const Staff = () => {
                 form="brickDefault"
                 size="s"
                 label="Поиск"
-                onClick={() => setData(data)}
+                onClick={() => setData(filterData)}
                 iconRight={IconSearch}
               />
             </div>
           </>
         }
         queries={{
-          name: filterData.name,
-          email: filterData.email,
-          position: filterData.position,
+          last_name: data.name?.split(' ')[0],
+          first_name: data.name?.split(' ')[1],
+          email: data.email,
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          position__name: data.position,
         }}
       />
       <CrudModal
