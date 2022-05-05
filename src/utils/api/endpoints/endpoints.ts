@@ -32,4 +32,9 @@ export const endpoints = {
     worklogs: '/api/v1/analytics/worklogs/',
     jobs: '/api/v1/analytics/jobs/',
   },
+  cars: {
+    cars: '/api/v1/cars/',
+    model: '/api/v1/cars/models/',
+    brand: '/api/v1/cars/brands/',
+  },
 };
