@@ -36,7 +36,7 @@ export const BrandTable = (props: Props) => {
   const deleteVehicle = (id: string) => {
     deleteBrandFunc(id).then((res) => {
       if (res.status === 204) {
-        toast.success('Автомобиль успешно удален');
+        toast.success('Марка успешно удалена');
         setTimeout(() => document.location.reload(), 1000);
       } else {
         toast.alert(res.data.detail);
@@ -46,7 +46,7 @@ export const BrandTable = (props: Props) => {
 
   const columns: Array<TableColumn<Brand>> = [
     {
-      title: 'Модель автомобиля',
+      title: 'Название',
       accessor: 'name',
     },
     {
@@ -107,7 +107,7 @@ export const BrandTable = (props: Props) => {
           updateFunc={updateBrand}
           items={brandsUpdate}
           element={brand ? { name: brand.name } : undefined}
-          title="Изменение данных автомобиля"
+          title="Изменение данных марки"
           onClose={() => {
             setModalType(undefined);
             setShowModal.off();
@@ -119,7 +119,7 @@ export const BrandTable = (props: Props) => {
             setTimeout(() => document.location.reload(), 1000);
           }}
           errorCallback={() => {
-            toast.alert('Не удалось обновить данные автомобиля');
+            toast.alert('Не удалось обновить данные марки');
           }}
         />
       ) : (
@@ -127,7 +127,7 @@ export const BrandTable = (props: Props) => {
           mode="view"
           viewFunc={getBrand}
           items={brandsView}
-          title="Просмотр данных автомобиля"
+          title="Просмотр данных марки"
           onClose={() => {
             setModalType(undefined);
             setShowModal.off();

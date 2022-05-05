@@ -19,12 +19,12 @@ const Brands = () => {
     <>
       <TablePage
         className={cnBrands()}
-        title="Автомобили"
+        title="Марки"
         apiFunction={getBrands}
         tableComponent={BrandTable}
         titleButton={
           <Button
-            label="Добавить автомобиль"
+            label="Добавить марку"
             size="s"
             iconLeft={IconAdd}
             onClick={setOpen.on}
