@@ -6,7 +6,9 @@ import { BaseListRequest } from '../../types';
 
 // Favour
 
-export const getFavours = (query: BaseListRequest): AxiosPromise<Favour[]> => {
+export const getFavours = (
+  query: BaseListRequest & { name?: string }
+): AxiosPromise<Favour[]> => {
   return instance.get(endpoints.favours.favours, {
     params: query,
   });

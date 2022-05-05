@@ -7,7 +7,13 @@ import { BaseListRequest, BaseListResponse } from '../../types';
 // Staff
 
 export const getStaffs = (
-  query: BaseListRequest
+  query: BaseListRequest & {
+    email?: string;
+    first_name?: string;
+    last_name?: string;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    position__name?: string;
+  }
 ): AxiosPromise<BaseListResponse<Staff>> => {
   return instance.get(endpoints.users.staff, {
     params: query,
@@ -74,7 +80,11 @@ export const chanheStaffPassword = (
 // Clients
 
 export const getClients = (
-  query: BaseListRequest & { newest?: boolean }
+  query: BaseListRequest & {
+    newest?: boolean;
+    phone_number?: string;
+    last_name?: string;
+  }
 ): AxiosPromise<BaseListResponse<Client>> => {
   return instance.get(endpoints.users.clients, {
     params: query,

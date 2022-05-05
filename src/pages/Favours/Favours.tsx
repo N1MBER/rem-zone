@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TablePage } from '../../common/BaseComponents/TablePage/TablePage';
 import { Button } from '@consta/uikit/Button';
 import { IconAdd } from '@consta/uikit/IconAdd';
@@ -9,11 +9,22 @@ import { cn } from '../../__private__/utils/bem';
 import { favourCreate } from './helper';
 import { getFavours, addFavour } from '../../utils/api/routes/favour/favour';
 import { FavoursTable } from './FavoursTable/FavoursTable';
+import { Text } from '@consta/uikit/Text';
+import { TextField } from '@consta/uikit/TextField';
+import { IconRevert } from '@consta/uikit/IconRevert';
+import { IconSearch } from '@consta/uikit/IconSearch';
 
 const cnFavours = cn('Favours');
 
 export const Favours = () => {
   const [open, setOpen] = useFlag();
+  const [name, setName] = useState<string | undefined>();
+  const [queries, setQueries] = useState<{ name?: string }>({});
+
+  const clearData = () => {
+    setName(undefined);
+    setQueries({});
+  };
 
   return (
     <>
@@ -29,6 +40,43 @@ export const Favours = () => {
             iconLeft={IconAdd}
             onClick={setOpen.on}
           />
+        }
+        queries={{ name: queries.name }}
+        additionalControls={
+          <>
+            <div className={cnFavours('Controls')}>
+              <Text size="s" lineHeight="m" view="primary" weight="regular">
+                Поиск
+              </Text>
+              <div className={cnFavours('Inputs')}>
+                <TextField
+                  className={cnFavours('Input')}
+                  type="text"
+                  size="s"
+                  value={name}
+                  onChange={({ value }) => setName(value?.toString())}
+                  placeholder="Название"
+                />
+              </div>
+            </div>
+            <div className={cnFavours('Buttons')}>
+              <Button
+                form="defaultBrick"
+                size="s"
+                view="secondary"
+                label="Сброс"
+                onClick={clearData}
+                iconLeft={IconRevert}
+              />
+              <Button
+                form="brickDefault"
+                size="s"
+                label="Поиск"
+                onClick={() => setQueries({ name })}
+                iconRight={IconSearch}
+              />
+            </div>
+          </>
         }
       />
       <CrudModal

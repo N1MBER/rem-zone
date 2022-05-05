@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TablePage } from '../../common/BaseComponents/TablePage/TablePage';
 import { Button } from '@consta/uikit/Button';
 import { IconAdd } from '@consta/uikit/IconAdd';
@@ -9,11 +9,37 @@ import { cn } from '../../__private__/utils/bem';
 import { clientCreate } from './helper';
 import { addClient, getClients } from '../../utils/api/routes/users/users';
 import { ClientsTable } from './ClientsTable/ClientsTable';
+import { Text } from '@consta/uikit/Text';
+import { TextField } from '@consta/uikit/TextField';
+import { IconRevert } from '@consta/uikit/IconRevert';
+import { IconSearch } from '@consta/uikit/IconSearch';
 
 const cnClients = cn('Clients');
 
+type FilterData = {
+  last_name?: string;
+  phone_number?: string;
+};
+
 const Clients = () => {
   const [open, setOpen] = useFlag();
+  const [filterData, setFilterData] = useState<FilterData>({});
+  const [data, setData] = useState<FilterData>({});
+
+  const setValue: (
+    key: keyof FilterData,
+    value: FilterData[keyof FilterData]
+  ) => void = (key, value) => {
+    setFilterData({
+      ...filterData,
+      [key as string]: value,
+    });
+  };
+
+  const clearData = () => {
+    setFilterData({});
+    setData({});
+  };
 
   return (
     <>
@@ -30,6 +56,60 @@ const Clients = () => {
             onClick={setOpen.on}
           />
         }
+        additionalControls={
+          <>
+            <div className={cnClients('Controls')}>
+              <Text size="s" lineHeight="m" view="primary" weight="regular">
+                Поиск
+              </Text>
+              <div className={cnClients('Inputs')}>
+                <TextField
+                  className={cnClients('Input')}
+                  form="defaultClear"
+                  type="text"
+                  size="s"
+                  value={filterData.last_name}
+                  onChange={({ value }) =>
+                    setValue('last_name', value?.toString())
+                  }
+                  placeholder="Фамилия"
+                />
+                <TextField
+                  className={cnClients('Input')}
+                  form="brickDefault"
+                  type="email"
+                  value={filterData.phone_number}
+                  onChange={({ value }) =>
+                    setValue('phone_number', value?.toString())
+                  }
+                  size="s"
+                  placeholder="Номер телефона"
+                />
+              </div>
+            </div>
+            <div className={cnClients('Buttons')}>
+              <Button
+                form="defaultBrick"
+                size="s"
+                view="secondary"
+                label="Сброс"
+                onClick={clearData}
+                iconLeft={IconRevert}
+              />
+              <Button
+                form="brickDefault"
+                size="s"
+                label="Поиск"
+                onClick={() => setData(filterData)}
+                iconRight={IconSearch}
+              />
+            </div>
+          </>
+        }
+        queries={{
+          last_name: data.last_name,
+          phone_number: data.phone_number,
+        }}
       />
       <CrudModal
         mode="create"
