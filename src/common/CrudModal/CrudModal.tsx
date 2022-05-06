@@ -11,8 +11,8 @@ import './CrudModal.scss';
 
 const cnCrudModal = cn('CrudModal');
 
-export const CrudModal = <TYPE,>(
-  props: CrudModalProps<ModalCrudType, TYPE>
+export const CrudModal = <TYPE, LOADABLE extends boolean>(
+  props: CrudModalProps<ModalCrudType, LOADABLE, TYPE>
 ) => {
   const {
     mode,
@@ -35,7 +35,9 @@ export const CrudModal = <TYPE,>(
       return (
         <CrudModalView
           itemId={itemId as string}
-          viewFunc={viewFunc as CrudModalProps<'view', TYPE>['viewFunc']}
+          viewFunc={
+            viewFunc as CrudModalProps<'view', LOADABLE, TYPE>['viewFunc']
+          }
           items={items}
           successCallback={successCallback}
           errorCallback={errorCallback}
@@ -48,7 +50,7 @@ export const CrudModal = <TYPE,>(
           items={items}
           defaultValues={defaultValues}
           createFunc={
-            createFunc as CrudModalProps<'create', TYPE>['createFunc']
+            createFunc as CrudModalProps<'create', LOADABLE, TYPE>['createFunc']
           }
           onClose={onClose}
           successCallback={successCallback}
@@ -62,7 +64,9 @@ export const CrudModal = <TYPE,>(
         element={element as TYPE}
         onClose={onClose}
         defaultValues={defaultValues}
-        updateFunc={updateFunc as CrudModalProps<'edit', TYPE>['updateFunc']}
+        updateFunc={
+          updateFunc as CrudModalProps<'edit', LOADABLE, TYPE>['updateFunc']
+        }
         itemId={itemId as string}
         successCallback={successCallback}
         errorCallback={errorCallback}

@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import { CreateAuto, UpdateAuto } from '../../utils/api/routes/cars/types';
 
-export const autoCreate: Array<ItemRecord<CreateAuto, InputType>> = [
+export const autoCreate: Array<ItemRecord<CreateAuto, InputType, boolean>> = [
   {
     key: 'model',
     label: 'Автомобиль',
@@ -40,7 +40,7 @@ export const autoCreate: Array<ItemRecord<CreateAuto, InputType>> = [
   },
 ];
 
-export const autoUpdate: Array<ItemRecord<UpdateAuto, InputType>> = [
+export const autoUpdate: Array<ItemRecord<UpdateAuto, InputType, boolean>> = [
   {
     key: 'vin',
     label: 'VIN',
@@ -80,7 +80,7 @@ export const autoUpdate: Array<ItemRecord<UpdateAuto, InputType>> = [
   },
 ];
 
-export const autoView: Array<ItemRecord<Auto, InputType>> = [
+export const autoView: Array<ItemRecord<Auto, InputType, boolean>> = [
   {
     key: 'id',
     label: 'ID',

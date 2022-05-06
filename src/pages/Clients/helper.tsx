@@ -4,7 +4,7 @@ import { Client } from '../../types/user';
 import moment from 'moment';
 
 export const clientCreate: Array<
-  ItemRecord<Omit<Client, 'id' | 'created_at'>, InputType>
+  ItemRecord<Omit<Client, 'id' | 'created_at'>, InputType, boolean>
 > = [
   {
     key: 'last_name',
@@ -28,7 +28,7 @@ export const clientCreate: Array<
   },
 ];
 
-export const clientView: Array<ItemRecord<Client, InputType>> = [
+export const clientView: Array<ItemRecord<Client, InputType, boolean>> = [
   {
     key: 'id',
     label: 'ID',

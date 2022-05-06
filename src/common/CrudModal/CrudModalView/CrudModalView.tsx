@@ -8,9 +8,9 @@ import { cn } from '../../../__private__/utils/bem';
 
 import './CrudModalView.scss';
 
-type CrudModalViewProps<TYPE> = {
+type CrudModalViewProps<LOADABLE, TYPE> = {
   viewFunc: (id: string) => AxiosPromise<TYPE>;
-  items: ItemRecord<TYPE, InputType>[];
+  items: ItemRecord<TYPE, InputType, LOADABLE>[];
   itemId: string;
   successCallback?: (data: unknown) => void;
   errorCallback?: (data: unknown) => void;
@@ -18,7 +18,9 @@ type CrudModalViewProps<TYPE> = {
 
 const cnCrudModalView = cn('CrudModalView');
 
-export const CrudModalView = <TYPE,>(props: CrudModalViewProps<TYPE>) => {
+export const CrudModalView = <TYPE, LOADABLE>(
+  props: CrudModalViewProps<LOADABLE, TYPE>
+) => {
   const { viewFunc, items, itemId, successCallback, errorCallback } = props;
 
   const [loading, setLoading] = useFlag();

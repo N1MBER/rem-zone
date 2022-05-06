@@ -12,24 +12,39 @@ export type InputType =
   | 'date-time'
   | 'date-time-range';
 
-export type ItemRecord<ITEM, TYPE> = {
+export type SelectData<ITEM, LOADABLE> = {
+  multiple?: boolean;
+  list: ITEM[keyof ITEM][];
+  getItemLabel: (item: ITEM[keyof ITEM]) => string;
+  getItemKey: (item: ITEM[keyof ITEM]) => string;
+  loadable?: LOADABLE;
+} & (LOADABLE extends true
+  ? {
+      getItems: (
+        query: Record<string, string>
+      ) => AxiosPromise<ITEM[keyof ITEM]>;
+      queryField: string;
+    }
+  : {
+      getItems?: never;
+      queryField?: never;
+    });
+
+export type ItemRecord<ITEM, TYPE, LOADABLE> = {
   key: keyof ITEM;
   type: TYPE;
   label?: string;
   explanation?: string;
   icon?: IconComponent;
   renderValue?: (item: ITEM) => React.ReactElement;
-  list?: ITEM[keyof ITEM][];
-  multiple?: boolean;
-  getItemLabel?: (item: ITEM[keyof ITEM]) => string;
-  getItemKey?: (item: ITEM[keyof ITEM]) => string;
 } & (TYPE extends 'select'
-  ? {
-      list: ITEM[keyof ITEM][];
-      getItemLabel: (item: ITEM[keyof ITEM]) => string;
-      getItemKey: (item: ITEM[keyof ITEM]) => string;
-    }
-  : {});
+  ? SelectData<ITEM, LOADABLE>
+  : {
+      list?: never;
+      multiple?: never;
+      getItemLabel?: never;
+      getItemKey?: never;
+    });
 
 export type DefaultValue<ITEM> = {
   key: keyof ITEM;
@@ -38,6 +53,7 @@ export type DefaultValue<ITEM> = {
 
 export type CrudModalProps<
   MODE extends ModalCrudType,
+  LOADABLE extends boolean,
   TYPE = Record<string, unknown | undefined>
 > = {
   mode: MODE;
@@ -48,7 +64,7 @@ export type CrudModalProps<
   isOpen?: boolean;
   onClose?: () => void;
   element?: TYPE;
-  items: ItemRecord<TYPE, InputType>[];
+  items: ItemRecord<TYPE, InputType, LOADABLE>[];
   itemId?: string;
   successCallback?: (data: unknown) => void;
   errorCallback?: (data: unknown) => void;

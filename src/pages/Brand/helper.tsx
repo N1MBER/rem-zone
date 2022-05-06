@@ -1,7 +1,9 @@
 import { ItemRecord, InputType } from '../../common/CrudModal/types';
 import { Brand } from '../../types/auto';
 
-export const brandsUpdate: Array<ItemRecord<Omit<Brand, 'id'>, InputType>> = [
+export const brandsUpdate: Array<
+  ItemRecord<Omit<Brand, 'id'>, InputType, boolean>
+> = [
   {
     key: 'name',
     label: 'Наименование',
@@ -9,7 +11,7 @@ export const brandsUpdate: Array<ItemRecord<Omit<Brand, 'id'>, InputType>> = [
   },
 ];
 
-export const brandsView: Array<ItemRecord<Brand, InputType>> = [
+export const brandsView: Array<ItemRecord<Brand, InputType, boolean>> = [
   {
     key: 'id',
     label: 'ID',

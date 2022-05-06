@@ -12,9 +12,12 @@ import {
 
 import './CrudModalCreate.scss';
 
-type CrudModalCreateProps<TYPE = Record<string, unknown | undefined>> = {
+type CrudModalCreateProps<
+  LOADABLE extends boolean,
+  TYPE = Record<string, unknown | undefined>
+> = {
   createFunc: (data: TYPE) => AxiosPromise<TYPE>;
-  items: ItemRecord<TYPE, InputType>[];
+  items: ItemRecord<TYPE, InputType, LOADABLE>[];
   defaultValues?: DefaultValue<TYPE>[];
   onClose?: () => void;
   successCallback?: (data: unknown) => void;
@@ -23,7 +26,9 @@ type CrudModalCreateProps<TYPE = Record<string, unknown | undefined>> = {
 
 const cnCrudModalCreate = cn('CrudModalCreate');
 
-export const CrudModalCreate = <TYPE,>(props: CrudModalCreateProps<TYPE>) => {
+export const CrudModalCreate = <TYPE, LOADABLE extends boolean>(
+  props: CrudModalCreateProps<LOADABLE, TYPE>
+) => {
   const {
     createFunc,
     defaultValues,

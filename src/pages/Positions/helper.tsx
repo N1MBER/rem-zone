@@ -3,7 +3,7 @@ import { ItemRecord, InputType } from '../../common/CrudModal/types';
 import { Position } from '../../types/user';
 
 export const positionCreate: Array<
-  ItemRecord<Omit<Position, 'id'>, InputType>
+  ItemRecord<Omit<Position, 'id'>, InputType, boolean>
 > = [
   {
     key: 'name',
@@ -22,7 +22,7 @@ export const positionCreate: Array<
   },
 ];
 
-export const positionView: Array<ItemRecord<Position, InputType>> = [
+export const positionView: Array<ItemRecord<Position, InputType, boolean>> = [
   {
     key: 'id',
     label: 'ID',

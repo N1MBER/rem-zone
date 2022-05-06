@@ -2,7 +2,9 @@ import React from 'react';
 import { ItemRecord, InputType } from '../../common/CrudModal/types';
 import { Favour } from '../../types/favour';
 
-export const favourCreate: Array<ItemRecord<Omit<Favour, 'id'>, InputType>> = [
+export const favourCreate: Array<
+  ItemRecord<Omit<Favour, 'id'>, InputType, boolean>
+> = [
   {
     key: 'name',
     label: 'Название услуги',
@@ -20,7 +22,7 @@ export const favourCreate: Array<ItemRecord<Omit<Favour, 'id'>, InputType>> = [
   },
 ];
 
-export const favourView: Array<ItemRecord<Favour, InputType>> = [
+export const favourView: Array<ItemRecord<Favour, InputType, boolean>> = [
   {
     key: 'id',
     label: 'ID',

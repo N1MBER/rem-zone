@@ -2,21 +2,22 @@ import React from 'react';
 import { ItemRecord, InputType } from '../../common/CrudModal/types';
 import { Worklog } from '../../types/user';
 
-export const worklogCreate: Array<ItemRecord<Omit<Worklog, 'id'>, InputType>> =
-  [
-    {
-      key: 'timeworked',
-      label: 'Вреия работы',
-      type: 'text',
-    },
-    {
-      key: 'owner',
-      label: 'Сотрудник',
-      type: 'text',
-    },
-  ];
+export const worklogCreate: Array<
+  ItemRecord<Omit<Worklog, 'id'>, InputType, boolean>
+> = [
+  {
+    key: 'timeworked',
+    label: 'Вреия работы',
+    type: 'text',
+  },
+  {
+    key: 'owner',
+    label: 'Сотрудник',
+    type: 'text',
+  },
+];
 
-export const worklogView: Array<ItemRecord<Worklog, InputType>> = [
+export const worklogView: Array<ItemRecord<Worklog, InputType, boolean>> = [
   {
     key: 'id',
     label: 'ID',

@@ -12,9 +12,12 @@ import {
 
 import './CrudModalUpdate.scss';
 
-type CrudModalUpdateProps<TYPE = Record<string, unknown | undefined>> = {
+type CrudModalUpdateProps<
+  LOADABLE extends boolean,
+  TYPE = Record<string, unknown | undefined>
+> = {
   updateFunc: (data: TYPE, id: string) => AxiosPromise<TYPE>;
-  items: ItemRecord<TYPE, InputType>[];
+  items: ItemRecord<TYPE, InputType, LOADABLE>[];
   onClose?: () => void;
   defaultValues?: DefaultValue<TYPE>[];
   successCallback?: (data: unknown) => void;
@@ -25,7 +28,9 @@ type CrudModalUpdateProps<TYPE = Record<string, unknown | undefined>> = {
 
 const cnCrudModalUpdate = cn('CrudModalUpdate');
 
-export const CrudModalUpdate = <TYPE,>(props: CrudModalUpdateProps<TYPE>) => {
+export const CrudModalUpdate = <TYPE, LOADABLE extends boolean>(
+  props: CrudModalUpdateProps<LOADABLE, TYPE>
+) => {
   const {
     updateFunc,
     items,

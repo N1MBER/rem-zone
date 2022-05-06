@@ -15,7 +15,7 @@ export type CustomJob = Omit<
   date: [Date, Date];
 };
 
-export const jobsCreate: Array<ItemRecord<CustomJob, InputType>> = [
+export const jobsCreate: Array<ItemRecord<CustomJob, InputType, boolean>> = [
   {
     key: 'description',
     label: 'Описание',

@@ -3,7 +3,7 @@ import { ItemRecord, InputType } from '../../../common/CrudModal/types';
 import { Staff, StaffData } from '../../../types/user';
 import { Badge } from '@consta/uikit/Badge';
 
-export const staffItem: Array<ItemRecord<Staff, InputType>> = [
+export const staffItem: Array<ItemRecord<Staff, InputType, boolean>> = [
   {
     key: 'id',
     label: 'ID',
@@ -63,7 +63,7 @@ export const staffItem: Array<ItemRecord<Staff, InputType>> = [
 export const staffEdit = (
   groups: string[],
   position: string[]
-): Array<ItemRecord<StaffData, InputType>> => [
+): Array<ItemRecord<StaffData, InputType, boolean>> => [
   {
     key: 'last_name',
     label: 'Фамилия',

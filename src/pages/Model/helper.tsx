@@ -1,7 +1,9 @@
 import { ItemRecord, InputType } from '../../common/CrudModal/types';
 import { CarModel } from '../../types/auto';
 
-export const modelUpdate: Array<ItemRecord<Omit<CarModel, 'id'>, InputType>> = [
+export const modelUpdate: Array<
+  ItemRecord<Omit<CarModel, 'id'>, InputType, boolean>
+> = [
   {
     key: 'name',
     label: 'Модель',
@@ -14,7 +16,7 @@ export const modelUpdate: Array<ItemRecord<Omit<CarModel, 'id'>, InputType>> = [
   },
 ];
 
-export const modelView: Array<ItemRecord<CarModel, InputType>> = [
+export const modelView: Array<ItemRecord<CarModel, InputType, boolean>> = [
   {
     key: 'id',
     label: 'ID',
