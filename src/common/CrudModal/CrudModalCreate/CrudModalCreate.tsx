@@ -40,6 +40,14 @@ export const CrudModalCreate = <TYPE, LOADABLE extends boolean>(
   const [data, setData] = useState<Record<string, unknown>>({});
 
   const handleClick = () => {
+    const copyData = { ...data };
+    items.forEach((item) => {
+      if (item.valueKey) {
+        copyData[item.key.toString()] = (
+          copyData[item.key.toString()] as Record<string, unknown>
+        )?.[item.valueKey];
+      }
+    });
     createFunc(data as TYPE)
       .then((res) => {
         if (Math.round(res.status / 100) === 2) {

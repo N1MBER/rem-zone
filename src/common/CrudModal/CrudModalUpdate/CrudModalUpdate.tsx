@@ -49,6 +49,15 @@ export const CrudModalUpdate = <TYPE, LOADABLE extends boolean>(
   }, [element]);
 
   const handleClick = () => {
+    const copyData = { ...data };
+    items.forEach((item) => {
+      if (item.valueKey) {
+        copyData[item.key.toString()] = (
+          copyData[item.key.toString()] as Record<string, unknown>
+        )?.[item.valueKey];
+      }
+    });
+
     updateFunc(data as TYPE, itemId)
       .then((res) => {
         if (Math.round(res.status / 100) === 2) {

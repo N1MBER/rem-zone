@@ -18,6 +18,7 @@ export type SelectData<ITEM, LOADABLE> = {
   getItemLabel: (item: ITEM[keyof ITEM]) => string;
   getItemKey: (item: ITEM[keyof ITEM]) => string;
   loadable?: LOADABLE;
+  valueKey?: string;
 } & (LOADABLE extends true
   ? {
       getItems: (
@@ -36,6 +37,7 @@ export type ItemRecord<ITEM, TYPE, LOADABLE> = {
   label?: string;
   explanation?: string;
   icon?: IconComponent;
+  valueKey?: string;
   renderValue?: (item: ITEM) => React.ReactElement;
 } & (TYPE extends 'select'
   ? SelectData<ITEM, LOADABLE>
