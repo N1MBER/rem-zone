@@ -3,12 +3,12 @@ import { instance } from '../..';
 import { endpoints } from '../../endpoints/endpoints';
 import { BaseListRequest, BaseListResponse } from '../../types';
 import { Auto, Brand, CarModel } from '../../../../types/auto';
-import { CreateAuto, UpdateAuto } from './types';
+import { CreateAuto, UpdateAuto, CarsParams, ModelParams } from './types';
 
 // Car
 
 export const getCars = (
-  query: BaseListRequest
+  query: BaseListRequest & CarsParams
 ): AxiosPromise<BaseListResponse<Auto>> => {
   return instance.get(endpoints.cars.cars, {
     params: query,
@@ -37,7 +37,7 @@ export const deleteCar = (id: string): AxiosPromise => {
 // Brands
 
 export const getBrands = (
-  query: BaseListRequest
+  query: BaseListRequest & { name?: string }
 ): AxiosPromise<BaseListResponse<Brand>> => {
   return instance.get(endpoints.cars.brand, {
     params: query,
@@ -66,7 +66,7 @@ export const deleteBrand = (id: string): AxiosPromise => {
 // Models
 
 export const getModels = (
-  query: BaseListRequest
+  query: BaseListRequest & ModelParams
 ): AxiosPromise<BaseListResponse<CarModel>> => {
   return instance.get(endpoints.cars.model, {
     params: query,

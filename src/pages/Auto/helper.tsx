@@ -87,6 +87,20 @@ export const autoView: Array<ItemRecord<Auto, InputType>> = [
     type: 'text',
   },
   {
+    key: 'owner',
+    label: 'Владелец',
+    type: 'text',
+    renderValue: ({ owner }) => (
+      <>{`${owner.last_name} ${owner.first_name} ${owner.patronomic}`}</>
+    ),
+  },
+  {
+    key: 'owner',
+    label: 'Номер телефона',
+    type: 'text',
+    renderValue: ({ owner }) => <>{owner.phone_number}</>,
+  },
+  {
     key: 'model',
     label: 'Автомобиль',
     type: 'text',
