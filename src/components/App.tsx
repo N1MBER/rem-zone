@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import {
   Theme,
   presetGpnDefault,
@@ -9,8 +9,10 @@ import { ThemeName } from '../types/theme';
 import { ErrorBoundary } from '../common/Layouts/ErrorBoundary/ErrorBoundary';
 import { Routes } from '../common/Routes/Routes';
 import { Toaster } from '../common/Toaster/Toaster';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/reducers';
+import Cookies from 'js-cookie';
+import { logout } from '../store/reducers/user/user';
 
 export const ThemeContext = React.createContext({
   theme: 'Default',
@@ -29,7 +31,15 @@ const App: FC = () => {
     return presetGpnDisplay;
   };
 
+  const dispatch = useDispatch();
+
   const isAuthorized = useSelector((store: RootState) => store.user.isLogged);
+
+  useEffect(() => {
+    if (!Cookies.get('refresh') || Cookies.get('refresh')?.trim() === '') {
+      dispatch(logout());
+    }
+  }, [Cookies.get('access'), Cookies.get('refresh')]);
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
