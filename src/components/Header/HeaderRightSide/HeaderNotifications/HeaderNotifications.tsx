@@ -26,24 +26,26 @@ export const HeaderNotifications = () => {
   const [direction, setDirection] = useState<Direction | undefined>(undefined);
 
   useEffect(() => {
-    setLoading.on();
-    getJobs({
-      offset: 0,
-      limit: 20,
-      start: currentDate[0].toISOString(),
-      end: currentDate[1].toISOString(),
-    })
-      .then((res) => {
-        const { results } = res.data;
-        if (Array.isArray(results)) {
-          setJobs(results);
-        }
-        setLoading.off();
+    if (showNotifications) {
+      setLoading.on();
+      getJobs({
+        offset: 0,
+        limit: 20,
+        start: currentDate[0].toISOString(),
+        end: currentDate[1].toISOString(),
       })
-      .catch(() => {
-        setLoading.off();
-      });
-  }, []);
+        .then((res) => {
+          const { results } = res.data;
+          if (Array.isArray(results)) {
+            setJobs(results);
+          }
+          setLoading.off();
+        })
+        .catch(() => {
+          setLoading.off();
+        });
+    }
+  }, [showNotifications]);
 
   const buttonRef = useRef<HTMLButtonElement>(null);
 
