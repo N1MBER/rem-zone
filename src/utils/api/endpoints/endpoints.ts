@@ -37,4 +37,10 @@ export const endpoints = {
     model: '/api/v1/cars/models/',
     brand: '/api/v1/cars/brands/',
   },
+  bonuses: {
+    balance: '/api/v1/bonuses/balances/',
+    changeBalance: (id: string | number) =>
+      `/api/v1/bonuses/balances/${id}/change/`,
+    history: '/api/v1/bonuses/balances/history/',
+  },
 };
