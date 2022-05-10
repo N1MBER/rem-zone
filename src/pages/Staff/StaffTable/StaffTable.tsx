@@ -65,15 +65,15 @@ export const StaffTable = (props: Props) => {
   useEffect(() => {
     if (!groups) {
       getGroups({}).then((res) => {
-        if (res.data) {
-          dispatch(setGroup(res.data));
+        if (res.data.results) {
+          dispatch(setGroup(res.data.results));
         }
       });
     }
     if (!positions) {
       getPositions({}).then((res) => {
-        if (res.data) {
-          dispatch(setPositions(res.data));
+        if (res.data.results) {
+          dispatch(setPositions(res.data.results));
         }
       });
     }
@@ -213,10 +213,7 @@ export const StaffTable = (props: Props) => {
         <CrudModal
           mode="edit"
           updateFunc={updateStaff}
-          items={staffEdit(
-            groups.map((el) => el.name ?? ''),
-            positions.map((el) => el.name ?? '')
-          )}
+          items={staffEdit}
           element={convertStaffToData(staff)}
           title="Изменение данных сотрудника"
           onClose={() => {

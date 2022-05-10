@@ -79,14 +79,14 @@ export const login = createAsyncThunk<unknown, LoginPayloadType>(
           dispatch(setLogged());
 
           const additionalRequest = () => {
-            getGroups({}).then((res) => {
-              if (res.data) {
-                dispatch(setGroup(res.data));
+            getGroups({ offset: 0, limit: 20 }).then((res) => {
+              if (res.data.results) {
+                dispatch(setGroup(res.data.results));
               }
             });
-            getPositions({}).then((res) => {
-              if (res.data) {
-                dispatch(setPositions(res.data));
+            getPositions({ offset: 0, limit: 20 }).then((res) => {
+              if (res.data.results) {
+                dispatch(setPositions(res.data.results));
               }
             });
           };

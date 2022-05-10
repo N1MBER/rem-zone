@@ -43,7 +43,7 @@ export const deleteStaff = (id: string): AxiosPromise => {
 
 export const getGroups = (
   query: BaseListRequest
-): AxiosPromise<StaffGroup[]> => {
+): AxiosPromise<BaseListResponse<StaffGroup>> => {
   return instance.get(endpoints.users.groups, {
     params: query,
   });
