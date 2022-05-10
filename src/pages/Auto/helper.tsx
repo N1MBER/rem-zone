@@ -1,15 +1,24 @@
 import React from 'react';
 import { ItemRecord, InputType } from '../../common/CrudModal/types';
-import { Auto } from '../../types/auto';
+import { Auto, CarModel } from '../../types/auto';
+import { getModels } from '../../utils/api/routes/cars/cars';
 import moment from 'moment';
 
 import { CreateAuto, UpdateAuto } from '../../utils/api/routes/cars/types';
 
-export const autoCreate: Array<ItemRecord<CreateAuto, InputType, boolean>> = [
+export const autoCreate: Array<
+  ItemRecord<CreateAuto, InputType, boolean, CarModel>
+> = [
   {
     key: 'model',
     label: 'Автомобиль',
-    type: 'text',
+    type: 'select',
+    loadable: true,
+    list: [] as CarModel[],
+    getItems: getModels,
+    queryField: 'name',
+    getItemLabel: (item) => item.name,
+    getItemKey: (item) => item.id,
   },
   {
     key: 'vin',
@@ -40,7 +49,9 @@ export const autoCreate: Array<ItemRecord<CreateAuto, InputType, boolean>> = [
   },
 ];
 
-export const autoUpdate: Array<ItemRecord<UpdateAuto, InputType, boolean>> = [
+export const autoUpdate: Array<
+  ItemRecord<UpdateAuto, InputType, boolean, CarModel>
+> = [
   {
     key: 'vin',
     label: 'VIN',
@@ -80,7 +91,7 @@ export const autoUpdate: Array<ItemRecord<UpdateAuto, InputType, boolean>> = [
   },
 ];
 
-export const autoView: Array<ItemRecord<Auto, InputType, boolean>> = [
+export const autoView: Array<ItemRecord<Auto, InputType, boolean, CarModel>> = [
   {
     key: 'id',
     label: 'ID',

@@ -11,8 +11,12 @@ import './CrudModal.scss';
 
 const cnCrudModal = cn('CrudModal');
 
-export const CrudModal = <TYPE, LOADABLE extends boolean>(
-  props: CrudModalProps<ModalCrudType, LOADABLE, TYPE>
+export const CrudModal = <
+  TYPE,
+  LOADABLE extends boolean,
+  OBJECT extends Record<string, unknown>
+>(
+  props: CrudModalProps<ModalCrudType, LOADABLE, OBJECT, TYPE>
 ) => {
   const {
     mode,
@@ -36,7 +40,12 @@ export const CrudModal = <TYPE, LOADABLE extends boolean>(
         <CrudModalView
           itemId={itemId as string}
           viewFunc={
-            viewFunc as CrudModalProps<'view', LOADABLE, TYPE>['viewFunc']
+            viewFunc as CrudModalProps<
+              'view',
+              LOADABLE,
+              OBJECT,
+              TYPE
+            >['viewFunc']
           }
           items={items}
           successCallback={successCallback}
@@ -50,7 +59,12 @@ export const CrudModal = <TYPE, LOADABLE extends boolean>(
           items={items}
           defaultValues={defaultValues}
           createFunc={
-            createFunc as CrudModalProps<'create', LOADABLE, TYPE>['createFunc']
+            createFunc as CrudModalProps<
+              'create',
+              LOADABLE,
+              OBJECT,
+              TYPE
+            >['createFunc']
           }
           onClose={onClose}
           successCallback={successCallback}
@@ -65,7 +79,12 @@ export const CrudModal = <TYPE, LOADABLE extends boolean>(
         onClose={onClose}
         defaultValues={defaultValues}
         updateFunc={
-          updateFunc as CrudModalProps<'edit', LOADABLE, TYPE>['updateFunc']
+          updateFunc as CrudModalProps<
+            'edit',
+            LOADABLE,
+            OBJECT,
+            TYPE
+          >['updateFunc']
         }
         itemId={itemId as string}
         successCallback={successCallback}

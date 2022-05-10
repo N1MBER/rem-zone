@@ -1,3 +1,4 @@
+import { BaseListResponse } from '../../utils/api/types';
 import { IconComponent } from '@consta/uikit/Icon';
 import { AxiosPromise } from 'axios';
 
@@ -12,26 +13,41 @@ export type InputType =
   | 'date-time'
   | 'date-time-range';
 
-export type SelectData<ITEM, LOADABLE> = {
+export type SelectData<ITEM, LOADABLE, OBJECT> = {
   multiple?: boolean;
-  list: ITEM[keyof ITEM][];
-  getItemLabel: (item: ITEM[keyof ITEM]) => string;
-  getItemKey: (item: ITEM[keyof ITEM]) => string;
   loadable?: LOADABLE;
   valueKey?: string;
 } & (LOADABLE extends true
   ? {
       getItems: (
         query: Record<string, string>
-      ) => AxiosPromise<ITEM[keyof ITEM]>;
+      ) => AxiosPromise<BaseListResponse<ITEM[keyof ITEM] | OBJECT>>;
       queryField: string;
-    }
+    } & (OBJECT extends Record<string, unknown>
+      ? {
+          list: OBJECT[];
+          getItemLabel: (item: OBJECT) => string;
+          getItemKey: (item: OBJECT) => string;
+        }
+      : {
+          list: ITEM[keyof ITEM][];
+          getItemLabel: (item: ITEM[keyof ITEM]) => string;
+          getItemKey: (item: ITEM[keyof ITEM]) => string;
+        })
   : {
       getItems?: never;
       queryField?: never;
+      list: ITEM[keyof ITEM][];
+      getItemLabel: (item: ITEM[keyof ITEM]) => string;
+      getItemKey: (item: ITEM[keyof ITEM]) => string;
     });
 
-export type ItemRecord<ITEM, TYPE, LOADABLE> = {
+export type ItemRecord<
+  ITEM,
+  TYPE,
+  LOADABLE,
+  OBJECT = Record<string, unknown>
+> = {
   key: keyof ITEM;
   type: TYPE;
   label?: string;
@@ -40,7 +56,7 @@ export type ItemRecord<ITEM, TYPE, LOADABLE> = {
   valueKey?: string;
   renderValue?: (item: ITEM) => React.ReactElement;
 } & (TYPE extends 'select'
-  ? SelectData<ITEM, LOADABLE>
+  ? SelectData<ITEM, LOADABLE, OBJECT>
   : {
       list?: never;
       multiple?: never;
@@ -56,6 +72,7 @@ export type DefaultValue<ITEM> = {
 export type CrudModalProps<
   MODE extends ModalCrudType,
   LOADABLE extends boolean,
+  OBJECT extends Record<string, unknown>,
   TYPE = Record<string, unknown | undefined>
 > = {
   mode: MODE;
@@ -66,7 +83,7 @@ export type CrudModalProps<
   isOpen?: boolean;
   onClose?: () => void;
   element?: TYPE;
-  items: ItemRecord<TYPE, InputType, LOADABLE>[];
+  items: ItemRecord<TYPE, InputType, LOADABLE, OBJECT>[];
   itemId?: string;
   successCallback?: (data: unknown) => void;
   errorCallback?: (data: unknown) => void;

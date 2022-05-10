@@ -14,10 +14,11 @@ import './CrudModalUpdate.scss';
 
 type CrudModalUpdateProps<
   LOADABLE extends boolean,
+  OBJECT extends Record<string, unknown>,
   TYPE = Record<string, unknown | undefined>
 > = {
   updateFunc: (data: TYPE, id: string) => AxiosPromise<TYPE>;
-  items: ItemRecord<TYPE, InputType, LOADABLE>[];
+  items: ItemRecord<TYPE, InputType, LOADABLE, OBJECT>[];
   onClose?: () => void;
   defaultValues?: DefaultValue<TYPE>[];
   successCallback?: (data: unknown) => void;
@@ -28,8 +29,12 @@ type CrudModalUpdateProps<
 
 const cnCrudModalUpdate = cn('CrudModalUpdate');
 
-export const CrudModalUpdate = <TYPE, LOADABLE extends boolean>(
-  props: CrudModalUpdateProps<LOADABLE, TYPE>
+export const CrudModalUpdate = <
+  TYPE,
+  LOADABLE extends boolean,
+  OBJECT extends Record<string, unknown>
+>(
+  props: CrudModalUpdateProps<LOADABLE, OBJECT, TYPE>
 ) => {
   const {
     updateFunc,
@@ -132,7 +137,9 @@ export const CrudModalUpdate = <TYPE, LOADABLE extends boolean>(
               // @ts-ignore
               items={list ?? []}
               labelPosition="top"
+              // @ts-ignore
               getItemLabel={getItemLabel ?? defaultGetter}
+              // @ts-ignore
               getItemKey={getItemKey ?? defaultGetter}
               // @ts-ignore
               value={data[key] as TYPE}

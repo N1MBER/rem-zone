@@ -14,10 +14,11 @@ import './CrudModalCreate.scss';
 
 type CrudModalCreateProps<
   LOADABLE extends boolean,
+  OBJECT extends Record<string, unknown>,
   TYPE = Record<string, unknown | undefined>
 > = {
   createFunc: (data: TYPE) => AxiosPromise<TYPE>;
-  items: ItemRecord<TYPE, InputType, LOADABLE>[];
+  items: ItemRecord<TYPE, InputType, LOADABLE, OBJECT>[];
   defaultValues?: DefaultValue<TYPE>[];
   onClose?: () => void;
   successCallback?: (data: unknown) => void;
@@ -26,8 +27,12 @@ type CrudModalCreateProps<
 
 const cnCrudModalCreate = cn('CrudModalCreate');
 
-export const CrudModalCreate = <TYPE, LOADABLE extends boolean>(
-  props: CrudModalCreateProps<LOADABLE, TYPE>
+export const CrudModalCreate = <
+  TYPE,
+  LOADABLE extends boolean,
+  OBJECT extends Record<string, unknown>
+>(
+  props: CrudModalCreateProps<LOADABLE, OBJECT, TYPE>
 ) => {
   const {
     createFunc,
@@ -117,7 +122,9 @@ export const CrudModalCreate = <TYPE, LOADABLE extends boolean>(
               key={`${cnCrudModalCreate()}-${index}`}
               // @ts-ignore
               items={list ?? []}
+              // @ts-ignore
               getItemLabel={getItemLabel ?? defaultGetter}
+              // @ts-ignore
               getItemKey={getItemKey ?? defaultGetter}
               // @ts-ignore
               value={data[key] as TYPE}

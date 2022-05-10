@@ -21,29 +21,41 @@ type DefaultItem = {
   disabled?: boolean;
 };
 
-type Props<ITEM, MULTIPLE extends boolean = false> = Omit<
-  ComboboxProps<ITEM, DefaultGroup, MULTIPLE>,
-  'items'
-> & {
+type Props<
+  ITEM,
+  QUERY extends Record<string, string>,
+  MULTIPLE extends boolean = false,
+  OBJECT = Record<string, unknown>
+> = Omit<ComboboxProps<ITEM, DefaultGroup, MULTIPLE>, 'items'> & {
   loadable?: boolean;
-  getItems?: (
-    query: Record<string, string>
-  ) => AxiosPromise<BaseListResponse<Record<string, unknown>>>;
+  getItems?: (query: QUERY) => AxiosPromise<BaseListResponse<OBJECT>>;
   queryField: string;
-  getItemLabel: (item: ITEM) => string;
-  getItemKey: (item: ITEM) => string;
   multiple?: MULTIPLE;
-  list?: ITEM[];
-  convertFunction?: (item: Record<string, unknown>) => ITEM;
-};
+  convertFunction?: (item: OBJECT) => ITEM;
+} & (OBJECT extends Record<string, unknown>
+    ? {
+        list?: OBJECT[];
+        getItemLabel: (item: OBJECT) => string;
+        getItemKey: (item: OBJECT) => string;
+      }
+    : {
+        getItemLabel: (item: ITEM) => string;
+        getItemKey: (item: ITEM) => string;
+        list?: ITEM[];
+      });
 
 const cnCombobox = cn('CustomCombobox');
 
 const deafultGetLabel = (item: DefaultItem) => (item ? item?.label ?? '' : '');
 const deafultGetKey = (item: DefaultItem) => (item ? item?.key ?? '' : '');
 
-export const Combobox = <ITEM, MULTIPLE extends boolean = false>(
-  props: Props<ITEM, MULTIPLE>
+export const Combobox = <
+  ITEM,
+  QUERY extends Record<string, string> = Record<string, string>,
+  MULTIPLE extends boolean = false,
+  OBJECT = Record<string, unknown>
+>(
+  props: Props<ITEM, QUERY, MULTIPLE, OBJECT>
 ) => {
   const {
     label,
@@ -67,7 +79,7 @@ export const Combobox = <ITEM, MULTIPLE extends boolean = false>(
   } = props;
 
   const [searchText, setSearchText] = useState<string | undefined | null>();
-  const [items, setItems] = useState<ITEM[]>([]);
+  const [items, setItems] = useState<(ITEM | OBJECT)[]>([]);
   const [loading, setLoading] = useFlag();
 
   const searchParam = useDebounce(searchText, 500);
@@ -77,11 +89,11 @@ export const Combobox = <ITEM, MULTIPLE extends boolean = false>(
       setLoading.on();
       getItems?.({
         [queryField]: `${searchParam ?? ''}`,
-      })
+      } as QUERY)
         .then((res) => {
           if (res.data.results) {
             const arr = res.data.results.map((item) => {
-              return convertFunction ? convertFunction(item) : (item as ITEM);
+              return convertFunction ? convertFunction(item) : (item as OBJECT);
             });
             setItems(arr);
           } else {
