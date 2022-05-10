@@ -35,6 +35,10 @@ export const getMenuLinks = (userType?: UserType): LinkType[] => {
             label: 'Баланс',
             link: `/clients/balance${defaultTablePageParams}`,
           },
+          {
+            label: 'История',
+            link: `/clients/history${defaultTablePageParams}`,
+          },
         ],
       },
       {

@@ -41,6 +41,6 @@ export const endpoints = {
     balance: '/api/v1/bonuses/balances/',
     changeBalance: (id: string | number) =>
       `/api/v1/bonuses/balances/${id}/change/`,
-    history: '/api/v1/bonuses/balances/history/',
+    history: '/api/v1/bonus/balances/history/',
   },
 };
