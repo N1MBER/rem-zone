@@ -4,6 +4,7 @@ import { Button } from '@consta/uikit/Button';
 import { IconDocFilled } from '@consta/uikit/IconDocFilled';
 import { IconEdit } from '@consta/uikit/IconEdit';
 import { IconTrash } from '@consta/uikit/IconTrash';
+import { IconNodeEnd } from '@consta/uikit/IconNodeEnd';
 import { BaseTable } from '../../../common/BaseComponents/BaseTable/BaseTable';
 import {
   deleteClient as deleteClientFunc,
@@ -19,6 +20,10 @@ import { clientCreate, clientView } from '../helper';
 import { Client } from '../../../types/user';
 import { getErrorMessage } from '../../../utils';
 import moment from 'moment';
+import { getBalances } from '../../../utils/api/routes/bonuses/bonuses';
+import { balanceView } from '../../Balance/helper';
+import { AxiosPromise } from 'axios';
+import { Balance } from '../../../types/bonuses';
 
 import './ClientsTable.scss';
 
@@ -43,7 +48,9 @@ const convertClient = (
 export const ClientsTable = (props: Props) => {
   const { data } = props;
 
-  const [modalType, setModalType] = useState<ModalCrudType | undefined>();
+  const [modalType, setModalType] = useState<
+    ModalCrudType | 'balance' | undefined
+  >();
   const [showModal, setShowModal] = useFlag();
   const [client, setClient] = useState<Client | undefined>();
 
@@ -87,7 +94,7 @@ export const ClientsTable = (props: Props) => {
       title: '',
       accessor: 'id',
       renderCell: (row) => {
-        const onClick = (type: 'edit' | 'view') => {
+        const onClick = (type: 'edit' | 'view' | 'balance') => {
           setModalType(type);
           setClient(row);
           setShowModal.on();
@@ -113,6 +120,15 @@ export const ClientsTable = (props: Props) => {
               iconLeft={IconEdit}
             />
             <Button
+              form="brick"
+              size="xs"
+              view="secondary"
+              title="Просмотреть баланс"
+              onlyIcon
+              onClick={() => onClick('balance')}
+              iconLeft={IconNodeEnd}
+            />
+            <Button
               form="brickDefault"
               size="xs"
               view="secondary"
@@ -127,6 +143,15 @@ export const ClientsTable = (props: Props) => {
     },
   ];
 
+  const getBalance = async (id: string) => {
+    const data = await getBalances({ limit: 1, offset: 0, client_id: id }).then(
+      (res) => res.data.results[0]
+    );
+    return {
+      data,
+    } as unknown as AxiosPromise<Balance>;
+  };
+
   return (
     <>
       <BaseTable
@@ -135,34 +160,52 @@ export const ClientsTable = (props: Props) => {
         columns={columns}
         data={data}
       />
-      {modalType === 'edit' ? (
-        <CrudModal
-          mode="edit"
-          updateFunc={updateClient}
-          items={clientCreate}
-          element={convertClient(client)}
-          title="Изменение данных клиента"
-          onClose={() => {
-            setModalType(undefined);
-            setShowModal.off();
-          }}
-          itemId={client?.id ?? ''}
-          isOpen={showModal}
-          successCallback={() => {
-            toast.success('Данные успешно обновились');
-            setTimeout(() => document.location.reload(), 1000);
-          }}
-          errorCallback={(error) => {
-            const message = getErrorMessage(error);
-            toast.alert(message ?? 'Не удалось обновить данные клиента');
-          }}
-        />
-      ) : (
+      {modalType !== 'balance' && (
+        <>
+          {modalType === 'edit' ? (
+            <CrudModal
+              mode="edit"
+              updateFunc={updateClient}
+              items={clientCreate}
+              element={convertClient(client)}
+              title="Изменение данных клиента"
+              onClose={() => {
+                setModalType(undefined);
+                setShowModal.off();
+              }}
+              itemId={client?.id ?? ''}
+              isOpen={showModal}
+              successCallback={() => {
+                toast.success('Данные успешно обновились');
+                setTimeout(() => document.location.reload(), 1000);
+              }}
+              errorCallback={(error) => {
+                const message = getErrorMessage(error);
+                toast.alert(message ?? 'Не удалось обновить данные клиента');
+              }}
+            />
+          ) : (
+            <CrudModal
+              mode="view"
+              viewFunc={getClient}
+              items={clientView}
+              title="Просмотр данных клиента"
+              onClose={() => {
+                setModalType(undefined);
+                setShowModal.off();
+              }}
+              itemId={client?.id ?? ''}
+              isOpen={showModal}
+            />
+          )}
+        </>
+      )}
+      {modalType === 'balance' && (
         <CrudModal
           mode="view"
-          viewFunc={getClient}
-          items={clientView}
-          title="Просмотр данных клиента"
+          viewFunc={getBalance}
+          items={balanceView}
+          title="Просмотр баланса"
           onClose={() => {
             setModalType(undefined);
             setShowModal.off();

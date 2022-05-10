@@ -1,8 +1,11 @@
-import { timeTablePropColor } from '../../components/TimeTable/types';
 import { generateRandomValue } from '../../utils';
 import { ItemRecord, InputType } from '../../common/CrudModal/types';
-import { Job, ViewMode } from '../../types/timetable';
+import { Job, timeTablePropColor, ViewMode } from '../../types/timetable';
 import { getWeek, getMonth, resetDateTime } from '../../utils/date/date';
+import { getFavours } from '../../utils/api/routes/favour/favour';
+import { Favour } from '../../types/favour';
+import { Staff } from '../../types/user';
+import { getStaffs } from '../../utils/api/routes/users/users';
 
 export const getRandomColor = () => {
   return timeTablePropColor[generateRandomValue(timeTablePropColor.length)];
@@ -13,9 +16,23 @@ export type CustomJob = Omit<
   'id' | 'master' | 'status' | 'started_at' | 'ended_at'
 > & {
   date: [Date, Date];
+  master: string;
 };
 
-export const jobsCreate: Array<ItemRecord<CustomJob, InputType, boolean>> = [
+export const jobsCreate: Array<
+  ItemRecord<CustomJob, InputType, boolean, Favour | Staff>
+> = [
+  {
+    key: 'master',
+    label: 'Исполнитель',
+    type: 'select',
+    list: [] as Staff[],
+    getItems: getStaffs,
+    loadable: true,
+    queryField: 'name',
+    getItemLabel: (item: Staff) => `${item.last_name} ${item.first_name[0]}.`,
+    getItemKey: (item: Staff) => item.id,
+  },
   {
     key: 'description',
     label: 'Описание',
@@ -28,8 +45,14 @@ export const jobsCreate: Array<ItemRecord<CustomJob, InputType, boolean>> = [
   },
   {
     key: 'favour',
-    label: 'Стоимость услуги',
-    type: 'number',
+    label: 'Услуга',
+    type: 'select',
+    list: [] as Favour[],
+    getItems: getFavours,
+    loadable: true,
+    queryField: 'name',
+    getItemLabel: (item: Favour) => item.name,
+    getItemKey: (item: Favour) => item.id,
   },
 ];
 

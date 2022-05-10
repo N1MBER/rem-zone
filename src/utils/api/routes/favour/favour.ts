@@ -2,13 +2,13 @@ import { Favour } from '../../../../types/favour';
 import { AxiosPromise } from 'axios';
 import { instance } from '../..';
 import { endpoints } from '../../endpoints/endpoints';
-import { BaseListRequest } from '../../types';
+import { BaseListRequest, BaseListResponse } from '../../types';
 
 // Favour
 
 export const getFavours = (
   query: BaseListRequest & { name?: string }
-): AxiosPromise<Favour[]> => {
+): AxiosPromise<BaseListResponse<Favour>> => {
   return instance.get(endpoints.favours.favours, {
     params: query,
   });

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { TableColumn } from '@consta/uikit/Table';
 import { Button } from '@consta/uikit/Button';
 import { Badge } from '@consta/uikit/Badge';
@@ -11,7 +11,6 @@ import { BaseTable } from '../../../common/BaseComponents/BaseTable/BaseTable';
 import {
   deleteStaff as deleteStaffFunc,
   getStaff,
-  getGroups,
   updateStaff,
   chanheStaffPassword,
 } from '../../../utils/api/routes/users/users';
@@ -20,13 +19,6 @@ import { useFlag } from '@consta/uikit/useFlag';
 import { cn } from '../../../__private__/utils/bem';
 import { CrudModal } from '../../../common/CrudModal/CrudModal';
 import { staffEdit, staffItem } from './helper';
-import { RootState } from '../../../store/reducers';
-import { useDispatch, useSelector } from 'react-redux';
-import { getPositions } from '../../../utils/api/routes/positions/positions';
-import {
-  setGroup,
-  setPositions,
-} from '../../../store/reducers/settings/settings';
 import { ModalCrudType } from '../../../types/setings';
 import { getErrorMessage } from '../../../utils';
 
@@ -56,29 +48,6 @@ export const StaffTable = (props: Props) => {
     });
   };
 
-  const dispatch = useDispatch();
-
-  const { groups, positions } = useSelector(
-    (store: RootState) => store.settings
-  );
-
-  useEffect(() => {
-    if (!groups) {
-      getGroups({}).then((res) => {
-        if (res.data) {
-          dispatch(setGroup(res.data));
-        }
-      });
-    }
-    if (!positions) {
-      getPositions({}).then((res) => {
-        if (res.data) {
-          dispatch(setPositions(res.data));
-        }
-      });
-    }
-  }, [groups, positions]);
-
   const convertStaffToData = (
     staff: Staff | undefined
   ): StaffData | undefined => {
@@ -90,15 +59,8 @@ export const StaffTable = (props: Props) => {
         patronomic: staff.patronomic,
         email: staff.email,
         username: staff.username,
-        groups: Array.isArray(staff.groups)
-          ? (groups ?? [])
-              .filter(
-                (item) => item.name && staff.groups.indexOf(item.name) !== -1
-              )
-              .map((el) => el.name ?? '')
-          : [],
+        groups: Array.isArray(staff.groups) ? staff.groups : [],
         position: staff.position.name,
-        salary: Number(staff.salary),
       };
     }
   };
@@ -139,11 +101,6 @@ export const StaffTable = (props: Props) => {
           />
         );
       },
-    },
-    {
-      title: 'Ставка час',
-      accessor: 'salary',
-      renderCell: (row) => <p>{Number(row.salary).toFixed(2)} ₽</p>,
     },
     {
       title: '',
@@ -213,10 +170,7 @@ export const StaffTable = (props: Props) => {
         <CrudModal
           mode="edit"
           updateFunc={updateStaff}
-          items={staffEdit(
-            groups.map((el) => el.name ?? ''),
-            positions.map((el) => el.name ?? '')
-          )}
+          items={staffEdit}
           element={convertStaffToData(staff)}
           title="Изменение данных сотрудника"
           onClose={() => {

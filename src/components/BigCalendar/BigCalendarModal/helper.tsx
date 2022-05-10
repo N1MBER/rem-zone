@@ -12,7 +12,7 @@ export type BigCalendarModalProps = {
   item: BigCalendarEvent<Job>;
 };
 
-export const jobEdit: Array<ItemRecord<CustomJob, InputType>> = [
+export const jobEdit: Array<ItemRecord<CustomJob, InputType, false>> = [
   {
     key: 'description',
     label: 'Описание',
@@ -30,7 +30,7 @@ export const jobEdit: Array<ItemRecord<CustomJob, InputType>> = [
   },
 ];
 
-export const jobView: Array<ItemRecord<Job, InputType>> = [
+export const jobView: Array<ItemRecord<Job, InputType, false>> = [
   {
     key: 'id',
     label: 'ID',

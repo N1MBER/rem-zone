@@ -47,6 +47,8 @@ export const autoCreate: Array<
     key: 'release_date',
     label: 'Дата выпуска',
     type: 'date',
+    renderValue: (item) =>
+      moment(item.release_date).format('YYYY-MM-DD').toString(),
   },
   {
     key: 'power',

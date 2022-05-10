@@ -136,9 +136,10 @@ const Shedule = () => {
   };
 
   const createJob = (data: CustomJob) => {
-    const { description, favour, date } = data;
+    const { description, favour, date, master } = data;
     return addJob({
       description,
+      master,
       favour,
       started_at: date[0].toISOString(),
       ended_at: date[1].toISOString(),

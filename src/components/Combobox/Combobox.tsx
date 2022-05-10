@@ -29,7 +29,7 @@ type Props<
 > = Omit<ComboboxProps<ITEM, DefaultGroup, MULTIPLE>, 'items'> & {
   loadable?: boolean;
   getItems?: (query: QUERY) => AxiosPromise<BaseListResponse<OBJECT>>;
-  queryField: string;
+  queryField?: string;
   multiple?: MULTIPLE;
   valueKey?: string;
 } & (OBJECT extends Record<string, unknown>
@@ -65,6 +65,7 @@ export const Combobox = <
     size = 'm',
     getItemLabel,
     getItemKey,
+    style,
     onChange,
     list,
     valueKey,
@@ -72,12 +73,15 @@ export const Combobox = <
     loadable,
     getItems,
     value,
+    className,
+    form,
     onInputChange,
   } = props;
 
   const [searchText, setSearchText] = useState<string | undefined | null>();
   const [items, setItems] = useState<(ITEM | OBJECT)[]>([]);
   const [loading, setLoading] = useFlag();
+  const [focusable, setFocusable] = useFlag();
 
   const [current, setCurrent] = useState<ITEM | OBJECT | undefined>();
 
@@ -104,7 +108,7 @@ export const Combobox = <
     getItems?.({
       offset: '0',
       limit: '30',
-      [queryField]: `${searchParam ?? ''}`,
+      ...(queryField ? { [queryField]: `${searchParam ?? ''}` } : {}),
     } as unknown as QUERY)
       .then((res) => {
         if (res.data.results) {
@@ -122,8 +126,14 @@ export const Combobox = <
   };
 
   useEffect(() => {
-    loadable && loadData();
-  }, [searchParam]);
+    queryField && loadable && focusable && loadData();
+  }, [searchParam, focusable, queryField]);
+
+  useEffect(() => {
+    if (!queryField && loadable) {
+      loadData();
+    }
+  }, []);
 
   useEffect(() => {
     !loadable && list && setItems(list);
@@ -137,15 +147,17 @@ export const Combobox = <
   return (
     // @ts-ignore
     <ComboboxComponent
+      form={form}
       label={(label ?? key)?.toString()}
       labelPosition="top"
-      className={cnCombobox()}
+      className={cnCombobox(null, [className])}
       getItemLabel={getItemLabel ?? deafultGetLabel}
       getItemKey={getItemKey ?? deafultGetKey}
       placeholder={(placeholder ?? label ?? key)?.toString()}
       multiple={multiple}
       size={size}
-      style={{ zIndex: 2000 }}
+      onFocus={setFocusable.toogle}
+      style={style ?? { zIndex: 2000 }}
       items={items}
       isLoading={loading}
       value={current}

@@ -20,7 +20,7 @@ export const getJobs = (
 };
 
 export const addJob = (
-  data: Omit<Job, 'id' | 'master' | 'status'>
+  data: Omit<Job, 'id' | 'master' | 'status'> & { master: string }
 ): AxiosPromise<Job> => {
   return instance.post(endpoints.jobs.jobs, { ...data });
 };

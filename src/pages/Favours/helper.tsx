@@ -1,3 +1,4 @@
+import { Badge } from '@consta/uikit/Badge';
 import React from 'react';
 import { ItemRecord, InputType } from '../../common/CrudModal/types';
 import { Favour } from '../../types/favour';
@@ -43,5 +44,20 @@ export const favourView: Array<ItemRecord<Favour, InputType, boolean>> = [
     key: 'description',
     label: 'Описание',
     type: 'text',
+  },
+  {
+    key: 'positions',
+    label: 'Выполняют',
+    type: 'text',
+    renderValue: ({ positions }) =>
+      positions && positions.length > 0 ? (
+        <>
+          {positions.map((item) => (
+            <Badge size="s" label={item.name} />
+          ))}
+        </>
+      ) : (
+        'Нету'
+      ),
   },
 ];

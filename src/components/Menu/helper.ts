@@ -26,6 +26,20 @@ export const getMenuLinks = (userType?: UserType): LinkType[] => {
         label: 'Клиенты',
         icon: IconWorld,
         link: `/clients${defaultTablePageParams}`,
+        subMenu: [
+          {
+            label: 'Клиенты',
+            link: `/clients${defaultTablePageParams}`,
+          },
+          {
+            label: 'Баланс',
+            link: `/clients/balance${defaultTablePageParams}`,
+          },
+          {
+            label: 'История',
+            link: `/clients/history${defaultTablePageParams}`,
+          },
+        ],
       },
       {
         label: 'Автомобили',

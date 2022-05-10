@@ -1,7 +1,9 @@
 import React from 'react';
 import { ItemRecord, InputType } from '../../../common/CrudModal/types';
-import { Staff, StaffData } from '../../../types/user';
+import { Staff, Position, StaffData, StaffGroup } from '../../../types/user';
 import { Badge } from '@consta/uikit/Badge';
+import { getGroups } from '../../../utils/api/routes/users/users';
+import { getPositions } from '../../../utils/api/routes/positions/positions';
 
 export const staffItem: Array<ItemRecord<Staff, InputType, boolean>> = [
   {
@@ -36,6 +38,12 @@ export const staffItem: Array<ItemRecord<Staff, InputType, boolean>> = [
     type: 'text',
   },
   {
+    key: 'groups',
+    label: 'Группы',
+    type: 'text',
+    renderValue: ({ groups }) => groups.join(', '),
+  },
+  {
     key: 'position',
     label: 'Должность',
     type: 'select',
@@ -43,7 +51,7 @@ export const staffItem: Array<ItemRecord<Staff, InputType, boolean>> = [
       item.position ? (
         <Badge
           size="s"
-          label={item.position.description}
+          label={item.position.name}
           status={
             item.position.name === 'master-receiver' ? 'success' : 'warning'
           }
@@ -52,18 +60,11 @@ export const staffItem: Array<ItemRecord<Staff, InputType, boolean>> = [
         <>???</>
       ),
   },
-  {
-    key: 'salary',
-    label: 'Ставка час',
-    type: 'number',
-    renderValue: (item) => <p>{Number(item.salary).toFixed(2)} ₽</p>,
-  },
 ];
 
-export const staffEdit = (
-  groups: string[],
-  position: string[]
-): Array<ItemRecord<StaffData, InputType, boolean>> => [
+export const staffEdit: Array<
+  ItemRecord<StaffData, InputType, boolean, Position | StaffGroup>
+> = [
   {
     key: 'last_name',
     label: 'Фамилия',
@@ -93,23 +94,25 @@ export const staffEdit = (
     key: 'position',
     label: 'Должность',
     type: 'select',
-    list: position,
-    getItemLabel: (item) => item.toString(),
-    getItemKey: (item) => item.toString(),
+    list: [] as Position[],
+    loadable: true,
+    getItems: getPositions,
+    queryField: 'name',
+    valueKey: 'name',
+    getItemLabel: (item: Position) => item.name,
+    getItemKey: (item: Position) => item.id,
   },
   {
     key: 'groups',
     label: 'Группы',
     type: 'select',
     multiple: true,
-    list: groups,
-    getItemLabel: (item) => item.toString(),
-    getItemKey: (item) => item.toString(),
-  },
-  {
-    key: 'salary',
-    label: 'Ставка час',
-    type: 'number',
-    renderValue: (item) => <p>{Number(item.salary).toFixed(2)} ₽</p>,
+    loadable: true,
+    queryField: 'name',
+    getItems: getGroups,
+    list: [] as StaffGroup[],
+    valueKey: 'name',
+    getItemLabel: (item: StaffGroup) => `${item.name}`,
+    getItemKey: (item: StaffGroup) => item.id,
   },
 ];

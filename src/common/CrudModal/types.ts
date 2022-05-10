@@ -54,7 +54,7 @@ export type ItemRecord<
   explanation?: string;
   icon?: IconComponent;
   valueKey?: string;
-  renderValue?: (item: ITEM) => React.ReactElement;
+  renderValue?: (item: ITEM) => React.ReactElement | string;
 } & (TYPE extends 'select'
   ? SelectData<ITEM, LOADABLE, OBJECT>
   : {
