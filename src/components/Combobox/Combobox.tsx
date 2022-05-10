@@ -130,10 +130,10 @@ export const Combobox = <
   }, [searchParam, focusable, queryField]);
 
   useEffect(() => {
-    if (!queryField && loadable) {
+    if (!queryField && loadable && focusable) {
       loadData();
     }
-  }, []);
+  }, [focusable]);
 
   useEffect(() => {
     !loadable && list && setItems(list);
