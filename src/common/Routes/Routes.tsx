@@ -19,6 +19,7 @@ const Staff = React.lazy(() => import('../../pages/Staff/Staff'));
 const Auto = React.lazy(() => import('../../pages/Auto/Auto'));
 const Brand = React.lazy(() => import('../../pages/Brand/Brand'));
 const Model = React.lazy(() => import('../../pages/Model/Model'));
+const Balance = React.lazy(() => import('../../pages/Balance/Balance'));
 
 type Props = {
   isAdmin?: boolean;
@@ -48,6 +49,10 @@ const paths = (userType?: UserType): Path[] => {
       {
         path: '/clients',
         component: Clients,
+      },
+      {
+        path: '/clients/balance',
+        component: Balance,
       },
       {
         path: '/timetable',

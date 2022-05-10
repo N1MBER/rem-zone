@@ -1,0 +1,25 @@
+@import '../../../assets/styles/mixins.scss';
+
+.BalanceModal {
+    &-Controls {
+        @include flex-center();
+        flex-wrap: nowrap;
+        align-items: flex-end;
+        flex-basis: 200px;
+        width: 100%;
+        margin-bottom: var(--space-s);
+
+        & > *:first-child {
+            min-width: 60%;
+        }
+    }
+
+    &-Buttons {
+        width: 100%;
+        @include flex-center();
+        justify-content: flex-end;
+        & > *:not(:last-child) {
+            margin-right: var(--space-s);
+        }
+    }
+}

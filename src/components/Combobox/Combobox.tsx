@@ -65,6 +65,7 @@ export const Combobox = <
     size = 'm',
     getItemLabel,
     getItemKey,
+    style,
     onChange,
     list,
     valueKey,
@@ -72,6 +73,7 @@ export const Combobox = <
     loadable,
     getItems,
     value,
+    className,
     onInputChange,
   } = props;
 
@@ -139,13 +141,13 @@ export const Combobox = <
     <ComboboxComponent
       label={(label ?? key)?.toString()}
       labelPosition="top"
-      className={cnCombobox()}
+      className={cnCombobox(null, [className])}
       getItemLabel={getItemLabel ?? deafultGetLabel}
       getItemKey={getItemKey ?? deafultGetKey}
       placeholder={(placeholder ?? label ?? key)?.toString()}
       multiple={multiple}
       size={size}
-      style={{ zIndex: 2000 }}
+      style={style ?? { zIndex: 2000 }}
       items={items}
       isLoading={loading}
       value={current}

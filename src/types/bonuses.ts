@@ -1,8 +1,10 @@
+import { Client } from './user';
+
 export type Balance = {
   id: string;
   updated_at: string;
   balance: number;
-  client: string;
+  client: Client;
 };
 
 export type BalanceTransaction = {

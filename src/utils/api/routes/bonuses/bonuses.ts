@@ -24,7 +24,7 @@ export const changeBalance = (
   data: {
     bonuses: number;
   },
-  id: number
+  id: string
 ): AxiosPromise<Balance> => {
   return instance.post(endpoints.bonuses.changeBalance(id), { ...data });
 };
