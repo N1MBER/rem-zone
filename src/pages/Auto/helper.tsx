@@ -5,20 +5,33 @@ import { getModels } from '../../utils/api/routes/cars/cars';
 import moment from 'moment';
 
 import { CreateAuto, UpdateAuto } from '../../utils/api/routes/cars/types';
+import { getClients } from '../../utils/api/routes/users/users';
+import { Client } from '../../types/user';
 
 export const autoCreate: Array<
-  ItemRecord<CreateAuto, InputType, boolean, CarModel>
+  ItemRecord<CreateAuto, InputType, boolean, CarModel | Client>
 > = [
   {
+    key: 'owner',
+    label: 'Владелец',
+    type: 'select',
+    list: [] as Client[],
+    getItems: getClients,
+    loadable: true,
+    queryField: 'last_name',
+    getItemLabel: (item: Client) => `${item.last_name} ${item.first_name[0]}`,
+    getItemKey: (item: Client) => item.id,
+  },
+  {
     key: 'model',
-    label: 'Автомобиль',
+    label: 'Модель автомобиля',
     type: 'select',
     loadable: true,
     list: [] as CarModel[],
     getItems: getModels,
     queryField: 'name',
-    getItemLabel: (item) => `${item.name} ${item.brand}`,
-    getItemKey: (item) => item.id,
+    getItemLabel: (item: CarModel) => `${item.name} ${item.brand}`,
+    getItemKey: (item: CarModel) => item.id,
   },
   {
     key: 'vin',
