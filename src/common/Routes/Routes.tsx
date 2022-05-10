@@ -5,6 +5,7 @@ import { PageLayout } from '../Layouts/PageLayout/PageLayout';
 import { UserType } from '../../types/user';
 import { RootState } from '../../store/reducers';
 import { SkeletonPage } from '../Skeleton/SkeletonPage/SkeletonPage';
+import { AboutUs } from '../../pages/AboutUs/AboutUs';
 import { useSelector } from 'react-redux';
 
 const Analytic = React.lazy(() => import('../../pages/Analytic/Analytic'));
@@ -80,6 +81,10 @@ const paths = (userType?: UserType): Path[] => {
         path: '/auto/models',
         component: Model,
       },
+      {
+        path: '/about_us',
+        component: AboutUs,
+      },
     ];
   }
   return [
@@ -107,6 +112,10 @@ const paths = (userType?: UserType): Path[] => {
     {
       path: '/auto/models',
       component: Model,
+    },
+    {
+      path: '/about_us',
+      component: AboutUs,
     },
   ];
 };

@@ -4,6 +4,7 @@ import { IconWorld } from '@consta/uikit/IconWorld';
 import { IconUser } from '@consta/uikit/IconUser';
 import { IconFunnel } from '@consta/uikit/IconFunnel';
 import { IconRUS } from '@consta/uikit/IconRUS';
+import { IconMMP } from '@consta/uikit/IconMMP';
 import { IconTable } from '@consta/uikit/IconTable';
 import { UserType } from '../../types/user';
 import { resetDateTime } from '../../utils/date/date';
@@ -69,6 +70,11 @@ export const getMenuLinks = (userType?: UserType): LinkType[] => {
         icon: IconTable,
         link: `/timetable${defaultSheduleParams}`,
       },
+      {
+        label: 'О нас',
+        icon: IconMMP,
+        link: '/about_us',
+      },
     ];
   }
   return [
@@ -97,6 +103,11 @@ export const getMenuLinks = (userType?: UserType): LinkType[] => {
       label: 'Расписание',
       icon: IconTable,
       link: `/timetable${defaultSheduleParams}`,
+    },
+    {
+      label: 'О нас',
+      icon: IconMMP,
+      link: '/about_us',
     },
   ];
 };
