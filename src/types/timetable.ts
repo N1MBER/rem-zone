@@ -13,3 +13,15 @@ export type Job = {
   status: JobStatus;
   favour: number;
 };
+
+export const timeTablePropColor = [
+  'brand',
+  'success',
+  'alert',
+  'warning',
+  'caution',
+  'normal',
+] as const;
+export type TimeTablePropColor = typeof timeTablePropColor[number];
+export const timeTablePropColorDefault: TimeTablePropColor =
+  timeTablePropColor[0];

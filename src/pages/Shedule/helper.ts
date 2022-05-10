@@ -1,7 +1,6 @@
-import { timeTablePropColor } from '../../components/TimeTable/types';
 import { generateRandomValue } from '../../utils';
 import { ItemRecord, InputType } from '../../common/CrudModal/types';
-import { Job, ViewMode } from '../../types/timetable';
+import { Job, timeTablePropColor, ViewMode } from '../../types/timetable';
 import { getWeek, getMonth, resetDateTime } from '../../utils/date/date';
 import { getFavours } from '../../utils/api/routes/favour/favour';
 import { Favour } from '../../types/favour';
