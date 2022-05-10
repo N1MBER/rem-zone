@@ -50,15 +50,26 @@ export const autoCreate: Array<
   },
   {
     key: 'power',
-    label: 'Мощность двигателя',
+    label: 'Мощность двигателя л. c.',
     type: 'number',
     explanation: 'л. c.',
   },
   {
     key: 'engine_size',
-    label: 'Объем двигателя',
+    label: 'Объем двигателя л.',
     type: 'number',
     explanation: 'л.',
+  },
+  {
+    key: 'mileage',
+    label: 'Пробег км',
+    type: 'number',
+    explanation: 'км',
+  },
+  {
+    key: 'color_code',
+    label: 'Код цвета',
+    type: 'number',
   },
 ];
 

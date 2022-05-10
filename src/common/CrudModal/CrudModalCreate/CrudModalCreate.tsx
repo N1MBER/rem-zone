@@ -52,8 +52,13 @@ export const CrudModalCreate = <
           copyData[item.key.toString()] as Record<string, unknown>
         )?.[item.valueKey];
       }
+      if (item.renderValue) {
+        copyData[item.key.toString()] = item.renderValue(
+          copyData as unknown as TYPE
+        );
+      }
     });
-    createFunc(data as TYPE)
+    createFunc(copyData as unknown as TYPE)
       .then((res) => {
         if (Math.round(res.status / 100) === 2) {
           successCallback?.(res.data);

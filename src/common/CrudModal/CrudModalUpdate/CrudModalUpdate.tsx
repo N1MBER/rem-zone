@@ -61,9 +61,14 @@ export const CrudModalUpdate = <
           copyData[item.key.toString()] as Record<string, unknown>
         )?.[item.valueKey];
       }
+      if (item.renderValue) {
+        copyData[item.key.toString()] = item.renderValue(
+          copyData as unknown as TYPE
+        );
+      }
     });
 
-    updateFunc(data as TYPE, itemId)
+    updateFunc(copyData as unknown as TYPE, itemId)
       .then((res) => {
         if (Math.round(res.status / 100) === 2) {
           successCallback?.(res.data);
