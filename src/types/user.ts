@@ -46,7 +46,6 @@ export type Staff = {
   last_name: string;
   email: string;
   patronomic: string;
-  salary: string;
 };
 
 export type StaffData = {
@@ -54,7 +53,6 @@ export type StaffData = {
   position: string;
   password: string;
   username: string;
-  salary: number;
   first_name: string;
   last_name: string;
   email: string;

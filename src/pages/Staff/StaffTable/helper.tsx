@@ -38,6 +38,12 @@ export const staffItem: Array<ItemRecord<Staff, InputType, boolean>> = [
     type: 'text',
   },
   {
+    key: 'groups',
+    label: 'Группы',
+    type: 'text',
+    renderValue: ({ groups }) => groups.join(', '),
+  },
+  {
     key: 'position',
     label: 'Должность',
     type: 'select',
@@ -45,7 +51,7 @@ export const staffItem: Array<ItemRecord<Staff, InputType, boolean>> = [
       item.position ? (
         <Badge
           size="s"
-          label={item.position.description}
+          label={item.position.name}
           status={
             item.position.name === 'master-receiver' ? 'success' : 'warning'
           }
@@ -53,12 +59,6 @@ export const staffItem: Array<ItemRecord<Staff, InputType, boolean>> = [
       ) : (
         <>???</>
       ),
-  },
-  {
-    key: 'salary',
-    label: 'Ставка час',
-    type: 'number',
-    renderValue: (item) => <p>{Number(item.salary).toFixed(2)} ₽</p>,
   },
 ];
 
@@ -114,11 +114,5 @@ export const staffEdit: Array<
     valueKey: 'name',
     getItemLabel: (item: StaffGroup) => `${item.name}`,
     getItemKey: (item: StaffGroup) => item.id,
-  },
-  {
-    key: 'salary',
-    label: 'Ставка час',
-    type: 'number',
-    renderValue: (item) => <p>{Number(item.salary).toFixed(2)} ₽</p>,
   },
 ];

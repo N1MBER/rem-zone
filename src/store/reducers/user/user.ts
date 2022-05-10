@@ -19,9 +19,6 @@ import {
   AuthData,
   ConfirmPasswordData,
 } from '../../../utils/api/routes/auth/types';
-import { getGroups } from '../../../utils/api/routes/users/users';
-import { setGroup, setPositions } from '../settings/settings';
-import { getPositions } from '../../../utils/api/routes/positions/positions';
 
 const initialState: State = {
   isLogged: false,
@@ -77,27 +74,12 @@ export const login = createAsyncThunk<unknown, LoginPayloadType>(
           });
           setAuthToken(access_token);
           dispatch(setLogged());
-
-          const additionalRequest = () => {
-            getGroups({ offset: 0, limit: 20 }).then((res) => {
-              if (res.data.results) {
-                dispatch(setGroup(res.data.results));
-              }
-            });
-            getPositions({ offset: 0, limit: 20 }).then((res) => {
-              if (res.data.results) {
-                dispatch(setPositions(res.data.results));
-              }
-            });
-          };
           user && dispatch(setProfile(user));
           if (user) {
             if (user.is_superuser) {
               dispatch(setUserType('admin'));
-              additionalRequest();
             } else if (user.groups[0]?.id === 1) {
               dispatch(setUserType('master-reciever'));
-              additionalRequest();
             } else {
               dispatch(setUserType('master-executor'));
             }

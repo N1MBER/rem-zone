@@ -6,17 +6,17 @@ import { StaffTable } from './StaffTable/StaffTable';
 import { TablePage } from '../../common/BaseComponents/TablePage/TablePage';
 import { Text } from '@consta/uikit/Text';
 import { TextField } from '@consta/uikit/TextField';
-import { Select } from '@consta/uikit/Select';
 import { Button } from '@consta/uikit/Button';
 import { IconAdd } from '@consta/uikit/IconAdd';
 import { IconRevert } from '@consta/uikit/IconRevert';
 import { IconSearch } from '@consta/uikit/IconSearch';
-import { RootState } from '../../store/reducers';
-import { useSelector } from 'react-redux';
 import { CrudModal } from '../../common/CrudModal/CrudModal';
 import { staffEdit } from './StaffTable/helper';
 import { toast } from '../../utils/toast/toast';
 import { getErrorMessage } from '../../utils';
+import { Combobox } from '../../components/Combobox/Combobox';
+import { Position } from '../../types/user';
+import { getPositions } from '../../utils/api/routes/positions/positions';
 
 import './Staff.scss';
 
@@ -32,8 +32,6 @@ export const Staff = () => {
   const [filterData, setFilterData] = useState<StaffQueries>({});
   const [data, setData] = useState<StaffQueries>({});
   const [open, setOpen] = useFlag();
-
-  const { positions } = useSelector((store: RootState) => store.settings);
 
   const setValue: (
     key: keyof StaffQueries,
@@ -89,18 +87,23 @@ export const Staff = () => {
                   size="s"
                   placeholder="Email"
                 />
-                <Select
+                <Combobox
                   size="s"
                   className={cnStaff('Input')}
-                  form="clearDefault"
                   placeholder="Должность"
-                  items={positions}
-                  value={positions.find(
-                    (item) => item.name === filterData.position
-                  )}
-                  onChange={({ value }) => setValue('position', value?.name)}
-                  getItemKey={(item) => item.id}
-                  getItemLabel={(item) => item.name}
+                  loadable
+                  form="clearDefault"
+                  // @ts-ignore
+                  value={filterData.position}
+                  list={[] as Position[]}
+                  getItemLabel={(item: Position) => item.name}
+                  getItemKey={(item: Position) => item.id}
+                  getItems={getPositions}
+                  valueKey="name"
+                  style={{ zIndex: 10 }}
+                  onChange={({ value }) =>
+                    value && setValue('position', value.toString())
+                  }
                 />
               </div>
             </div>

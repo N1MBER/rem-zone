@@ -29,7 +29,7 @@ type Props<
 > = Omit<ComboboxProps<ITEM, DefaultGroup, MULTIPLE>, 'items'> & {
   loadable?: boolean;
   getItems?: (query: QUERY) => AxiosPromise<BaseListResponse<OBJECT>>;
-  queryField: string;
+  queryField?: string;
   multiple?: MULTIPLE;
   valueKey?: string;
 } & (OBJECT extends Record<string, unknown>
@@ -74,6 +74,7 @@ export const Combobox = <
     getItems,
     value,
     className,
+    form,
     onInputChange,
   } = props;
 
@@ -107,7 +108,7 @@ export const Combobox = <
     getItems?.({
       offset: '0',
       limit: '30',
-      [queryField]: `${searchParam ?? ''}`,
+      ...(queryField ? { [queryField]: `${searchParam ?? ''}` } : {}),
     } as unknown as QUERY)
       .then((res) => {
         if (res.data.results) {
@@ -125,8 +126,14 @@ export const Combobox = <
   };
 
   useEffect(() => {
-    loadable && focusable && loadData();
-  }, [searchParam, focusable]);
+    queryField && loadable && focusable && loadData();
+  }, [searchParam, focusable, queryField]);
+
+  useEffect(() => {
+    if (!queryField && loadable) {
+      loadData();
+    }
+  }, []);
 
   useEffect(() => {
     !loadable && list && setItems(list);
@@ -140,6 +147,7 @@ export const Combobox = <
   return (
     // @ts-ignore
     <ComboboxComponent
+      form={form}
       label={(label ?? key)?.toString()}
       labelPosition="top"
       className={cnCombobox(null, [className])}
