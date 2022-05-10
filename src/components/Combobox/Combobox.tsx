@@ -80,6 +80,7 @@ export const Combobox = <
   const [searchText, setSearchText] = useState<string | undefined | null>();
   const [items, setItems] = useState<(ITEM | OBJECT)[]>([]);
   const [loading, setLoading] = useFlag();
+  const [focusable, setFocusable] = useFlag();
 
   const [current, setCurrent] = useState<ITEM | OBJECT | undefined>();
 
@@ -124,8 +125,8 @@ export const Combobox = <
   };
 
   useEffect(() => {
-    loadable && loadData();
-  }, [searchParam]);
+    loadable && focusable && loadData();
+  }, [searchParam, focusable]);
 
   useEffect(() => {
     !loadable && list && setItems(list);
@@ -147,6 +148,7 @@ export const Combobox = <
       placeholder={(placeholder ?? label ?? key)?.toString()}
       multiple={multiple}
       size={size}
+      onFocus={setFocusable.toogle}
       style={style ?? { zIndex: 2000 }}
       items={items}
       isLoading={loading}
