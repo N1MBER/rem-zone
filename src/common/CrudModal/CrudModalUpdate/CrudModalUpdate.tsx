@@ -4,7 +4,7 @@ import { ItemRecord, InputType, DefaultValue } from '../types';
 import { cn } from '../../../__private__/utils/bem';
 import { Button } from '@consta/uikit/Button';
 import { TextField, TextFieldPropValue } from '@consta/uikit/TextField';
-import { Combobox } from '@consta/uikit/Combobox';
+import { Combobox } from '../../../components/Combobox/Combobox';
 import {
   DatePicker,
   DatePickerPropValue,
@@ -102,6 +102,7 @@ export const CrudModalUpdate = <TYPE, LOADABLE extends boolean>(
           getItemKey,
           explanation,
           icon,
+          ...otherProps
         } = item;
         const defaultGetter = () => '';
         if (type === 'email' || type === 'number' || type === 'text') {
@@ -128,6 +129,7 @@ export const CrudModalUpdate = <TYPE, LOADABLE extends boolean>(
               placeholder={(label ?? key).toString()}
               size="m"
               key={`${cnCrudModalUpdate()}-${index}`}
+              // @ts-ignore
               items={list ?? []}
               labelPosition="top"
               getItemLabel={getItemLabel ?? defaultGetter}
@@ -136,6 +138,7 @@ export const CrudModalUpdate = <TYPE, LOADABLE extends boolean>(
               value={data[key] as TYPE}
               multiple={multiple}
               style={{ zIndex: 10000 }}
+              {...otherProps}
               onChange={({ value }) => handleChange(value, key.toString())}
             />
           );

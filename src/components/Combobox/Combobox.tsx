@@ -21,7 +21,7 @@ type DefaultItem = {
   disabled?: boolean;
 };
 
-type Props<ITEM = DefaultItem, MULTIPLE extends boolean = false> = Omit<
+type Props<ITEM, MULTIPLE extends boolean = false> = Omit<
   ComboboxProps<ITEM, DefaultGroup, MULTIPLE>,
   'items'
 > & {

@@ -4,7 +4,7 @@ import { ItemRecord, InputType, DefaultValue } from '../types';
 import { cn } from '../../../__private__/utils/bem';
 import { Button } from '@consta/uikit/Button';
 import { TextField, TextFieldPropValue } from '@consta/uikit/TextField';
-import { Combobox } from '@consta/uikit/Combobox';
+import { Combobox } from '../../../components/Combobox/Combobox';
 import {
   DatePicker,
   DatePickerPropValue,
@@ -82,8 +82,16 @@ export const CrudModalCreate = <TYPE, LOADABLE extends boolean>(
   return (
     <div className={cnCrudModalCreate()}>
       {items.map((item, index) => {
-        const { key, label, type, list, multiple, getItemLabel, getItemKey } =
-          item;
+        const {
+          key,
+          label,
+          type,
+          list,
+          multiple,
+          getItemLabel,
+          getItemKey,
+          ...otherProps
+        } = item;
         const defaultGetter = () => '';
         if (type === 'email' || type === 'number' || type === 'text') {
           return (
@@ -107,12 +115,14 @@ export const CrudModalCreate = <TYPE, LOADABLE extends boolean>(
               placeholder={(label ?? key).toString()}
               size="m"
               key={`${cnCrudModalCreate()}-${index}`}
+              // @ts-ignore
               items={list ?? []}
               getItemLabel={getItemLabel ?? defaultGetter}
               getItemKey={getItemKey ?? defaultGetter}
               // @ts-ignore
               value={data[key] as TYPE}
               multiple={multiple}
+              {...otherProps}
               style={{ zIndex: 10000 }}
               onChange={({ value }) => handleChange(value, key.toString())}
             />
