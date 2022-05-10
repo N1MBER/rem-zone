@@ -104,3 +104,17 @@ export const getErrorMessage = (error: any): string | undefined => {
   }
   return undefined;
 };
+
+export const compareArrays = (
+  arr1: Record<string, unknown>[],
+  arr2: Record<string, unknown>[]
+): boolean => {
+  if (arr1.length !== arr2.length) return false;
+  let flag = true;
+  arr1.forEach((item, index) => {
+    if (!deepEqual(item, arr2[index])) {
+      flag = false;
+    }
+  });
+  return flag;
+};

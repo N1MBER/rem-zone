@@ -17,7 +17,7 @@ export const autoCreate: Array<
     list: [] as CarModel[],
     getItems: getModels,
     queryField: 'name',
-    getItemLabel: (item) => item.name,
+    getItemLabel: (item) => `${item.name} ${item.brand}`,
     getItemKey: (item) => item.id,
   },
   {

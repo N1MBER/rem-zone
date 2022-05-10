@@ -31,7 +31,7 @@ type Props<
   getItems?: (query: QUERY) => AxiosPromise<BaseListResponse<OBJECT>>;
   queryField: string;
   multiple?: MULTIPLE;
-  convertFunction?: (item: OBJECT) => ITEM;
+  valueKey?: string;
 } & (OBJECT extends Record<string, unknown>
     ? {
         list?: OBJECT[];
@@ -67,46 +67,58 @@ export const Combobox = <
     getItemKey,
     onChange,
     list,
+    valueKey,
     queryField,
     loadable,
     getItems,
     value,
     onInputChange,
-    getGroupLabel,
-    getGroupKey,
-    convertFunction,
-    ...otherProps
   } = props;
 
   const [searchText, setSearchText] = useState<string | undefined | null>();
   const [items, setItems] = useState<(ITEM | OBJECT)[]>([]);
   const [loading, setLoading] = useFlag();
 
+  const [current, setCurrent] = useState<ITEM | OBJECT | undefined>();
+
+  useEffect(() => {
+    if (value) {
+      setCurrent(
+        items.find((el) => {
+          if (typeof el === 'object') {
+            const element = el as Record<string, unknown>;
+            return element[valueKey ?? 'id'] === value;
+          }
+          return el === value;
+        })
+      );
+    } else {
+      setCurrent(undefined);
+    }
+  }, [value]);
+
   const searchParam = useDebounce(searchText, 500);
 
   const loadData = () => {
-    if (searchParam) {
-      setLoading.on();
-      getItems?.({
-        [queryField]: `${searchParam ?? ''}`,
-      } as QUERY)
-        .then((res) => {
-          if (res.data.results) {
-            const arr = res.data.results.map((item) => {
-              return convertFunction ? convertFunction(item) : (item as OBJECT);
-            });
-            setItems(arr);
-          } else {
-            setItems([]);
-          }
-        })
-        .catch(() => {
+    setLoading.on();
+    getItems?.({
+      offset: '0',
+      limit: '30',
+      [queryField]: `${searchParam ?? ''}`,
+    } as unknown as QUERY)
+      .then((res) => {
+        if (res.data.results) {
+          setItems(res.data.results);
+        } else {
           setItems([]);
-        })
-        .finally(() => {
-          setLoading.off();
-        });
-    }
+        }
+      })
+      .catch(() => {
+        setItems([]);
+      })
+      .finally(() => {
+        setLoading.off();
+      });
   };
 
   useEffect(() => {
@@ -128,20 +140,28 @@ export const Combobox = <
       label={(label ?? key)?.toString()}
       labelPosition="top"
       className={cnCombobox()}
-      getGroupLabel={() => ''}
-      getItemGroupKey={() => ''}
-      getGroupKey={() => ''}
       getItemLabel={getItemLabel ?? deafultGetLabel}
       getItemKey={getItemKey ?? deafultGetKey}
       placeholder={(placeholder ?? label ?? key)?.toString()}
       multiple={multiple}
       size={size}
+      style={{ zIndex: 2000 }}
       items={items}
       isLoading={loading}
-      value={value}
-      onChange={onChange}
+      value={current}
+      onChange={(props) => {
+        if (typeof props.value === 'object') {
+          onChange?.({
+            ...props,
+            // @ts-ignore
+            value: props.value[valueKey ?? 'id'],
+          });
+        } else {
+          // @ts-ignore
+          onChange?.(props);
+        }
+      }}
       onInputChange={handleChange}
-      {...otherProps}
     />
   );
 };
