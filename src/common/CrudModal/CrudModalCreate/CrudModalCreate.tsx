@@ -9,13 +9,14 @@ import {
   DatePicker,
   DatePickerPropValue,
 } from '@consta/uikit/DatePickerCanary';
+import { convertError } from '../helper';
 
 import './CrudModalCreate.scss';
 
 type CrudModalCreateProps<
   LOADABLE extends boolean,
   OBJECT extends Record<string, unknown>,
-  TYPE = Record<string, unknown | undefined>
+  TYPE extends Record<string, unknown | undefined>
 > = {
   createFunc: (data: TYPE) => AxiosPromise<TYPE>;
   items: ItemRecord<TYPE, InputType, LOADABLE, OBJECT>[];
@@ -28,7 +29,7 @@ type CrudModalCreateProps<
 const cnCrudModalCreate = cn('CrudModalCreate');
 
 export const CrudModalCreate = <
-  TYPE,
+  TYPE extends Record<string, unknown | undefined>,
   LOADABLE extends boolean,
   OBJECT extends Record<string, unknown>
 >(
@@ -43,6 +44,7 @@ export const CrudModalCreate = <
     errorCallback,
   } = props;
   const [data, setData] = useState<Record<string, unknown>>({});
+  const [errors, setErrors] = useState<Partial<Record<keyof TYPE, string>>>({});
 
   const handleClick = () => {
     const copyData = { ...data };
@@ -58,16 +60,19 @@ export const CrudModalCreate = <
         );
       }
     });
+    setErrors({});
     createFunc(copyData as unknown as TYPE)
       .then((res) => {
         if (Math.round(res.status / 100) === 2) {
           successCallback?.(res.data);
           onClose?.();
         } else {
+          setErrors(convertError<TYPE>(res.data));
           errorCallback?.(res.data);
         }
       })
       .catch((e) => {
+        setErrors(convertError<TYPE>(e.data));
         errorCallback?.(e);
       });
   };
@@ -111,6 +116,8 @@ export const CrudModalCreate = <
               label={(label ?? key).toString()}
               placeholder={(label ?? key).toString()}
               size="m"
+              caption={errors[key] ?? undefined}
+              status={errors[key] ? 'alert' : undefined}
               value={data[key as string] as TextFieldPropValue}
               type={type}
               onChange={({ value }) => handleChange(value, key.toString())}
@@ -124,6 +131,8 @@ export const CrudModalCreate = <
               label={(label ?? key).toString()}
               placeholder={(label ?? key).toString()}
               size="m"
+              caption={errors[key] ?? undefined}
+              status={errors[key] ? 'alert' : undefined}
               key={`${cnCrudModalCreate()}-${index}`}
               // @ts-ignore
               items={list ?? []}
@@ -144,6 +153,8 @@ export const CrudModalCreate = <
         return (
           <DatePicker
             type={type}
+            caption={errors[key] ?? undefined}
+            status={errors[key] ? 'alert' : undefined}
             key={`${cnCrudModalCreate()}-${index}`}
             label={(label ?? key).toString()}
             placeholder={(label ?? key).toString()}

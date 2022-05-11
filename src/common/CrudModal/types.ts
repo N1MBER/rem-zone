@@ -73,7 +73,7 @@ export type CrudModalProps<
   MODE extends ModalCrudType,
   LOADABLE extends boolean,
   OBJECT extends Record<string, unknown>,
-  TYPE = Record<string, unknown | undefined>
+  TYPE extends Record<string, unknown | undefined>
 > = {
   mode: MODE;
   title?: string;

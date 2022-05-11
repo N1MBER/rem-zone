@@ -67,6 +67,8 @@ export const Combobox = <
     getItemKey,
     style,
     onChange,
+    status,
+    caption,
     list,
     valueKey,
     queryField,
@@ -156,6 +158,8 @@ export const Combobox = <
       placeholder={(placeholder ?? label ?? key)?.toString()}
       multiple={multiple}
       size={size}
+      status={status}
+      caption={caption}
       onFocus={setFocusable.toogle}
       style={style ?? { zIndex: 2000 }}
       items={items}

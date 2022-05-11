@@ -12,7 +12,7 @@ import './CrudModal.scss';
 const cnCrudModal = cn('CrudModal');
 
 export const CrudModal = <
-  TYPE,
+  TYPE extends Record<string, unknown | undefined>,
   LOADABLE extends boolean,
   OBJECT extends Record<string, unknown>
 >(

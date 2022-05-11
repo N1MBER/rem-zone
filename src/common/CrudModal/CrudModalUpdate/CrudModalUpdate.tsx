@@ -9,13 +9,14 @@ import {
   DatePicker,
   DatePickerPropValue,
 } from '@consta/uikit/DatePickerCanary';
+import { convertError } from '../helper';
 
 import './CrudModalUpdate.scss';
 
 type CrudModalUpdateProps<
   LOADABLE extends boolean,
   OBJECT extends Record<string, unknown>,
-  TYPE = Record<string, unknown | undefined>
+  TYPE extends Record<string, unknown | undefined>
 > = {
   updateFunc: (data: TYPE, id: string) => AxiosPromise<TYPE>;
   items: ItemRecord<TYPE, InputType, LOADABLE, OBJECT>[];
@@ -30,7 +31,7 @@ type CrudModalUpdateProps<
 const cnCrudModalUpdate = cn('CrudModalUpdate');
 
 export const CrudModalUpdate = <
-  TYPE,
+  TYPE extends Record<string, unknown | undefined>,
   LOADABLE extends boolean,
   OBJECT extends Record<string, unknown>
 >(
@@ -48,6 +49,7 @@ export const CrudModalUpdate = <
   } = props;
 
   const [data, setData] = useState<Record<string, unknown>>({});
+  const [errors, setErrors] = useState<Partial<Record<keyof TYPE, string>>>({});
 
   useEffect(() => {
     setData(element as Record<string, unknown>);
@@ -67,17 +69,19 @@ export const CrudModalUpdate = <
         );
       }
     });
-
+    setErrors({});
     updateFunc(copyData as unknown as TYPE, itemId)
       .then((res) => {
         if (Math.round(res.status / 100) === 2) {
           successCallback?.(res.data);
           onClose?.();
         } else {
+          setErrors(convertError<TYPE>(res.data));
           errorCallback?.(res.data);
         }
       })
       .catch((e) => {
+        setErrors(convertError<TYPE>(e.data));
         errorCallback?.(e);
       });
   };
@@ -124,6 +128,8 @@ export const CrudModalUpdate = <
               placeholder={(label ?? key).toString()}
               size="m"
               leftSide={icon}
+              caption={errors[key] ?? undefined}
+              status={errors[key] ? 'alert' : undefined}
               rightSide={explanation}
               value={data[key as string] as TextFieldPropValue}
               type={type}
@@ -138,6 +144,8 @@ export const CrudModalUpdate = <
               label={(label ?? key).toString()}
               placeholder={(label ?? key).toString()}
               size="m"
+              caption={errors[key] ?? undefined}
+              status={errors[key] ? 'alert' : undefined}
               key={`${cnCrudModalUpdate()}-${index}`}
               // @ts-ignore
               items={list ?? []}
@@ -163,6 +171,8 @@ export const CrudModalUpdate = <
             label={(label ?? key).toString()}
             placeholder={(label ?? key).toString()}
             size="m"
+            caption={errors[key] ?? undefined}
+            status={errors[key] ? 'alert' : undefined}
             labelPosition="top"
             style={{ zIndex: 10000 }}
             onChange={({ value }) => handleChange(value, key.toString())}

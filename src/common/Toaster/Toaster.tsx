@@ -25,14 +25,24 @@ export const Toaster = () => {
           }
         }
         const icon = toast.icon as React.ReactElement;
+        let title: string | undefined;
+        let messageText = '';
+        if (Array.isArray(message)) {
+          messageText = message.join(' ');
+        } else if (typeof message === 'object') {
+          title = message.title;
+          messageText = message.message;
+        } else {
+          messageText = message;
+        }
         return (
           <ToasterCard
             id={toast.id}
             icon={icon}
             duration={toast.duration}
             style={toast.style}
-            title={typeof message === 'string' ? undefined : message.title}
-            message={typeof message === 'string' ? message : message.message}
+            title={title}
+            message={messageText}
             onClose={(id) => handler.dismiss(id)}
           />
         );

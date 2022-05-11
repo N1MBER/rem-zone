@@ -12,6 +12,10 @@
     @include flex-start();
     box-shadow: var(--shadow-group);
 
+    & > .Icon {
+        min-width: var(--space-m);
+    }
+
     &-Close {
         top: var(--space-s);
         right: var(--space-m);

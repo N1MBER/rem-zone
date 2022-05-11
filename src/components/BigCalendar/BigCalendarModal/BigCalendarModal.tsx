@@ -27,6 +27,7 @@ const convertJob = (job: Job): CustomJob => {
     favour: job.favour,
     description: job.description,
     date: [new Date(job.started_at), new Date(job.ended_at)],
+    master: `${job.master.last_name} ${job.master.first_name[0]}.`,
   };
 };
 
@@ -97,7 +98,7 @@ export const BigCalendarModal = (props: BigCalendarModalProps) => {
         ) : (
           <CrudModalView
             itemId={item.resource.id}
-            viewFunc={getJob as CrudModalProps<'view', Job>['viewFunc']}
+            viewFunc={getJob}
             items={jobView}
           />
         )}

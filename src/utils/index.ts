@@ -98,9 +98,9 @@ export const getErrorMessage = (error: any): string | undefined => {
   if (typeof data === 'object') {
     const message: string[] = [];
     Object.keys(data).forEach((key) => {
-      message.push(data[key].toString());
+      message.push(`${key}: ${data[key].toString()}`);
     });
-    return Object.keys(data).length === 0 ? undefined : message.join('. ');
+    return Object.keys(data).length === 0 ? undefined : message.join(' ');
   }
   return undefined;
 };

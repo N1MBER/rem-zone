@@ -91,6 +91,11 @@ export const staffEdit: Array<
     type: 'text',
   },
   {
+    key: 'password',
+    label: 'Пароль',
+    type: 'text',
+  },
+  {
     key: 'position',
     label: 'Должность',
     type: 'select',
