@@ -44,4 +44,5 @@ export const workTime: Record<string, DayData> = {
 
 export const PHONE_NUMBER = '+7 (951) 670-00-06';
 
-export const ADDRESS = 'Ленинградская обл., 188685';
+export const ADDRESS =
+  'Ленинградская область, г. Луга, улица Виктора Пислегина, д.46';
