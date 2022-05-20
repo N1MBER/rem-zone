@@ -7,7 +7,7 @@ export const worklogCreate: Array<
 > = [
   {
     key: 'timeworked',
-    label: 'Вреия работы',
+    label: 'Время работы',
     type: 'text',
   },
   {

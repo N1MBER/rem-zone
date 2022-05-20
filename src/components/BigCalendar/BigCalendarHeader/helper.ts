@@ -11,7 +11,7 @@ export const convertStatusToColor = (status: JobStatus): string => {
     return 'var(--color-bg-success)';
   }
   if (status === 'Открыта') {
-    return 'var(--color-bg-alert)';
+    return 'var(--color-bg-caution)';
   }
-  return 'var(--color-bg-caution)';
+  return 'var(--color-bg-alert)';
 };
