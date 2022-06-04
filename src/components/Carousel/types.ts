@@ -34,6 +34,7 @@ export type CarouselProps<ITEM = CarouselDefaultItem> = PropsWithHTMLAttributes<
     renderItem?: (item: ITEM) => React.ReactElement | null;
     onItemClick?: (params: { e: React.MouseEvent; item: ITEM }) => void;
     emptyItemsText?: string;
+    withControls?: boolean;
   } & Mappers<ITEM>,
   HTMLDivElement
 > &

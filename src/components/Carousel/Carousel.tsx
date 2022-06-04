@@ -10,6 +10,7 @@ import { CarouselItem } from './CarouselItem/CarouselItem';
 
 import './Carousel.scss';
 import { CarouselNotFound } from './CarouselNotFound/CarouselNotFound';
+import { CarouselControl } from './CarouselControl/CarouselControl';
 
 const cnCarousel = cn('Carousel');
 
@@ -21,6 +22,7 @@ function CarouselRender(props: CarouselProps, ref: React.Ref<HTMLDivElement>) {
     emptyItemsText = 'Хм, кажется, картинка не загрузилась.',
     getItemKey,
     getItemLabel,
+    withControls = false,
     getItemOnClick,
     getItemSrc,
     ...otherProps
@@ -76,6 +78,23 @@ function CarouselRender(props: CarouselProps, ref: React.Ref<HTMLDivElement>) {
     }
   };
 
+  const changeByControl = (id: number) => {
+    on();
+    setActiveKey(getItemKey(visibleItems[id]));
+    setTimeout(() => {
+      setVisibleItems(
+        getItems({
+          items,
+          activeKey: getItemKey(visibleItems[id]),
+          getItemKey,
+          getItemLabel,
+          getItemSrc,
+          getItemOnClick,
+        })
+      );
+    }, 500);
+  };
+
   useEffect(() => {
     if (visibleItems.length > 1 && getItemKey(visibleItems[1]) === activeKey) {
       setTimeout(off, 200);
@@ -125,6 +144,13 @@ function CarouselRender(props: CarouselProps, ref: React.Ref<HTMLDivElement>) {
               </div>
             );
           })
+        )}
+        {withControls && (
+          <CarouselControl
+            onClick={changeByControl}
+            length={Math.min(items.length, 7)}
+            className={cnCarousel('Controls')}
+          />
         )}
       </div>
       {hasItems && withArrows && (

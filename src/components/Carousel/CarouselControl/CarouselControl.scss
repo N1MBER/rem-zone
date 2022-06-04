@@ -1,0 +1,22 @@
+@import '../../../assets/styles/mixins.scss';
+
+.CarouselControl {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-l);
+
+    &-Button {
+        @include clear();
+        width: var(--space-s);
+        height: var(--space-s);
+        border-radius: 50%;
+        background: var(--color-control-bg-border-default);
+        cursor:pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+            background-color: var(--color-control-bg-border-default-hover);
+        }
+    }
+}
